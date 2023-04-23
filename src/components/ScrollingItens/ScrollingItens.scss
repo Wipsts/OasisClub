@@ -1,0 +1,49 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.container-contentCarrosel{
+    width: 100%;
+    height: auto;
+    margin: 10px 0px 0px 0px;
+    padding: 8px;
+    box-sizing: border-box;
+
+    .text-subtext{
+        font-size: .8em;
+        color: #515151;
+        font-family: 'Inter-Light';
+        text-transform: uppercase;
+    }
+}
+
+.container-leftCarossel{
+    width: 100%;
+    height: auto;
+    overflow-x: scroll;
+    margin: 7px 0px 0px 0px;
+
+    @include propsFlex(row, nowrap, center, flex-start);
+    gap: 20px; 
+}
+
+.viewProduct{
+    position: relative;
+    width: auto;
+    height: auto;
+    margin: 10px 0px 0px 0px;
+    @include propsFlex(row, nowrap, center, flex-end);
+    gap: 8px;
+
+    .text-viewer{
+        font-size: .8em;
+        color: #6D6D6D;
+        font-family: 'Inter-Light';
+    }
+
+    img{
+        width: 13px;
+        height: 13px;
+        object-fit: cover;
+        filter: invert(37%) sepia(0%) saturate(1047%) hue-rotate(134deg) brightness(108%) contrast(75%);
+    }
+}

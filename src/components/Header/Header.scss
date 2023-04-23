@@ -1,0 +1,160 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+#header{
+    width: 100%;
+    height: 50px;
+    background-color: $backgroundHeader;
+    padding: 5px 10px 5px 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    z-index: 12;
+
+    @include propsFlex(row, nowrap, center, flex-start);
+    gap: 15px;
+
+    .content-menu{
+        width: 26px;
+        height: 22px;
+        @include propsFlex(row, nowrap, center, center);
+
+        .button-menu-hamburger{
+            display: block;
+            width: 100%;
+            height: 4px;
+            background-color:$colorMenu;
+            border-radius: 3px;
+            position: relative;
+            
+            &::before{
+                content: "";
+                width: 100%;
+                height: 4px;
+                background-color:$colorMenu;
+                border-radius: 3px;
+                position: absolute;
+                top: -8px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+
+            &::after{
+                content: "";
+                width: 100%;
+                height: 4px;
+                background-color:$colorMenu;
+                border-radius: 3px;
+                position: absolute;
+                bottom: -8px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+        }
+    }
+
+    .content-icon{
+        width: auto;
+        height: auto;
+        @include propsFlex(row, nowrap, center, flex-start);
+        gap: 5px;
+
+        img{
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+        }
+
+        span{
+            font-size: 1em;
+            color: #fff;
+            font-family: "Inter-SemiBold";
+
+        }
+    }
+}
+
+#alternate-header{
+    width: 100%;
+    height: 45px;
+    background-color: transparent;
+    padding: 5px 10px 5px 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+
+    @include propsFlex(row, nowrap, center, space-between);
+    gap: 15px;
+
+    .button-back{
+        width: auto;
+        height: 30px;
+        padding: 5px 7px 5px 7px;
+        background-color: #77933C;
+        border-radius: 0px 7px 7px 0px;
+        @include propsFlex(row, nowrap, center, flex-start);
+        gap: 5px;
+
+        img{
+            width: 17px;
+            height: 17px;
+            transform: rotateZ(180deg);
+            object-fit: cover;
+            filter: invert(99%) sepia(0%) saturate(144%) hue-rotate(249deg) brightness(107%) contrast(100%);
+        }
+
+        span{
+            color: #fff;
+            font-size: 1em;
+            font-family: 'Inter-SemiBold';
+            text-transform: uppercase;
+        }
+    }
+
+    .content-menu{
+        width: 26px;
+        height: 24px;
+        padding: 3px;
+        border-radius: 5px;
+        background-color: #77933C;
+        @include propsFlex(row, nowrap, center, center);
+
+        .button-menu-hamburger{
+            display: block;
+            width: 100%;
+            height: 4px;
+            background-color:$colorMenu;
+            border-radius: 3px;
+            position: relative;
+            
+            &::before{
+                content: "";
+                width: 100%;
+                height: 4px;
+                background-color:$colorMenu;
+                border-radius: 3px;
+                position: absolute;
+                top: -8px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+
+            &::after{
+                content: "";
+                width: 100%;
+                height: 4px;
+                background-color:$colorMenu;
+                border-radius: 3px;
+                position: absolute;
+                bottom: -8px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+        }
+    }
+}

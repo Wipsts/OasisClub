@@ -1,0 +1,73 @@
+@import "./default/font.scss";
+
+*{
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+body{
+    width: 100vw;
+    overflow-x: hidden;
+    font-family: 'Inter-Regular';
+}
+
+button:focus,
+button:active {
+    outline: none;
+}
+
+input:focus,
+input:active {
+    outline: none;
+}
+
+textarea:focus,
+textarea:active {
+    outline: none;
+}
+
+select:active,
+select:focus {
+    outline: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+main {
+    margin-top: 20px !important;
+}
+
+.max-line{
+    width: 100%;
+    height: 1px;
+    background-color: #C2C2C2;
+    margin: 15px auto 0px auto;
+}
+
+.min-line{
+    width: 65%;
+    height: 1px;
+    background-color: #C2C2C2;
+    margin: 15px auto 0px auto;
+}
+
+.title-page{
+    display: block;
+    font-size: 1.5em;
+    color: #121212;
+    font-family: 'Inter-Semibold';
+    position: relative;
+
+    &::after{
+        content: "";
+        width: 18%;
+        height: 1.5px;
+        background-color: #121212;
+        position: absolute;
+        bottom: -5px;
+        left: 0px;
+    }
+}

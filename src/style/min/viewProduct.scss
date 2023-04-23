@@ -1,0 +1,139 @@
+@import url("../main.scss");
+@import "../default/variables.scss";
+
+#main-viewProduct{
+    width: 100%;
+    height: auto;
+    margin-top: 0px !important;
+
+    .container-imageProduct{
+        width: 100%;
+        height: 200px;
+        position: relative;
+        top: -45px;
+
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .section-informationProduct{
+        width: 100%;
+        height: auto;
+        padding: 7px 7px 10px 7px;
+        box-sizing: border-box;
+        margin-top: -35px;
+
+        .title-product{
+            width: 100%;
+            font-size: 1.25em;
+            color: #000000;
+            font-family: 'Inter-Regular';
+            text-align: left;
+            margin: 0px auto 0px auto;
+        }
+
+        .box-content-value{
+            width: 100%;
+            height: auto;
+            margin: 15px 0px 0px 0px;
+            @include propsFlex(column, nowrap, start, center);
+            gap: 5px;
+
+            .text-oldValue{
+                font-size: .9em;
+                color: #AEAEAE;
+                font-family: "Inter-Light";
+                text-decoration: line-through;
+            }
+
+            .text-value{
+                font-size: 1.5em;
+                color: #0A671F;
+                font-family: "Inter-Medium";
+            }
+        }
+
+        .container-informationProduct{
+            width: 95%;
+            height: auto;
+            padding: 7px;
+            box-sizing: border-box;
+            background-color: #F9F9F9;
+            border-radius: 5px;
+            margin: 10px auto 0px auto;
+
+            @include propsFlex(column, nowrap, start, center);
+            gap: 10px;
+
+            .txt-informationProduct{
+                font-size: 'Inter-Regular';
+                color: #252525;
+                font-size: .85em;
+
+                b{
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .button-addCard{
+            display: block;
+            width: clamp(200px, 100%, 350px);
+            height: 40px;
+            background-color: #2982A8;
+            border-radius: 4px;
+            font-size: .85em;
+            color: #fff;
+            font-family: 'Inter-Medium';
+            text-transform: uppercase;
+
+            margin: 25px auto 0px auto;
+        }
+
+        .txt-ops{
+            display: block;
+            width: clamp(200px, 100%, 350px);
+            font-size: .75em;
+            font-family: 'Inter-Light';
+            color: #6D6D6D;
+            text-align: right;
+            margin: 7px auto 0px auto;
+        }
+    }
+
+    .section-moreProduct{
+        width: 100%;
+        height: auto;
+        padding: 7px 7px 10px 7px;
+        box-sizing: border-box;
+
+        .container-content{
+            width: 100%;
+            height: auto;
+            margin: 20px auto 0px auto;
+            padding: 0px 0px 10px 0px;
+            box-sizing: border-box;    
+        
+            .title-content{
+                display: block;
+                font-size: 1.5em;
+                color: #121212;
+                font-family: 'Inter-Semibold';
+                position: relative;
+    
+                &::after{
+                    content: "";
+                    width: 18%;
+                    height: 1.5px;
+                    background-color: #121212;
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0px;
+                }
+            }
+        }
+    }
+}

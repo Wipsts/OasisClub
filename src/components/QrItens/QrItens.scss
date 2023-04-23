@@ -1,0 +1,83 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.container-itens{
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+    box-sizing: border-box;
+    background-color: #AF31EA;
+    padding: 5px 0px 0px 0px;
+    box-sizing: border-box;
+
+    margin: 10px 0px 0px 0px;
+
+
+    .content-title{
+        padding: 5px;
+        box-sizing: border-box;
+        .title-container{
+            color: #fff;
+            font-size: 1em;
+            font-family: 'Inter-Medium';
+        }
+    }
+
+    .content-box-itens{
+        width: 100%;
+        height: auto;
+        background-color: #CB5EFF;
+        padding: 8px 7px 10px 7px;
+        box-sizing: border-box;
+        border-radius: 3px;
+        box-sizing: border-box;
+        margin: 5px 0px 0px 0px;
+        @include propsFlex(column, nowrap, center, flex-start);
+        gap: 10px;
+
+        .content-box-item{
+            width: 100%;
+            height: auto;
+            min-height: 35px;
+            background-color: #fff;
+            border-radius: 3px;
+            padding: 3px;
+            box-sizing: border-box;
+
+            @include propsFlex(row, nowrap, center, space-between);
+            gap: 10px;
+
+            .box-informationItem{
+                width: auto;
+                height: auto;
+                @include propsFlex(row, nowrap, center, flex-end);
+                gap: 5px;
+
+                .codeQr{
+                    width: auto;
+                    height: 24px;
+                    background-color: #E2E2E2;
+                    border-radius: 2px;
+                    font-size: .8em;
+                    color: #1E1E1E;
+                    font-family: 'Inter-Regular';
+                    padding: 2px 4px 2px 4px;
+                    box-sizing: border-box;
+                    @include propsFlex(row, nowrap, center, center);
+                }
+
+                .img-qrCode{
+                    width: 25px;
+                    height: 25px;
+                    object-fit: cover;
+                }
+            }
+
+            .name-item{
+                font-size: .9em;
+                color: #1E1E1E;
+                font-family: 'Inter-Regular';
+            }
+        }
+    }
+}

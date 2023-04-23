@@ -1,0 +1,31 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.container-input{
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    box-sizing: border-box;
+
+    .title-input{
+        font-size: 1em;
+        color: #A7A7A7;
+        text-transform: capitalize;
+        font-family: 'Inter-Regular';
+    }
+
+    .input{
+        display: block;
+        width: 100%;
+        height: 40px;
+        background-color: #F4F4F4;
+        border-radius: 4px;
+        padding: 4px;
+        box-sizing: border-box;
+        font-size: .9em;
+        color: #1a1a1a;
+        font-family: 'Inter-Regular';
+
+        margin-top: 10px;
+    }
+}

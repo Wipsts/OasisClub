@@ -1,0 +1,151 @@
+@import url("../main.scss");
+@import "../default/variables.scss";
+
+#main-pay{
+    width: 100vw;
+    overflow-x: hidden;
+    height: auto;
+    margin: 10px 0px 0px 0px;
+    padding: 0px 10px 40px 10px;
+    box-sizing: border-box;
+
+    .button-back{
+        width: auto;
+        height: 30px;
+        padding: 5px 7px 5px 7px;
+        background-color: #1a1a1a;
+        border-radius: 0px 7px 7px 0px;
+        @include propsFlex(row, nowrap, center, flex-start);
+        gap: 5px;
+
+        img{
+            width: 17px;
+            height: 17px;
+            transform: rotateZ(180deg);
+            object-fit: cover;
+            filter: invert(99%) sepia(0%) saturate(144%) hue-rotate(249deg) brightness(107%) contrast(100%);
+        }
+
+        span{
+            color: #fff;
+            font-size: 1em;
+            font-family: 'Inter-SemiBold';
+            text-transform: uppercase;
+        }
+    }
+
+    #information-payment{
+        width: 100%;
+        height: auto;
+        padding-bottom: 10px;
+        box-sizing: border-box;
+        margin: 20px 0px 0px 0px;
+
+        .container-informations{
+            width: 100%;
+            height: auto;
+            margin: 40px auto 0px auto;
+            @include propsFlex(column, nowrap, center, flex-start);
+            gap: 10px;
+
+            .box-value{
+                width: 100%;
+                min-height: 40px;
+                height: auto;
+                border-radius: 3px;
+                padding: 5px;
+                box-sizing: border-box;
+                background-color: #2982A8;
+                @include propsFlex(row, nowrap, center, space-between);
+                gap: 10px;;
+
+                .text-Value{
+                    font-size: 1.2em;
+                    color: #fff;
+                    font-family: 'Inter-Light';
+                }
+
+                .text-boxValue{
+                    width: auto;
+                    height: 80%;
+                    background-color: #33A1D0;
+                    color: #fff;
+                    font-size: 1.2em;
+                    font-family: 'Inter-SemiBold';
+                    padding: 5px 10px 5px 10px;
+                    box-sizing: border-box;
+                    @include propsFlex(row, nowrap, center, center);
+                }
+            }
+
+            .box-pix{
+                width: 100%;
+                min-height: 40px;
+                height: auto;
+                border-radius: 3px;
+                padding: 5px;
+                box-sizing: border-box;
+                background-color: #F3F3F3;
+                @include propsFlex(column, nowrap, center, center);
+                gap: 15px;;
+
+                .text-pix{
+                    font-size: 1em;
+                    color: #1a1a1a;
+                    font-family: 'Inter-Light';
+                }
+
+                .text-tokenPix{
+                    display: block;
+                    background-color: #ebebeb;
+                    border-radius: 3px;
+                    word-wrap: break-word;
+                    width: 100%;
+                    height: auto;
+                    padding: 3px;
+                    box-sizing: border-box;
+                    font-size: 1em;
+                    color: #1a1a1a;
+                    font-family: 'Inter-SemiBold';
+                }
+            }
+        }
+
+        .button-payment{
+            display: block;
+            width: clamp(280px, 85%, 316px);
+            height: 42px;
+            border-radius: 4px;
+            background-color: #494949;
+            color: #fff;
+            font-size: 1.1em;
+            font-family: 'Inter-Medium';
+
+            margin: 40px auto 0px auto;
+        }
+        .text-warningPayment{
+            display: block;
+            width: clamp(280px, 85%, 316px);
+            color: #1a1a1a;
+            font-size: .8em;
+            font-family: 'Inter-Light';
+            margin: 7px auto 0px auto;
+            text-align: right;
+        }
+    }
+
+    .text-warning{
+        display: block;
+        color: #1a1a1a;
+        font-size: 1.1em;
+        font-family: 'Inter-Light';
+        margin: 30px auto 0px auto;
+        text-align: center;
+
+        a{
+            color: #0A679B;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    }
+}

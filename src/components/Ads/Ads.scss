@@ -1,0 +1,156 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.container-bigAds{
+    width: 100%;
+    height: auto;
+    margin: 0px 0px 0px 0px;
+    padding: 10px 0px 15px 0px;
+    box-sizing: border-box;
+    position: relative;
+
+    @include propsFlex(row, nowrap, start, center);
+    gap: 10px;
+
+    &::after{
+        content: '';
+        width: calc(100% - 20px);
+        height: 2px;
+        background-color: #C2C2C2;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+    }
+
+    .box-imageAds{
+        width: 60%;
+        height: auto;
+        @include propsFlex(column, nowrap, center, center);
+        gap: 10px;
+
+        img{
+            display: block;
+            width: 100%;
+            height: 165px;
+            object-fit: cover;
+            border-radius: 0px 0px 7px 0px;
+        }
+
+        .container-loadAds{
+            width: 100%;
+            height: auto;
+            @include propsFlex(row, nowrap, center, center);
+            gap: 8px;
+
+            .button-positionAd{
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background-color: #B0B0B0;
+                transition: .5s ease-in;
+            }
+
+            .positionAd-select{
+                background-color: #717171;
+            }
+        }   
+    }
+
+    .box-descriptionAds{
+        width: 40%;
+        height: auto;
+        @include propsFlex(column, nowrap, center, center);
+        gap: 10px;
+
+        .title-ads{
+            font-size: 1.4em;
+            color: #2E2E2E;
+            font-family: 'Inter-SemiBold';
+        }
+
+        .text-ads{
+            font-size: .64em;
+            color: #000;
+            font-family: 'Inter-Light';
+        }
+    }
+}
+
+.container-Ads{
+    width: 100%;
+    height: auto;
+    margin: 20px auto 10px auto;
+    padding: 10px 0px 15px 0px;
+    box-sizing: border-box;
+    position: relative;
+
+    @include propsFlex(column, nowrap, start, flex-start);
+    gap: 8px;
+
+    &::after{
+        content: "";
+        width: 90%;
+        height: 1px;
+        background-color:#E4E4E4;
+        position: absolute;
+        top: -1px;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+    }
+
+    &::before{
+        content: "";
+        width: 90%;
+        height: 1px;
+        background-color:#E4E4E4;
+        position: absolute;
+        bottom: -1px;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+    }
+
+    .text-ads{
+        display: block;
+        font-size: .7em;
+        color: #9A9A9A;
+        font-family: 'Inter-Medium';
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    .box-imageAds{
+        width: 100%;
+        height: 140px;
+        border-radius: 5px;
+        overflow: hidden;
+
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .container-loadAds{
+        width: 100%;
+        height: auto;
+        @include propsFlex(row, nowrap, center, flex-start);
+        gap: 8px;
+
+        .button-positionAd{
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #B0B0B0;
+            transition: .5s ease-in;
+        }
+
+        .positionAd-select{
+            background-color: #717171;
+        }
+    } 
+}

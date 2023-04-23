@@ -1,0 +1,39 @@
+@import url("../main.scss");
+@import "../default/variables.scss";
+
+#main-blog  {
+    width: 100vw;
+    overflow-x: hidden;
+    height: auto;
+    margin: 10px 0px 0px 0px;
+    padding: 0px 10px 10px 10px;
+    box-sizing: border-box;
+
+    .content-search{
+        width: 100%;
+        height: auto;
+        margin: 20px 0px 10px 0px;
+    }
+
+    .container-articles{
+        width: 100%;
+        height: auto;
+        margin: 20px 0px 0px 0px;
+
+        .subtext-article{
+            font-size: .8em;
+            color: #515151;
+            font-family: 'Inter-Light';
+            text-transform: uppercase;
+        }
+
+        .content-article{
+            width: 80%;
+            height: auto;
+            margin: 20px auto 20px auto;
+            @include propsFlex(column, nowrap, center, flex-start);
+            gap: 20px;
+
+        }
+    }
+}

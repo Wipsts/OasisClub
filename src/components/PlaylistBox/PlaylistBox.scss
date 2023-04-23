@@ -1,0 +1,86 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.container-playlistBox{
+    width: 100%;
+    height: auto;
+    margin: 20px 0px 0px 0px;
+    padding: 5px;
+    box-sizing: border-box;
+
+    .text-playlistBox{
+        font-size: .9em;
+        color: #515151;
+        font-family: 'Inter-Light';
+        text-transform: uppercase;
+    }
+
+    .container-boxSongs{
+        width: 100%;
+        height: auto;
+        overflow-y: auto;
+        max-height: 150px;
+        background-color: #FBFBFB;
+        border-radius: 0px 5px 5px 0px;
+        margin: 10px 0px 0px 0px;
+        padding: 5px;
+        box-sizing: border-box;
+
+        @include propsFlex(column, nowrap, center, center);
+        gap: 12px;
+    }
+    
+    .style-deprecated{
+        background-color: #BC3838 !important;
+    }
+
+    .style-analyze{
+        background-color: #F2C72B !important;
+        .text-nameSong{
+            color: #3D3D3D !important;
+
+        }
+    }
+
+    .box-song{
+        width: 100%;
+        height: auto;
+        min-height: 30px;
+        background-color: #313131;
+        border-radius: 4px;
+        padding: 5px 10px 5px 5px;
+        box-sizing: border-box;
+        @include propsFlex(row, nowrap, center, space-between);
+
+        .text-nameSong{
+            font-size: .8em;
+            color: #fff;
+            font-family: 'Inter-Light';
+        }
+
+        .box-like{
+            width: 40px;
+            height: auto;
+            @include propsFlex(row, nowrap, center, center);
+            gap: 5px;
+            filter: invert(69%) sepia(0%) saturate(0%) hue-rotate(149deg) brightness(90%) contrast(81%);
+
+            .text-like{
+                font-size: .8em;
+                color: #000;
+                font-family: 'Inter-Medium';
+            }
+
+            img{
+                width: 20px;
+                height: 20px;
+                object-fit: cover;
+                transition: .4s ease-in;
+            }
+        }
+
+        .style-liked{
+            filter: invert(23%) sepia(89%) saturate(1992%) hue-rotate(343deg) brightness(95%) contrast(85%);
+        }
+    }
+}

@@ -1,0 +1,185 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.container-menu{
+    width: 100vw;
+    min-height: 100%;
+    height: auto;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    @include propsFlex(row, nowrap, start, flex-start);
+    z-index: 11;
+    
+    .box-menu{
+        width: 100%;
+        min-height: 100vh;
+        height: auto;
+        background-color: $backgroundHeader;
+        padding: 20px 7px 10% 7px;
+        box-sizing: border-box;
+        position: relative;
+        @include propsFlex(column, nowrap, start, center);
+        gap: 15px;
+
+        .box-linkPage{
+            width: auto;
+            height: auto;
+            padding: 5px 5px 5px 5%;
+            box-sizing: border-box;
+            @include propsFlex(column, nowrap, start, center);
+            gap: 25px;
+        }
+    
+        hr{
+            width: 80%;
+            height: 1px;
+            background-color: #353535;
+        }
+
+        .container-socialMedia{
+            width: 100%;
+            height: auto;
+            // position: absolute;
+            // bottom: 5px;
+            // left: 0px;
+            // right: 0px;
+            margin: auto auto 5px auto;
+
+            .box-socialMedia{
+                width: 100%;
+                height: auto;
+                padding: 5px;
+                box-sizing: border-box;
+                @include propsFlex(row, nowrap, center, center);
+                gap: 20%;
+
+                img{
+                    width: 25px;
+                    height: 25px;
+                    object-fit: cover;
+                }
+            }
+
+            .text-information{
+                display: block;
+                font-size: .7em;
+                color: #8C8C8C;
+                font-family: "Inter-Light";
+                text-align: center;
+                margin: 5px 0px 0px 0px;
+            }
+        }
+
+        .button-menu-hamburger{
+            display: block;
+            width: 26px;
+            height: 26px;
+            position: relative;
+            background-color: transparent;
+            margin-bottom: 30px;
+            
+            &::before{
+                content: "";
+                width: 26px;
+                height: 4px;
+                background-color:$colorMenu;
+                border-radius: 3px;
+                transform: rotateZ(-45deg);
+                position: absolute;
+                top: -1px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+
+            &::after{
+                content: "";
+                width: 26px;
+                height: 4px;
+                background-color:$colorMenu;
+                border-radius: 3px;
+                transform: rotateZ(45deg);
+                position: absolute;
+                top: -1px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+        }
+    }
+
+    .box-closeMenuColumn{
+        display: contents;
+        width: 40%;
+        min-height: 100%;
+        background-color: $backgroundHeader;
+        opacity: 10%;
+        flex-grow: 1;
+    }
+ 
+    .container-letterMenu{
+        width: auto;
+        height: auto;
+        position: relative;
+
+        .text-letterMenu{
+            font-size: 1.3em;
+            color: #fff;
+            font-family: "Inter-Medium";
+            text-transform: uppercase;
+        }
+        
+        hr{
+            width: calc(100% + 10px);
+            height: 2px;
+            background-color: #fff;
+            border-radius: 5px;
+            margin: 0px;
+        }
+    }
+}
+
+.closeMenu{
+    display: flex;
+    animation: 1s closeMenu ease-in-out;
+}
+
+.openMenu{
+    display: flex;
+    animation: .3s openMenu ease-in-out;
+}
+
+@keyframes closeMenu {
+    from{
+        transform: translateX(0px);
+        display: block;
+    }
+    to{
+        transform: translateX(-3000px);
+        display: none;
+    }
+}
+
+@keyframes openMenu {
+    from{
+        transform: translateX(-3000px);
+    }
+    to{
+        transform: translateX(0px);
+        display: block;
+    }
+}
+
+// @media screen and (max-width: 896px) {
+//     .container-menu{
+//         height: 100vh !important;
+//     }
+// }
+
+// @media screen and (max-width: 667px) {
+//     .container-menu{
+//         height: auto;
+//     }
+// }

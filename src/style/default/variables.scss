@@ -1,0 +1,10 @@
+@mixin propsFlex( $direction, $wrap, $align, $content) {
+    display: flex;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+    align-items: $align;
+    justify-content: $content;
+}
+
+$backgroundHeader: #06070B;
+$colorMenu: #fff;
