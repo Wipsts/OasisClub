@@ -15,6 +15,8 @@ import Login from '../page/login'
 import Registre from '../page/registre'
 import Password from '../page/password'
 
+import TestQrCode from '../page/test/qrCodeTest'
+
 import Error404 from "../page/error/404";
 
 function _Routes(){
@@ -33,6 +35,8 @@ function _Routes(){
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/registre" element={<Registre/>}></Route>
             <Route path="/password/:id" element={<Password/>}></Route>
+
+            <Route path="/scanQr" element={<TestQrCode/>}></Route>
 
             <Route path="*" element={<Error404/>} />
         </Routes>

@@ -13,4 +13,6 @@ import {TitlePageLog} from './TitlePageLog'
 import {LoginOptions} from './LoginOptions'
 import {InputLogin} from './InputLogin'
 
-export {Header, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin}
+import QrCodeScan from './QrCodeScan'
+
+export {Header, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin}

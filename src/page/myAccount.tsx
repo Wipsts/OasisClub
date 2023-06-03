@@ -1,11 +1,16 @@
 import React, {useState, useEffect} from "react";
-import {Header, NavDown, ScrollingItens, Input, QrItens, Footer} from "../components/components"
+import {Header, NavDown, ScrollingItens, Input, QrItens, Footer, QrCodeScan} from "../components/components"
 import "../style/min/myAccount.scss"
 
 
 function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
     const [display, setDisplay] = useState('none')
-    const [data, setData] = useState('No result');
+    const [data, setData] = useState('');
+
+    const informationQrCode = (result:string) => {
+        setData(result)
+        console.log(result)
+    }
 
     const ScanDisplay = () => {
         if(show){
@@ -27,8 +32,8 @@ function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
                 <div className={`container-scanQrCode ${show ? 'style-ScanOpen' : 'style-ScanClose'}`}>
                     <button className="button-close-scan" onClick={closeMenu}></button>
                     <div className="container-content-scan">
-                        <div className="scan-camera">
-
+                        <div className="scan-camera" >
+                            {show ? (<QrCodeScan information={informationQrCode}/>) : ''}
                         </div>
                         <span className="division-ou">ou</span>
                         <div className="content-input-code">
