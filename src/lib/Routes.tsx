@@ -11,6 +11,10 @@ import ViewProduct from "../page/viewProduct"
 import Card from "../page/card"
 import Payment from "../page/pay"
 
+import Login from '../page/login'
+import Registre from '../page/registre'
+import Password from '../page/password'
+
 import Error404 from "../page/error/404";
 
 function _Routes(){
@@ -25,6 +29,10 @@ function _Routes(){
             <Route path="/viewProduct/:id" element={<ViewProduct/>}></Route>
             <Route path="/card" element={<Card/>}></Route>
             <Route path="/payment" element={<Payment/>}></Route>
+
+            <Route path="/login" element={<Login/>}></Route>
+            <Route path="/registre" element={<Registre/>}></Route>
+            <Route path="/password/:id" element={<Password/>}></Route>
 
             <Route path="*" element={<Error404/>} />
         </Routes>

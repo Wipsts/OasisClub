@@ -76,7 +76,7 @@ export default class Menu extends Component<MenuParams,IState>{
                             <LetterMenu link={'/'} text={'home'} color={'#fff'} size={1.3}/>
                             <LetterMenu link={'/blog'} text={'blog'} color={'#fff'} size={1.3}/>
                             <LetterMenu link={'/ecommerce'} text={'E-commerce'} color={'#fff'} size={1.3}/>
-                            <LetterMenu link={'/song'} text={'Músicas'} color={'#fff'} size={1.3}/>
+                            {/* <LetterMenu link={'/song'} text={'Músicas'} color={'#fff'} size={1.3}/> */}
                             <LetterMenu link={'/myAccount'} text={'Minha Conta'} color={'#fff'} size={1.3}/>
                         </nav>
                         <hr />

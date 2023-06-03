@@ -23,9 +23,7 @@ function Blog(){
                     <span className="subtext-article">Todos os Artigos</span>
                     <div className="content-article">
                         {examplesBlog.map((article, index) => (
-                            <>
-                                <ItensBox uid={article.id} analyze={false} article={{img: article.data.img, title: article.data.title, color: ((article.data.color) ? article.data.color : ''), author: ((article.data.author) ? article.data.author : ''), value: 0, oldValue:0, analyze: article.data.analyze}} type={'blog'} link={true} key={`article-key-${index}`} />
-                            </>
+                            <ItensBox uid={article.id} analyze={false} article={{img: article.data.img, title: article.data.title, color: ((article.data.color) ? article.data.color : ''), author: ((article.data.author) ? article.data.author : ''), value: 0, oldValue:0, analyze: article.data.analyze}} type={'blog'} link={true} key={`article-key-${index}`} />
                         ))}
                     </div>
                 </div>

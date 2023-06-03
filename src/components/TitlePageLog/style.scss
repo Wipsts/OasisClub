@@ -1,0 +1,23 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.text-title-page{
+    grid-area: TitlePage;
+    font-size: 1.5em;
+    color: #000;
+    font-family: 'Inter-SemiBold';
+    text-transform: uppercase;
+    position: relative;
+
+    &::after{
+        content: "";
+        width: clamp(50px, 10%, 150px);
+        height: 2px;
+        background-color: #000;
+        border-radius: 5px;
+
+        position: absolute;
+        bottom: -3px;
+        left: 0px;;
+    }
+}

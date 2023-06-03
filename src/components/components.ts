@@ -9,5 +9,8 @@ import ItensBox from "./ItensBox/ItensBox"
 import PlaylistBox from "./PlaylistBox/PlaylistBox"
 import Input from "./Input/Input"
 import QrItens from "./QrItens/QrItens"
+import {TitlePageLog} from './TitlePageLog'
+import {LoginOptions} from './LoginOptions'
+import {InputLogin} from './InputLogin'
 
-export {Header, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens}
+export {Header, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin}

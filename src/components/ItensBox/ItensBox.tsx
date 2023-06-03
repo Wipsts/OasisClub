@@ -29,12 +29,10 @@ export default class ItensBox extends Component<ScrollingItensParams> {
             <>
                 <div className="container-informationArtigle">
                     {props.informationAuthor ? props.informationAuthor.map((author:any, index:number) => (
-                        <>
-                            <div key={`author-${index}`} className="box-Author" style={{backgroundColor: props.color}}>
-                                <img className="iconUser" src={author.icon} alt=""/>
-                                <span className="text-author">{author.name} | {author.schoolGrade}</span>
-                            </div>
-                        </>
+                        <div key={`author-${index}`} className="box-Author" style={{backgroundColor: props.color}}>
+                            <img className="iconUser" src={author.icon} alt=""/>
+                            <span className="text-author">{author.name} | {author.schoolGrade}</span>
+                        </div>
                     )) : ''}
                 </div>
             </>

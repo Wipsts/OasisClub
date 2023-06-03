@@ -1,0 +1,20 @@
+import React from 'react';
+import './style.scss'
+
+interface propsInputParams{
+    name: string;
+    value: string;
+    type: string;
+    onchange: any
+}
+
+export function InputLogin({name, value, type, onchange}:propsInputParams){
+    return (
+        <>
+            <div className="container-input">
+                <span className='text-name-input'>{name}</span>
+                <input type={type} onChange={onchange} value={value} className='input-login-input'/>
+            </div>
+        </>
+    )
+}

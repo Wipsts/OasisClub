@@ -1,5 +1,5 @@
 import React from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams, Link} from 'react-router-dom'
 import {Header, NavDown, ScrollingItens, ItensBox, Footer} from "../components/components"
 import ArrowIcon from "../images/icon/ArrowIcon.svg"
 import "../style/min/card.scss"
@@ -12,15 +12,13 @@ export default function Card(){
         <>
             <Header/>
             <main id="main-card">
-                <button className='button-back'><img src={ArrowIcon} alt="" /><span>voltar</span></button>
+               <Link to={`/ecommerce`}><button className='button-back'><img src={ArrowIcon} alt="" /><span>voltar</span></button></Link>
 
                 <section className='section-card'>
                     <h1 className="title-page">Produtos E-commerce</h1>
                     <div className="content-product">
                         {examplesEcommerce.map((item, index) => (
-                            <>
-                                <ItensBox uid={item.id} analyze={false} article={{img: item.data.img, title: item.data.title, color: '', author: '', value: item.data.value, oldValue: item.data.oldValue, analyze: 1}} type={'ecommerce'} link={true} key={`product-key-${index}`} />
-                            </>
+                            <ItensBox uid={item.id} analyze={false} article={{img: item.data.img, title: item.data.title, color: '', author: '', value: item.data.value, oldValue: item.data.oldValue, analyze: 1}} type={'ecommerce'} link={true} key={`product-key-${index}`} />
                         ))}
                     </div>
                     <hr className='max-line'/>
