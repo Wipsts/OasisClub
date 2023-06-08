@@ -70,6 +70,13 @@
                     width: 25px;
                     height: 25px;
                     object-fit: cover;
+                    overflow: hidden;
+                    background-color: transparent;
+
+                    svg{
+                        width: 25px;
+                        height: 25px;
+                    }
                 }
             }
 
