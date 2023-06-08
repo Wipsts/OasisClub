@@ -10,6 +10,7 @@ import ViewArticle from "../page/viewArticle"
 import ViewProduct from "../page/viewProduct"
 import Card from "../page/card"
 import Payment from "../page/pay"
+import Rank from "../page/rank"
 
 import Login from '../page/login'
 import Registre from '../page/registre'
@@ -31,6 +32,7 @@ function _Routes(){
             <Route path="/viewProduct/:id" element={<ViewProduct/>}></Route>
             <Route path="/card" element={<Card/>}></Route>
             <Route path="/payment" element={<Payment/>}></Route>
+            <Route path="/rank" element={<Rank/>}></Route>
 
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/registre" element={<Registre/>}></Route>

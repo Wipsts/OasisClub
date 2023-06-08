@@ -76,14 +76,14 @@ export default class Menu extends Component<MenuParams,IState>{
                             <LetterMenu link={'/'} text={'home'} color={'#fff'} size={1.3}/>
                             <LetterMenu link={'/blog'} text={'blog'} color={'#fff'} size={1.3}/>
                             <LetterMenu link={'/ecommerce'} text={'E-commerce'} color={'#fff'} size={1.3}/>
-                            {/* <LetterMenu link={'/song'} text={'Músicas'} color={'#fff'} size={1.3}/> */}
+                            <LetterMenu link={'/adminPainel'} text={'Painel Admin'} color={'#fff'} size={1.3}/>
                             <LetterMenu link={'/myAccount'} text={'Minha Conta'} color={'#fff'} size={1.3}/>
                         </nav>
                         <hr />
                         <nav className="box-linkPage">
                             <LetterMenu link={'/rank'} text={'Rank'} color={'#fff'} size={1}/>
                             <LetterMenu link={'/teacherPainel'} text={'Painel de professores'} color={'#fff'} size={1}/>
-                            <LetterMenu link={'/question-answer'} text={'Perguntas/respostas'} color={'#fff'} size={1}/>
+                            <LetterMenu link={'/quickStudy'} text={'Estudo Rápido'} color={'#fff'} size={1}/>
                             <LetterMenu link={'/requiredClub'} text={'Club Obrigatório'} color={'#fff'} size={1}/>
                             <LetterMenu link={'/avaliation'} text={'Avaliações'} color={'#fff'} size={1}/>
                         </nav>

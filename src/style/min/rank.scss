@@ -1,0 +1,205 @@
+@import url("../main.scss");
+@import "../default/variables.scss";
+
+#main-rank{
+    width: 100vw;
+    overflow-x: hidden;
+    height: auto;
+    margin: 10px 0px 0px 0px;
+    padding: 0px 10px 10px 10px;
+    box-sizing: border-box;
+
+    .content-search{
+        width: 100%;
+        height: auto;
+        margin: 20px 0px 10px 0px;
+    }
+
+    #section-rank{
+        width: 100%;
+        height: auto;
+        margin-top: 20px;
+        @include propsFlex(column, nowrap, center, center);
+        gap: 20px;
+
+        .section-First{
+            width: 100%;
+            height: auto;
+            @include propsFlex(column, nowrap, center, center);
+            gap: 10px;
+
+            .container-crown{
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                img{
+                    width: clamp(50px, 100%, 80px);
+                    height: clamp(50px, 100%, 80px);
+                    object-fit: cover;
+                }
+            }
+
+            .container-information-first{
+                width: 100%;
+                height: auto;
+                margin-top: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .section-more-students{
+            position: relative;
+            width: 100%;
+            height: auto;
+            padding-top: 20px;
+            margin-top: 20px;
+
+            &::before{
+                content: '';
+                width: 90%;
+                height: 1px;
+                background-color: #C8C8C8;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                margin: auto;
+            }
+            
+            .content-participant{
+                width: 100%;
+                padding: 5px;
+                box-sizing: border-box;
+                @include propsFlex(column, nowrap, center, center);
+                gap: 15px;
+            }
+        }
+    }
+
+
+    .container-minify-style{
+        width: clamp(250px, 95%, 370px);
+        height: auto;
+        min-height: 35px;
+        @include propsFlex(row, nowrap, center, space-between);
+        gap: 5px;
+
+        .container-points{
+            width: clamp(50px, 20%, 65px);
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .text-points{
+                font-size: .95em;
+                color: #000;
+                font-family: 'Inter-Medium';
+            }
+
+        }
+
+        .container-information-participant{
+            width: calc(100% - 65px);
+            height: 40px;
+            border-radius: 3px;
+            padding: 6px;
+            box-sizing: border-box;
+            background-color: #171717;
+            @include propsFlex(row, nowrap, center, space-between);
+            gap: 10px;
+
+            .text-name-student{
+                color: #fff;
+                font-size: .9em;
+                text-transform: capitalize;
+            }
+            .box-schoolGrade{
+                font-size: .9em;
+                background-color: #292929;
+                color: #fff;
+            }
+        }
+    }
+
+    .container-big-style{
+        width: clamp(250px, 95%, 370px);
+        height: auto;
+        min-height: 70px;
+        border-radius: 3px;
+        padding: 6px;
+        box-sizing: border-box;
+        background-color: #E8AD3B;
+        @include propsFlex(column, nowrap, start, flex-start);
+        gap: 5px;
+
+        .box-up-style{
+            width: 100%;
+            height: 35px;
+            padding-bottom: 3px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #CB9734;
+            @include propsFlex(row, nowrap, center, space-between);
+            gap: 10px;
+        }
+
+        .box-down-style{
+            width: 100%;
+            height: auto;
+            min-height: 25px;
+            display: flex;
+            align-items: center;
+        
+            .text-instagramAccount{
+                display: block;
+                font-size: .9em;
+                color: #000;
+                font-family: 'Inter-Regular';
+                padding-left: 16px;
+                box-sizing: border-box;
+                position: relative;
+
+                &::before{
+                    content: '@';
+                    font-size: .9em;
+                    color: #525252;
+                    font-family: 'Inter-Medium';
+                    position: absolute;
+                    left: 0px;
+                    
+                    top: 0px;
+                    bottom: 0px;
+                    margin: auto;
+
+                }
+            }
+        }
+    }
+
+    .text-name-student{
+        font-size: .9em;
+        color: #000;
+        font-family: 'Inter-Medium';
+        text-transform: uppercase;
+    }
+
+    .box-schoolGrade{
+        width: 30px;
+        height: 30px;
+        border-radius: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #CB9734;
+        
+        font-size: 1em;
+        color: #fff;
+        font-family: 'Inter-Medium';
+        text-transform: uppercase;
+    }
+}
