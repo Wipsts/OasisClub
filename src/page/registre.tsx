@@ -9,13 +9,18 @@ function Registre(){
     const [inputEmail, setEmailInput] = useState('')
     const [inputName, setNameInput] = useState('')
     const [inputpass, setPassInput] = useState('')
+    const [inputRa, setRaInput] = useState('')
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
 
     const logUser = (event:any) => {
         event.preventDefault();
 
-        if(!inputEmail || !inputpass || !inputName){
+        if(!inputEmail || !inputpass || !inputName || !inputRa){
+            return 
+        }
+
+        if(!verifyCodeRa()){
             return 
         }
 
@@ -25,6 +30,14 @@ function Registre(){
         setTimeout(() => {
             navigate('/myAccount')
         },1200)
+    }
+
+    function verifyCodeRa(){
+        if(inputRa.length === 7){
+            return true
+        }else{
+            return false
+        }
     }
 
     return (
@@ -54,6 +67,7 @@ function Registre(){
                             <InputLogin key='input-name' name={'Nome Completo:'} onchange={(e:any) => setNameInput(e.target.value)} value={inputName} type='text' />
                             <InputLogin key='input-email' name={'E-mail:'} onchange={(e:any) => setEmailInput(e.target.value)} value={inputEmail} type='email' />
                             <InputLogin key='input-pass' name={'Senha:'} onchange={(e:any) => setPassInput(e.target.value)} value={inputpass} type='password' />
+                            <InputLogin key='input-ra' name={'CA/RA:'} onchange={(e:any) => setRaInput(e.target.value)} value={inputRa} type='number' />
                             <button className='button-log'>Cadastrar</button>
                         </form>
                         <Link to="/login"><button className='button-page'>Já tem uma conta? <u> Faça login </u></button></Link>

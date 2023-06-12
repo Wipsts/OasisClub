@@ -26,6 +26,10 @@ function Login(){
         },1200)
     }
 
+    function redefinePass(){
+
+    }
+
     return (
         <>
             <Header />
@@ -52,7 +56,7 @@ function Login(){
                         <form onSubmit={logUser}>
                             <InputLogin key='input-email' name={'E-mail:'} onchange={(e:any) => setEmailInput(e.target.value)} value={inputEmail} type='email' />
                             <InputLogin key='input-pass' name={'Senha:'} onchange={(e:any) => setPassInput(e.target.value)} value={inputpass} type='password' />
-                            <Link to="/password"><button className='button-forgot-pass'>Esqueceu a senha?</button></Link>
+                            <button onClick={() => redefinePass()} className='button-forgot-pass'>Esqueceu a senha?</button>
                             <button className='button-log'>Entrar</button>
                         </form>
                         <Link to="/registre"><button className='button-page'>Não tem uma conta? <u> Cadastre-se </u></button></Link>

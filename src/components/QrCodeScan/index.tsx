@@ -36,7 +36,7 @@ class QRScan extends React.Component<QrScannerParams,StateParams> {
   render() {
     return (
         <QrReader
-          facingMode={'rear'}
+          facingMode={'environment'}
           delay={this.state.delay}
           onError={this.handleError}
           onScan={this.handleScan}

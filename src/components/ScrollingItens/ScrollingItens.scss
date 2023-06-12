@@ -4,7 +4,7 @@
 .container-contentCarrosel{
     width: 100%;
     height: auto;
-    margin: 10px 0px 0px 0px;
+    margin: 15px 0px 0px 0px;
     padding: 8px;
     box-sizing: border-box;
 
@@ -21,9 +21,11 @@
     height: auto;
     overflow-x: scroll;
     margin: 7px 0px 0px 0px;
+    padding-bottom: 10px;
 
     @include propsFlex(row, nowrap, center, flex-start);
     gap: 20px; 
+
 }
 
 .viewProduct{

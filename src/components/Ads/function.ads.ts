@@ -1,4 +1,5 @@
 import exampleAdsBd from "../../lib/server/example/ads.json"
+import {firestore} from '../../functions/function'
 
 export class changeAdsSelect{
     changePosition(ads:any, position:number){
@@ -14,12 +15,7 @@ export class changeAdsSelect{
 
 export class constructAds{
     async getAds(){
-        return new Promise((resolve, reject) => {
-            if(exampleAdsBd){
-                resolve(exampleAdsBd)
-            }else
-                reject([])
-        })
+        return await new firestore().get({bd: 'ads'})
     }
     async construct(count:number){
         const dataAds = await this.getAds()
