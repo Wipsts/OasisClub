@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import { getRemoteConfig } from "firebase/remote-config";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -19,5 +20,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 const analytics = getAnalytics(app);
 const storage = getStorage(app);
+const remoteConfig = getRemoteConfig(app);
 const auth = getAuth(app);
-export {analytics, db, auth, storage}
+
+remoteConfig.settings.minimumFetchIntervalMillis = 21600000;
+remoteConfig.defaultConfig = {
+    "tags_blog": 'regras gramáticais,enem'
+};
+
+export {analytics, db, auth, storage, remoteConfig}

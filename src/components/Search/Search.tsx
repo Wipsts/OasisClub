@@ -4,7 +4,7 @@ import "./Search.scss"
 
 interface SearchParams {
     type: 'blog' | 'ecommerce' | 'song'
-    onClick: () => void
+    onClick: any
 }
 
 interface IState {
@@ -21,6 +21,7 @@ export default class Search extends Component<SearchParams,IState> {
 
     changeSearchText(value:string){
         this.setState({searchText: value})
+        this.props.onClick(value)
     }
 
     render(){

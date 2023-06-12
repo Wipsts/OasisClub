@@ -11,6 +11,7 @@ function Index(){
     async function constructPage(){
         const returnedArtigles = await getImageOfTheData(await new firestore().get({bd: 'blog'}), 'blog', true)
         const returnedEcommerce = await getImageOfTheData(await new firestore().get({bd: 'ecommerce'}), 'ecommerce', true)
+            
         setArtigles(returnedArtigles)
         setEcommerce(returnedEcommerce)
         setLoading(false)

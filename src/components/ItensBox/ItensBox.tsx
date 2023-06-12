@@ -12,17 +12,34 @@ interface ScrollingItensParams{
 }
 interface ArtigleInformationParams{
     informationAuthor: object[] | any
-    color: string | undefined
+    color: any,
 }
 interface EcommerceInformationParams{
     value: number | any
     oldValue: number | any
 }
 
+const TextColor = (hex:string):string => {
+    if(hex){
+        let shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, (m, r, g, b) => {
+            return r + r + g + g + b + b;
+        });
+        let rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) as any
+        rgb = (rgb ? { r: parseInt(rgb[1], 16), g: parseInt(rgb[2], 16), b: parseInt(rgb[3], 16) } : { r: 0, g: 0, b: 0 });
+        let returned = '#' + (Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) /1000) > 150 ? "1a1a1a" : "fff" );
+        return returned
+    }else{
+        return "#fff"
+    }
+}
+
 export default class ItensBox extends Component<ScrollingItensParams> {
     constructor(props:ScrollingItensParams){
         super(props)
     }
+
+    
 
     ArtigleInformation(props:ArtigleInformationParams){
         return (
@@ -31,7 +48,7 @@ export default class ItensBox extends Component<ScrollingItensParams> {
                     {props.informationAuthor ? props.informationAuthor.map((author:any, index:number) => (
                         <div key={`author-${index}`} className="box-Author" style={{backgroundColor: props.color}}>
                             <img className="iconUser" src={author.icon} alt=""/>
-                            <span className="text-author">{author.name} | {author.schoolGrade}</span>
+                            <span className="text-author" style={{color: TextColor(props.color) }}>{author.name} | {author.schoolGrade}</span>
                         </div>
                     )) : ''}
                 </div>
