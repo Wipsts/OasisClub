@@ -71,7 +71,7 @@ function Rank(){
     const [students, setStudents] = useState([
         {name: 'Hélio Peres Martins Neto', schoolGrade: 3, instagram: 'wipsts', points: 100},
         {name: 'Clara Jelevisk Petrova', schoolGrade: 7, instagram: 'clarinha.pj', points: 16},
-        {name: 'Ana Carolina da Mata', schoolGrade: 1, instagram: 'corol.da.mata', points: 418},
+        {name: 'Ana Carolina da Namata', schoolGrade: 1, instagram: 'corol.da.namata', points: 418},
     ])
     const [loading, setLoading] = useState(false)
 

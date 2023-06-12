@@ -1,6 +1,5 @@
 import React from "react";
 import QrReader from "react-qr-scanner";
-import './style.scss'
 
 interface QrScannerParams{
   information: any
@@ -37,6 +36,7 @@ class QRScan extends React.Component<QrScannerParams,StateParams> {
   render() {
     return (
         <QrReader
+          facingMode={'rear'}
           delay={this.state.delay}
           onError={this.handleError}
           onScan={this.handleScan}

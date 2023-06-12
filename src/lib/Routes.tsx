@@ -12,6 +12,10 @@ import Card from "../page/card"
 import Payment from "../page/pay"
 import Rank from "../page/rank"
 import TeacherPainel from "../page/teacherPainel"
+import QuickStudy from "../page/quickStudy"
+import QuickStudyView from '../page/quickStudyView'
+
+import Quiz from '../page/quiz'
 
 import Login from '../page/login'
 import Registre from '../page/registre'
@@ -35,6 +39,9 @@ function _Routes(){
             <Route path="/payment" element={<Payment/>}></Route>
             <Route path="/rank" element={<Rank/>}></Route>
             <Route path="/teacherPainel" element={<TeacherPainel/>}></Route>
+            <Route path="/quickStudy" element={<QuickStudy/>}></Route>
+            <Route path="/quiz/:id" element={<Quiz/>}></Route>
+            <Route path="/quickStudy/view/:id" element={<QuickStudyView/>}></Route>
 
             <Route path="/login" element={<Login/>}></Route>
             <Route path="/registre" element={<Registre/>}></Route>

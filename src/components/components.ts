@@ -12,7 +12,9 @@ import QrItens from "./QrItens/QrItens"
 import {TitlePageLog} from './TitlePageLog'
 import {LoginOptions} from './LoginOptions'
 import {InputLogin} from './InputLogin'
+import {BoxQuestion} from './BoxQuestion'
+import {BarProgress} from './BarProgress'
 
 import QrCodeScan from './QrCodeScan'
 
-export {Header, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin}
+export {Header, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin, BoxQuestion, BarProgress}
