@@ -1,12 +1,15 @@
 import {Component} from 'react';
 import {Link} from 'react-router-dom'
+import {logUser} from '../../functions/function'
 import instagramIcon from "../../images/icon/instagramIcon.png"
 import whatsappIcon from "../../images/icon/whatsappIcon.png"
 import "./Menu.scss"
 
 interface IState {
     menuOpen: boolean,
-    display: string
+    display: string;
+    log: boolean;
+    userAdmin: string
 }
 interface MenuParams {
     menu: boolean
@@ -37,12 +40,28 @@ export default class Menu extends Component<MenuParams,IState>{
         super(props)
         this.state = {
             menuOpen: false,
-            display: 'none'
+            display: 'none',
+            log: false,
+            userAdmin: 'false'
         }
     }
 
     componentDidMount(){
         this.setState({menuOpen: this.props.menu, display: this.props.menu ? "flex" : "none"})
+        
+
+        const userIsAdmin = async() => {
+            const userAdmin = await new logUser().userIsAdm() as string
+            this.setState({userAdmin: userAdmin})
+        }
+
+        const userIsLog = async () => {
+            const user = await new logUser().getUser() 
+            this.setState({log: user ? true : false})
+        }
+
+        userIsLog()
+        userIsAdmin()
     }
 
     componentDidUpdate(prevProps:any){
@@ -76,8 +95,8 @@ export default class Menu extends Component<MenuParams,IState>{
                             <LetterMenu link={'/'} text={'home'} color={'#fff'} size={1.3}/>
                             <LetterMenu link={'/blog'} text={'blog'} color={'#fff'} size={1.3}/>
                             <LetterMenu link={'/ecommerce'} text={'E-commerce'} color={'#fff'} size={1.3}/>
-                            <LetterMenu link={'/adminPainel'} text={'Painel Admin'} color={'#fff'} size={1.3}/>
-                            <LetterMenu link={'/myAccount'} text={'Minha Conta'} color={'#fff'} size={1.3}/>
+                            {this.state.userAdmin === 'true' ? <LetterMenu link={'/adminPainel'} text={'Painel Admin'} color={'#fff'} size={1.3}/> : ''}
+                            <LetterMenu link={(this.state.log ? '/myAccount' : '/login')} text={this.state.log ? 'Minha Conta' : 'Login'} color={'#fff'} size={1.3}/>
                         </nav>
                         <hr />
                         <nav className="box-linkPage">

@@ -25,13 +25,17 @@ export default class QrItens extends Component<propsQrItensParams>{
                         <span className='title-container'>Código dos produtos comprados</span>
                     </div>
                     <div className="content-box-itens">
-                        <div className="content-box-item">
-                            <span className='name-item'>Esfirra de carne</span>
-                            <div className="box-informationItem">
-                                <div className="codeQr">#182129u181</div>
-                                <button className="img-qrCode" onClick={(e) => this.openQrCode('#182129u181', 'Esfirra de carne')}><QRCodeSVG value={'#182129u181'} /></button>
+
+                        {this.props.itens?.map((product:any, index) => (
+                            <div className="content-box-item" key={`${product.id}-${index}`}>
+                                <span className='name-item'>{product.title}</span>
+                                <div className="box-informationItem">
+                                    <div className="codeQr">{product.code}</div>
+                                    <button className="img-qrCode" onClick={(e) => this.openQrCode(product.qrValue, product.title)}><QRCodeSVG value={product.qrValue} /></button>
+                                </div>
                             </div>
-                        </div>
+                        ))}
+                        
                     </div>
                 </div>
             </>

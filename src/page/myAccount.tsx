@@ -1,16 +1,32 @@
-import React, {useState, useEffect} from "react";
-import {Header, NavDown, ScrollingItens, Input, QrItens, Footer, QrCodeScan} from "../components/components"
+import React, {useState, useEffect, useRef} from "react";
+import { useNavigate } from "react-router-dom";
+import {Header, NavDown, ScrollingItens, Input, QrItens, Footer, QrCodeScan, Loading} from "../components/components"
+import {logUser, getArtiglesUser, getEcommerceUser, getBoughtProduct, scanQrCode} from '../functions/function'
 import {QRCodeSVG} from 'qrcode.react';
 import "../style/min/myAccount.scss"
-
 
 function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
     const [display, setDisplay] = useState('none')
     const [data, setData] = useState('');
+    const [resultCount, setResultCount] = useState(0)
+    const buttonOpenAndClose = useRef<HTMLButtonElement>(null)
 
-    const informationQrCode = (result:string) => {
+    const informationQrCode = async (result:string) => {
         setData(result)
-        console.log(result)
+        setResultCount(1)
+        if(resultCount === 0 && !data){
+            const scanQrCodeClass = new scanQrCode()
+            scanQrCodeClass.processingQrCode(result)
+            
+            if(await scanQrCodeClass.changeBuyersCart()){
+                if(await scanQrCodeClass.changeDataProduct()){
+                    if(buttonOpenAndClose.current !== null){
+                        const informationLayout = await scanQrCodeClass.showLayoutProduct()
+                        buttonOpenAndClose.current.click()
+                    }
+                }
+            }            
+        }
     }
 
     const ScanDisplay = () => {
@@ -31,7 +47,7 @@ function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
         <>
             <section id="section-qrCode" style={{display: display}}>
                 <div className={`container-scanQrCode ${show ? 'style-ScanOpen' : 'style-ScanClose'}`}>
-                    <button className="button-close-scan" onClick={closeMenu}></button>
+                    <button className="button-close-scan" onClick={closeMenu} ref={buttonOpenAndClose}></button>
                     <div className="container-content-scan">
                         <div className="scan-camera" >
                             {show ? (<QrCodeScan information={informationQrCode}/>) : ''}
@@ -88,10 +104,13 @@ function ViewQrCode({show, closeMenu, data}:{show: boolean, closeMenu:any, data?
 }
 
 function MyAccount(){
-    const examplesBlog = [{id: "ijsudhusdhsudjs", data: {title: "Como usar o crase, explicação e exemplos praticos", img: "https://th.bing.com/th/id/OIP.5zsYKymVDeJQntqyJ1aTfQHaFj?pid=ImgDet&rs=1",  color: "#028c73", analyze: 1, author: [{name: "Hélio Martins", schoolGrade: "3º A", icon: ""}]}}, {id: "182719ah98ha8s", data: {title: "Como usar autoridades na redação", img: "https://th.bing.com/th/id/R.4c52cde9c49e5971a5b1d088d9bd0b2c?rik=3%2bOY63bKYBFjzQ&pid=ImgRaw&r=0", color: "#0084c2", analyze: 0, author: [{name: "Hélio Martins", schoolGrade: "3º A", icon: ""}]}}]
-    const examplesEcommerce = [{id: "uhasg6afs", data: {title: "Esfirra de carne feita na hora", img: "https://th.bing.com/th/id/R.58c27595c93b6192e432e2314d52923f?rik=KFUZKh0DX3CwAQ&pid=ImgRaw&r=0", value: 6.00, oldValue: 0, analyze: 1}}]
+    const navigate = useNavigate()
 
+    const [loading, setLoading] = useState(true)
+    const [artigles, setArtigles] = useState([{}])
+    const [ecommerce, setEcommerce] = useState([{}])
     const [valuesUser, setValuesUser] = useState({name: 'Nome completo Aluno', email: 'emailaluno@gmail.com', code: '0000000'})
+    const [boughtProduct, setBoughtProduct] = useState([{}])
 
     const [scanQrCode, setScanQrCode] = useState(false)
     const [viewQrCode, setViewQrCode] = useState(false)
@@ -100,7 +119,6 @@ function MyAccount(){
     function changeValue(value: string, key:string){
         setValuesUser(prevState => {return {...prevState, [key]: value}})
     }
-
     const openAndCloseViewQr = (valueQr?:string, name?:string) => {
         setViewQrCode(!viewQrCode)
         document.body.style.overflow = !viewQrCode ? 'hidden' : 'auto';
@@ -109,11 +127,41 @@ function MyAccount(){
             setValueQrCodeViwer([valueQr, name])
         }        
     }
-
     function openAndCloseScanQr(){
         setScanQrCode(!scanQrCode)
         document.body.style.overflow = !scanQrCode ? 'hidden' : 'auto';
     }
+
+    async function logOut(){
+        const logout = await new logUser().logOutUser()
+        if(logout.logout){
+            navigate('/login')
+        }
+    }
+
+    async function constructPage(){
+        const logUserClass = new logUser()
+        const uidUser = await logUserClass.getUser() as string
+        const dataUser = await logUserClass.getDataUser(uidUser) as any
+        const data = dataUser.data.data
+
+        const requestBougthProduct = await getBoughtProduct(data.uidCard, dataUser.data.id)
+        const requestArtigleUser = await getArtiglesUser(data.uidArtigle)
+        const requestEcommerceUser = await getEcommerceUser(data.uidProducts)
+        setValuesUser(data)
+
+        if(requestArtigleUser[0] && requestEcommerceUser[0] && requestBougthProduct){
+            setBoughtProduct(requestBougthProduct)
+            setArtigles(requestArtigleUser)
+            setEcommerce(requestEcommerceUser)
+            setLoading(false)
+        }
+
+    }
+
+    useEffect(() => {
+        constructPage()
+    },[])
 
     return (
         <>
@@ -135,7 +183,7 @@ function MyAccount(){
 
                 <hr className="min-line"/>
                 <section className="section-container">
-                    <QrItens itens={[{name: 'Esfirra de carne', code:'#182129u181', qrCode:'', quant:2}]} onClickQr={openAndCloseViewQr} onClickCopy={(e:any) => {}}/>
+                    {loading ? <Loading width="100%" height="90px"/> : <QrItens itens={boughtProduct} onClickQr={openAndCloseViewQr} onClickCopy={(e:any) => {}}/>}
                 </section>
 
                 <hr className="min-line"/>
@@ -143,12 +191,12 @@ function MyAccount(){
                     <button className="button-action style-button-artigle">Escrever artigo</button>
                     <button className="button-action style-button-ecommerce">Adicionar no e-commerce</button>
                     <button className="button-action style-button-qrcode" onClick={(e) => openAndCloseScanQr()}>escanear QR-CODE </button>
-                    <button className="button-disconnect">Desconectar</button>
+                    <button className="button-disconnect" onClick={() => logOut()}>Desconectar</button>
                 </section>
                 <hr className="min-line"/>
                 <section className="section-container">
-                    <ScrollingItens subtext={'Artigos Postados/em analise'} analyze={true} itens={examplesBlog} type={'blog'} />
-                    <ScrollingItens subtext={'Produtos e-commerce'} analyze={true} itens={examplesEcommerce} type={'ecommerce'} />
+                     {loading ? <Loading width="100%" height="150px"/> : <ScrollingItens subtext={'Artigos Postados/em analise'} analyze={true} itens={artigles} type={'blog'} />}
+                     {loading  ? <Loading width="100%" height="150px"/> : <ScrollingItens subtext={'Produtos e-commerce'} analyze={true} itens={ecommerce} type={'ecommerce'} />}
                 </section>
             </main>
             <Footer/>
