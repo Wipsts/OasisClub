@@ -25,7 +25,8 @@ const auth = getAuth(app);
 
 remoteConfig.settings.minimumFetchIntervalMillis = 21600000;
 remoteConfig.defaultConfig = {
-    "tags_blog": 'regras gramáticais,enem'
+    "tags_blog": 'regras gramáticais,enem',
+    "tags_ecommerce": 'Comida,Produto'
 };
 
 export {analytics, db, auth, storage, remoteConfig}

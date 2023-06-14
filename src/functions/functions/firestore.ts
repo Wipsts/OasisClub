@@ -6,17 +6,46 @@ import __updateData from "../function.firebase/update.data"
 // import __deleteData from "../function.firebase/delete.data"
 import __getUser from "../function.firebase/get.user"
 import __createRef from "../function.firebase/create.ref"
+const dataNotIncluded = ['user']
+
+export function verifyIfExistData(nameData:string):any{
+    if(nameData && !dataNotIncluded.includes(nameData)){
+        if(JSON.parse(sessionStorage.getItem(`cach-${nameData}`) as string)){
+            return JSON.parse(sessionStorage.getItem(`cach-${nameData}`) as string)
+        }else{
+            return false
+        }
+    }else{
+        return false
+    }
+}
+
+export function setItemInStorage(nameData:string, data:string | object | Array<any>):boolean{
+    if(nameData && !dataNotIncluded.includes(nameData)){
+        const processingData = JSON.stringify(data)
+        sessionStorage.setItem(`cach-${nameData}`, processingData);
+        return  true
+    }else{
+        return false
+    }
+}
 
 export class firestore{
-    async get(data:object):Promise<Array<object>>{
+    async get(data:any):Promise<Array<object>>{
         return await new Promise((resolve, reject) => {
-            __getData(data, db, (response: any)=>{
-                if(response){
-                    resolve(response)
-                }else{
-                    reject(false)
-                }
-            })
+            const cachData = verifyIfExistData(data.bd)
+            if(cachData){
+                resolve(cachData)
+            }else{
+                __getData(data, db, (response: any)=>{
+                    if(response){
+                        setItemInStorage(data.bd, response)
+                        resolve(response)
+                    }else{
+                        reject(false)
+                    }
+                })
+            }
         })
     }
     async getWhere(data:object):Promise<Array<object>>{
