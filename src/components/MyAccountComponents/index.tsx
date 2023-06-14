@@ -5,10 +5,18 @@ import {QRCodeSVG} from 'qrcode.react';
 import "./style.scss"
 
 export function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
+    const popUpScan = useRef<HTMLButtonElement>(null)
+    
     const [display, setDisplay] = useState('none')
     const [data, setData] = useState('');
     const [resultCount, setResultCount] = useState(0)
-    const buttonOpenAndClose = useRef<HTMLButtonElement>(null)
+    const [viewProductByQr, setViewProductByQr] = useState(false)
+    const [layoutResult, setLayoutResult] = useState({})
+
+    function openAndCloseProductByQr(){
+        setViewProductByQr(!viewProductByQr)
+        document.body.style.overflow = !viewProductByQr ? 'hidden' : 'auto';
+    }
 
     const informationQrCode = async (result:string) => {
         setData(result)
@@ -19,9 +27,11 @@ export function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
             
             if(await scanQrCodeClass.changeBuyersCart()){
                 if(await scanQrCodeClass.changeDataProduct()){
-                    if(buttonOpenAndClose.current !== null){
-                        const informationLayout = await scanQrCodeClass.showLayoutProduct()
-                        buttonOpenAndClose.current.click()
+                    if(popUpScan.current !== null){
+                        const informationLayout = await scanQrCodeClass.showLayoutProduct() as object
+                        setLayoutResult(informationLayout)
+                        popUpScan.current.click()
+                        setViewProductByQr(true)
                     }
                 }
             }            
@@ -44,9 +54,11 @@ export function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
 
     return (
         <>
+            <ViewProductCreateByQr show={viewProductByQr} data={layoutResult} closeMenu={() => openAndCloseProductByQr()}/>
+
             <section id="section-qrCode" style={{display: display}}>
                 <div className={`container-scanQrCode ${show ? 'style-ScanOpen' : 'style-ScanClose'}`}>
-                    <button className="button-close-scan" onClick={closeMenu} ref={buttonOpenAndClose}></button>
+                    <button className="button-close-scan" onClick={closeMenu} ref={popUpScan}></button>
                     <div className="container-content-scan">
                         <div className="scan-camera" >
                             {show ? (<QrCodeScan information={informationQrCode}/>) : ''}
@@ -90,6 +102,43 @@ export function ViewQrCode({show, closeMenu, data}:{show: boolean, closeMenu:any
                                 <span className="title-qr">{data[1]}</span>
                                 <div className="scan-camera" >
                                    <QRCodeSVG value={data[0]} />                         
+                                </div>
+                            </>
+                        ):''}
+                        
+                    </div>
+                </div>
+            </section>
+        </>
+    )
+}
+export function ViewProductCreateByQr({show, closeMenu, data}:{show: boolean, closeMenu:any, data:any}) {
+    const [display, setDisplay] = useState('none')
+    const ScanDisplay = () => {
+        if(show){
+            setDisplay('block')
+        }else{
+            setTimeout(() => {
+                setDisplay('none') 
+            }, 700)
+        }
+    }
+
+    useEffect(() => {
+        ScanDisplay()
+    })
+
+    return (
+        <>
+            <section id="section-qrCode" style={{display: display}}>
+                <div className={`container-scanQrCode ${show ? 'style-ScanOpen' : 'style-ScanClose'}`}>
+                    <button className="button-close-scan" onClick={closeMenu}></button>
+                    <div className="container-content-scan">
+                        {data ? (
+                            <>
+                                <span className="title-qr">{data.title}</span>
+                                <div className="scan-camera" >
+                                   <img src={data.image} alt="" />                        
                                 </div>
                             </>
                         ):''}

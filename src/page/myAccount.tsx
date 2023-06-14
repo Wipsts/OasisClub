@@ -1,107 +1,8 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import {Header, NavDown, ScrollingItens, Input, QrItens, Footer, QrCodeScan, Loading} from "../components/components"
-import {logUser, getArtiglesUser, getEcommerceUser, getBoughtProduct, scanQrCode} from '../functions/function'
-import {QRCodeSVG} from 'qrcode.react';
+import {Header, NavDown, ScrollingItens, Input, QrItens, Footer, Loading, ScanQrCode, ViewQrCode} from "../components/components"
+import {logUser, getArtiglesUser, getEcommerceUser, getBoughtProduct} from '../functions/function'
 import "../style/min/myAccount.scss"
-
-function ScanQrCode({show, closeMenu}:{show: boolean, closeMenu:any}) {
-    const [display, setDisplay] = useState('none')
-    const [data, setData] = useState('');
-    const [resultCount, setResultCount] = useState(0)
-    const buttonOpenAndClose = useRef<HTMLButtonElement>(null)
-
-    const informationQrCode = async (result:string) => {
-        setData(result)
-        setResultCount(1)
-        if(resultCount === 0 && !data){
-            const scanQrCodeClass = new scanQrCode()
-            scanQrCodeClass.processingQrCode(result)
-            
-            if(await scanQrCodeClass.changeBuyersCart()){
-                if(await scanQrCodeClass.changeDataProduct()){
-                    if(buttonOpenAndClose.current !== null){
-                        const informationLayout = await scanQrCodeClass.showLayoutProduct()
-                        buttonOpenAndClose.current.click()
-                    }
-                }
-            }            
-        }
-    }
-
-    const ScanDisplay = () => {
-        if(show){
-            setDisplay('block')
-        }else{
-            setTimeout(() => {
-                setDisplay('none') 
-            }, 700)
-        }
-    }
-
-    useEffect(() => {
-        ScanDisplay()
-    })
-
-    return (
-        <>
-            <section id="section-qrCode" style={{display: display}}>
-                <div className={`container-scanQrCode ${show ? 'style-ScanOpen' : 'style-ScanClose'}`}>
-                    <button className="button-close-scan" onClick={closeMenu} ref={buttonOpenAndClose}></button>
-                    <div className="container-content-scan">
-                        <div className="scan-camera" >
-                            {show ? (<QrCodeScan information={informationQrCode}/>) : ''}
-                            
-                        </div>
-                        <span className="division-ou">ou</span>
-                        <div className="content-input-code">
-                            <Input titleInput={'Código QR'} type='text' value={''} onChange={(e:any) => {}}/>
-                            <button className="button-send-code">Enviar Código</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </>
-    )
-}
-
-function ViewQrCode({show, closeMenu, data}:{show: boolean, closeMenu:any, data?:Array<string>}) {
-    const [display, setDisplay] = useState('none')
-    const ScanDisplay = () => {
-        if(show){
-            setDisplay('block')
-        }else{
-            setTimeout(() => {
-                setDisplay('none') 
-            }, 700)
-        }
-    }
-
-    useEffect(() => {
-        ScanDisplay()
-    })
-
-    return (
-        <>
-            <section id="section-qrCode" style={{display: display}}>
-                <div className={`container-scanQrCode ${show ? 'style-ScanOpen' : 'style-ScanClose'}`}>
-                    <button className="button-close-scan" onClick={closeMenu}></button>
-                    <div className="container-content-scan">
-                        {data ? (
-                            <>
-                                <span className="title-qr">{data[1]}</span>
-                                <div className="scan-camera" >
-                                   <QRCodeSVG value={data[0]} />                         
-                                </div>
-                            </>
-                        ):''}
-                        
-                    </div>
-                </div>
-            </section>
-        </>
-    )
-}
 
 function MyAccount(){
     const navigate = useNavigate()
@@ -131,7 +32,7 @@ function MyAccount(){
         setScanQrCode(!scanQrCode)
         document.body.style.overflow = !scanQrCode ? 'hidden' : 'auto';
     }
-
+ 
     async function logOut(){
         const logout = await new logUser().logOutUser()
         if(logout.logout){
@@ -159,8 +60,13 @@ function MyAccount(){
 
     }
 
+    async function verifyUser(){
+        if(await new logUser().getUser()){}else{navigate('/login')}
+    }
+
     useEffect(() => {
         constructPage()
+        verifyUser()
     },[])
 
     return (

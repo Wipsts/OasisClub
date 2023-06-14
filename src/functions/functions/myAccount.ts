@@ -97,9 +97,10 @@ export class scanQrCode{
         }
     }
 
-    async showLayoutProduct(quant = 1){
+    async showLayoutProduct(){
         const productID = this.processingResult.productID
-        const userID = this.processingResult.userID
+        const product =  await getImageOfTheData(await new firestore().getWhere({bd: 'ecommerce', where: ['documentID', productID]}), 'ecommerce', false) as any
+        return product.data
     }
 
     async changeBuyersCart(quant = 1){
