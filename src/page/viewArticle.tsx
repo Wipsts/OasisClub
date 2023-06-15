@@ -1,51 +1,75 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from 'react-router-dom'
-import {Header, NavDown,Ads, Footer} from "../components/components"
+import {Header, NavDown,Ads, Footer, Loading} from "../components/components"
+import {firestore, getImageOfTheData} from '../functions/function'
 import "../style/min/viewArtigle.scss"
 
 export default function ViewArticle(){
     const { id } = useParams();
+    const [dataArtigle, setArtigle] = useState<any>({})
+    const [loading, setLoading] = useState(true)
+    const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
+    const typeText = ['História', 'Informativo', 'Pesquisa', 'Entreterimento', 'Entrevista']
+
+    async function constructPage(){
+        const dataBlog = await getImageOfTheData(await new firestore().get({bd: 'blog'}), 'blog', true);
+        const dataArtigle = selectArtigleById(dataBlog)
+        setArtigle(dataArtigle.data)
+        setLoading(false)
+
+        function selectArtigleById(data:any){
+            return data.filter((a:any) => a.id === id)[0]
+        }
+    }
 
     useEffect(() => {
-        console.log(id)
+        constructPage()
     },[])
 
     return (
         <>
             <main id="main-viewArtigle">
                 <section className="section-header">
-                    <Header type={1} link={'/blog'} color={'#00c5a1'}/>
-                    <div className="container-imageArtigle"><img src="https://th.bing.com/th/id/OIP.5zsYKymVDeJQntqyJ1aTfQHaFj?pid=ImgDet&rs=1" alt="" /></div>
+                    <Header type={1} link={'/blog'} color={loading ? '#1a1a1' : dataArtigle.color}/>
+                    <div className="container-imageArtigle">
+                        {loading ? (<Loading width="100%" height="100%"/>) : <img src={dataArtigle.image} alt="" />}
+                    </div>
                 </section>
                 <section className="section-txts">
                     <article>
-                        <h1 className="title-article">Como usar o crase, explicação e exemplos praticos</h1>
+                        {loading ? (<Loading width="100%" height="50px"/>) : <h1 className="title-article">{dataArtigle.title}</h1> }
+                        
                         <div className="container">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu imperdiet elit. Pellentesque cursus, turpis vel consectetur viverra, massa urna porta ante, eget viverra risus augue vitae metus. Phasellus a orci sed dui aliquet varius eu non quam. In erat arcu, vulputate sed felis a, dapibus malesuada purus. Nunc tincidunt, nulla eu blandit cursus, nisl orci vulputate mi, id varius mi ipsum sit amet ipsum. Vivamus eu ante nec nisl tempus placerat id dignissim neque. In vel tellus vitae erat mollis semper in sit amet urna. Maecenas viverra velit felis, a suscipit libero vulputate ac. Donec non arcu enim. Morbi pretium aliquet fermentum. Aenean mollis urna vel lorem tincidunt tristique. Vestibulum ante ipsum primis in faucibus.</p>
-                            <Ads amountAds={2} link={true} automatic={true}/>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu imperdiet elit. Pellentesque cursus, turpis vel consectetur viverra, massa urna porta ante, eget viverra risus augue vitae metus. Phasellus a orci sed dui aliquet varius eu non quam. In erat arcu, vulputate sed felis a, dapibus malesuada purus. Nunc tincidunt, nulla eu blandit cursus, nisl orci vulputate mi, id varius mi ipsum sit amet ipsum. Vivamus eu ante nec nisl tempus placerat id dignissim neque. In vel tellus vitae erat mollis semper in sit amet urna. Maecenas viverra velit felis, a suscipit libero vulputate ac. Donec non arcu enim. Morbi pretium aliquet fermentum. Aenean mollis urna vel lorem tincidunt tristique. Vestibulum ante ipsum primis in faucibus.</p>
+                            {/* TODO fazer a integração entre tags html e tags REACT */}
+                            {loading ? (<Loading width="100%" height="40vh"/>) : <div dangerouslySetInnerHTML={{__html:dataArtigle.article }}/>}
                         </div>
                     </article>
 
                     <hr className="max-line"/>
 
                     <div className="container-informationArticle-author">
-                        <div className="box-Author" style={{backgroundColor: '#00c5a1'}}>
-                            <img className="iconUser" src='' alt=""/>
-                            <span className="text-author">Nome Aluno  | 2ºA</span>
-                        </div>
-                        <div className="box-Author style-teacher" style={{backgroundColor: '#373737'}}>
-                            <span className="text-author">Nome Orientador</span>
-                        </div>
+                    {loading ? (<Loading width="100%" height="80px"/>) : (
+                        <>
+                            {dataArtigle?.author?.map((author:any, index:number) => (
+                                <div className="box-Author" key={author.name} style={{backgroundColor:  dataArtigle.color}}>
+                                    <img className="iconUser" src='' alt=""/>
+                                    <span className="text-author">{author.name} | {author.schoolGrade}</span>
+                                </div>
+                            ))}
+                            <div className="box-Author style-teacher" style={{backgroundColor: '#373737'}}>
+                                <span className="text-author">{dataArtigle.advisor}</span>
+                            </div>
+                        </>
+                    )}
                     </div>
 
                     <hr className="min-line"/>
 
                     <div className="container-informationArticle">
-                        <span className="text-information">Tipo de escrita: <b> INFORMAL </b></span>
-                        <span className="text-information">Tipo de texto: <b> INFORMATIVO </b></span>
-                        <span className="text-information">Matéria: <b> PORTUGUÊS </b></span>
-                        <span className="text-information">Nível de dificuldade: <b> 3/10 </b></span>
+                        <span className="text-information">Tipo de escrita: <b> {typeWriter[dataArtigle.typeWriting]} </b></span>
+                        <span className="text-information">Tipo de texto: <b> {typeText[dataArtigle.typeText]} </b></span>
+                        <span className="text-information">Matéria: <b> {dataArtigle.matter} </b></span>
+                        <span className="text-information">Nível de dificuldade: <b> {dataArtigle.difficultyLevel}/10 </b></span>
                     </div>
 
                 </section>
