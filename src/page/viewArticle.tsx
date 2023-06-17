@@ -1,8 +1,79 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from 'react-router-dom'
-import {Header, NavDown,Ads, Footer, Loading} from "../components/components"
-import {firestore, getImageOfTheData} from '../functions/function'
+import {Header, NavDown, Ads, Footer, Loading} from "../components/components"
+import {firestore, getImageOfTheData, createMokup} from '../functions/function'
 import "../style/min/viewArtigle.scss"
+
+// TODO fazer melhoras
+
+function IncludeAds({txt}:{txt:string}){
+    const processingAds = () => {
+        let processedText = txt.split(/<ads\/>/g);
+        let newText = []
+
+        for (let i = 0; i < processedText.length; i++) {
+            if(i !== 0){
+                newText.push('<ads/>')
+            }
+            newText.push(processedText[i])
+        }
+
+        console.log(newText)
+        return (
+            <>
+                {newText?.map((tag:any, index:number) => {
+                    if(tag != '<ads/>'){
+                        return <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
+                    }else{
+                        return <Ads key={`ads-artigle-${index}`} amountAds={2} link={true} automatic={true}/>
+                    }
+                })}
+            </>
+        )
+    }
+
+    return (
+        <>
+            {txt && txt.includes("<ads/>") ? processingAds() : <div dangerouslySetInnerHTML={{__html: txt}} />}
+        </>
+    )
+    
+}
+
+function CreateTagsInReact({data}:{data:any}){
+
+    function verifyIncludeAds(tag:string){
+        if(tag.includes("<ads/>")){
+            let newTag = tag.replace('<ads/>', "");
+            return newTag
+        }else{
+            return false
+        }
+    }
+
+    return (
+        <>
+            {(data && Array.isArray(data)) ? data?.map((tag:any, index:number) => {
+                if(tag != "<ads/>"){
+                    let processedTag = verifyIncludeAds(tag);
+                    if(processedTag){
+                        return (
+                            <div key={`content-tags-${index}`}>
+                                <Ads key={`ads-artigle-${index}`} amountAds={2} link={true} automatic={true}/>
+                                <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
+                            </div>
+                        )
+                    }else{
+                        return <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
+                    }
+                }else{
+                    return <Ads key={`ads-artigle-${index}`} amountAds={2} link={true} automatic={true}/>
+                }
+            }) : <IncludeAds txt={data} />}
+        </>
+    )
+}
+
 
 export default function ViewArticle(){
     const { id } = useParams();
@@ -10,16 +81,24 @@ export default function ViewArticle(){
     const [loading, setLoading] = useState(true)
     const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
     const typeText = ['História', 'Informativo', 'Pesquisa', 'Entreterimento', 'Entrevista']
+    const [txtArtigle, setTxtArtigle] = useState<Array<string> | String>("")
 
     async function constructPage(){
         const dataBlog = await getImageOfTheData(await new firestore().get({bd: 'blog'}), 'blog', true);
-        const dataArtigle = selectArtigleById(dataBlog)
-        setArtigle(dataArtigle.data)
+        const artigleValue = selectArtigleById(dataBlog)
+        setArtigle(artigleValue.data)
+        createMarkup(artigleValue.data)
         setLoading(false)
 
         function selectArtigleById(data:any){
             return data.filter((a:any) => a.id === id)[0]
         }
+
+        async function createMarkup(artigleValue:any) {
+            const data = await createMokup(artigleValue.article, artigleValue.ads)
+            setTxtArtigle(data)
+        }
+
     }
 
     useEffect(() => {
@@ -30,7 +109,7 @@ export default function ViewArticle(){
         <>
             <main id="main-viewArtigle">
                 <section className="section-header">
-                    <Header type={1} link={'/blog'} color={loading ? '#1a1a1' : dataArtigle.color}/>
+                    <Header type={1} link={'/blog'} color={loading ? '#1a1a1a' : dataArtigle.color}/>
                     <div className="container-imageArtigle">
                         {loading ? (<Loading width="100%" height="100%"/>) : <img src={dataArtigle.image} alt="" />}
                     </div>
@@ -41,7 +120,7 @@ export default function ViewArticle(){
                         
                         <div className="container">
                             {/* TODO fazer a integração entre tags html e tags REACT */}
-                            {loading ? (<Loading width="100%" height="40vh"/>) : <div dangerouslySetInnerHTML={{__html:dataArtigle.article }}/>}
+                            {loading && txtArtigle ? (<Loading width="100%" height="40vh"/>) : <CreateTagsInReact data={txtArtigle}/>}
                         </div>
                     </article>
 
@@ -66,10 +145,10 @@ export default function ViewArticle(){
                     <hr className="min-line"/>
 
                     <div className="container-informationArticle">
-                        <span className="text-information">Tipo de escrita: <b> {typeWriter[dataArtigle.typeWriting]} </b></span>
-                        <span className="text-information">Tipo de texto: <b> {typeText[dataArtigle.typeText]} </b></span>
-                        <span className="text-information">Matéria: <b> {dataArtigle.matter} </b></span>
-                        <span className="text-information">Nível de dificuldade: <b> {dataArtigle.difficultyLevel}/10 </b></span>
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de escrita: <b> {typeWriter[dataArtigle.typeWriting]} </b></span>)}
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de texto: <b> {typeText[dataArtigle.typeText]} </b></span>)}
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Matéria: <b> {dataArtigle.matter} </b></span>)}
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Nível de dificuldade: <b> {dataArtigle.difficultyLevel}/10 </b></span>)}           
                     </div>
 
                 </section>

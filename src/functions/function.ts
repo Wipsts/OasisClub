@@ -4,5 +4,8 @@ import {getImageOfTheData, getImageReference, filterByTag} from './functions/pro
 import {getRemoteConfig} from './functions/get.remotion.config'
 import {logUser, registreUser, RedifinePassword} from './functions/log.user'
 import {filterByUids, getBoughtProduct, getArtiglesUser, getEcommerceUser, scanQrCode} from './functions/myAccount'
+import {createMokup} from './functions/blog.view'
 
-export {firestore, getImageOfTheData, getImageReference, filterByTag, getRemoteConfig, remoteConfig, logUser, registreUser, RedifinePassword, filterByUids, getBoughtProduct, getArtiglesUser, getEcommerceUser, scanQrCode}
+import {processingTextArtigle} from './functions/call.backend'
+
+export {firestore, createMokup, processingTextArtigle, getImageOfTheData, getImageReference, filterByTag, getRemoteConfig, remoteConfig, logUser, registreUser, RedifinePassword, filterByUids, getBoughtProduct, getArtiglesUser, getEcommerceUser, scanQrCode}
