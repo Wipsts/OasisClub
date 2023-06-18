@@ -48,9 +48,9 @@ function Blog(){
             <main id="main-blog">
                 <h1 className="title-page">Artigos</h1>
                 <div id="container-defaultLayout">
-                    {loading ? (<Loading key='loading-tag-1' width="100%" height="150px"/>) : (<ScrollingItens subtext={filtered[0].title} itens={filtered[0].data} type={'blog'} />)}
+                    {loading ? (<Loading key='loading-tag-1' width="100%" height="150px"/>) : (<ScrollingItens  key={'blog-scroll-1'} subtext={filtered[0].title} itens={filtered[0].data} type={'blog'} />)}
                     <Ads key={'ads-blog'} amountAds={2} link={true} automatic={true}/>
-                    {loading ? (<Loading key='loading-tag-2' width="100%" height="150px"/>) : (<ScrollingItens subtext={filtered[1].title} itens={filtered[1].data} type={'blog'} />)}
+                    {loading ? (<Loading key='loading-tag-2' width="100%" height="150px"/>) : (<ScrollingItens  key={'blog-scroll-2'} subtext={filtered[1].title} itens={filtered[1].data} type={'blog'} />)}
                 </div>
                 {/* <hr className="max-line" /> */}
                 <div className="content-search">

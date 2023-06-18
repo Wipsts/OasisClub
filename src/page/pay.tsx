@@ -9,7 +9,7 @@ export default function Payment(){
         <>
             <Header/>
             <main id="main-pay">
-                <Link to="/card"><button className='button-back'><img src={ArrowIcon} alt="" /><span>VOLTAR</span></button></Link>
+                <Link to="/cart"><button className='button-back'><img src={ArrowIcon} alt="" /><span>VOLTAR</span></button></Link>
                 <section id="information-payment">
                     <h1 className="title-page">Pagamento</h1>
 

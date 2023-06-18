@@ -8,7 +8,7 @@ import Song from "../page/song"
 import MyAccount from "../page/myAccount"
 import ViewArticle from "../page/viewArticle"
 import ViewProduct from "../page/viewProduct"
-import Card from "../page/card"
+import Cart from "../page/cart"
 import Payment from "../page/pay"
 import Rank from "../page/rank"
 import TeacherPainel from "../page/teacherPainel"
@@ -35,7 +35,7 @@ function _Routes(){
             <Route path="/myAccount" element={<MyAccount/>}></Route>
             <Route path="/viewArticle/:id" element={<ViewArticle/>}></Route>
             <Route path="/viewProduct/:id" element={<ViewProduct/>}></Route>
-            <Route path="/card" element={<Card/>}></Route>
+            <Route path="/cart" element={<Cart/>}></Route>
             <Route path="/payment" element={<Payment/>}></Route>
             <Route path="/rank" element={<Rank/>}></Route>
             <Route path="/teacherPainel" element={<TeacherPainel/>}></Route>

@@ -65,6 +65,22 @@
         margin: 30px auto 0px auto;
         @include propsFlex(row, nowrap, start, center);
         gap: 15px;
+
+        .text-empty-cart{
+            display: block;
+            font-size: 1.1em;
+            font-family: 'Inter-SemiBold';
+            text-transform: uppercase;
+            color: #ccc;
+            text-align: center;
+            margin: 20px 0px 30px 0px;
+
+            i{
+                color: #33A1D0;
+                text-align: center;
+                text-decoration: underline;
+            }
+        }
     }
 
     .container-finishCard{

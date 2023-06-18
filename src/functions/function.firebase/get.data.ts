@@ -12,7 +12,6 @@ async function __getData(data:any, db:any, res:any) {
 
 async function __getDataEspecific(data:any, db:any, res:any) {
     const dataCollectionRef = collection(db, data.bd);
-
     const r = query(dataCollectionRef, where((data.where[0] === "documentID" ? documentId() : data.where[0]), "==", data.where[1])); // format where => "state", "==", "CA"
     const querySnapshot = await getDocs(r);
     querySnapshot.forEach((doc) => {

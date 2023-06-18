@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Header, NavDown, Ads, ScrollingItens, Footer, Search, Loading} from "../components/components"
+import {Header, NavDown, Ads, ScrollingItens, Footer, Loading} from "../components/components"
 import {firestore, filterByTag, getImageOfTheData, getRemoteConfig} from '../functions/function'
 import "../style/min/blog.scss"
 
@@ -52,8 +52,8 @@ function Ecommerce(){
                     {/* <Search type='ecommerce' onClick={getSearch}/> */}
                 </div>
                 <div id="container-defaultLayout">
-                    {loading ? (<Loading key='loading-ecommerce-tag-1' width="100%" height="150px"/>) : (<ScrollingItens subtext={filtered[0].title} itens={filtered[0].data} type={'ecommerce'} />)}
-                    {loading ? (<Loading key='loading-ecommerce-tag-2' width="100%" height="150px"/>) : (<ScrollingItens subtext={filtered[1].title} itens={filtered[1].data} type={'ecommerce'} />)}
+                    {loading ? (<Loading key='loading-ecommerce-tag-1' width="100%" height="150px"/>) : (<ScrollingItens key={'ecommerce-scroll-1'} subtext={filtered[0].title} itens={filtered[0].data} type={'ecommerce'} />)}
+                    {loading ? (<Loading key='loading-ecommerce-tag-2' width="100%" height="150px"/>) : (<ScrollingItens key={'ecommerce-scroll-2'} subtext={filtered[1].title} itens={filtered[1].data} type={'ecommerce'} />)}
                     <Ads amountAds={2} link={true} automatic={true}/>
                 </div>
             </main>

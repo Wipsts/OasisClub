@@ -97,6 +97,8 @@ export default class Menu extends Component<MenuParams,IState>{
                             <LetterMenu link={'/ecommerce'} text={'E-commerce'} color={'#fff'} size={1.3}/>
                             {this.state.userAdmin === 'true' ? <LetterMenu link={'/adminPainel'} text={'Painel Admin'} color={'#fff'} size={1.3}/> : ''}
                             <LetterMenu link={(this.state.log ? '/myAccount' : '/login')} text={this.state.log ? 'Minha Conta' : 'Login'} color={'#fff'} size={1.3}/>
+                            {this.state.log ? <LetterMenu link={'/cart'} text={'Carrinho'} color={'#fff'} size={1.3}/> : ''}
+                            
                         </nav>
                         <hr />
                         <nav className="box-linkPage">
