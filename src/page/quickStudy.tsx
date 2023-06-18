@@ -1,35 +1,69 @@
 import React, {useState, useEffect} from "react";
-import {Header, NavDown, Search, BoxQuestion} from "../components/components"
+import {Header, NavDown, Search, BoxQuestion, Loading} from "../components/components"
+import {constructStudy} from '../functions/function'
 import "../style/min/quickStudy.scss"
 
 function QuickStudy(){
+    const [quiz, setQuiz] = useState([{}])
+    const [quickStudy, setQuickStudy] = useState([{}])
+    const [loading, setLoading] = useState(true)
+    const [search, setSearch] = useState('')
 
+    async function createStudy(){
+        const callClass = new constructStudy()
+        await callClass.getDataQuiz()
+        await callClass.getDataQuickStudy()
+        callClass.processingData()
+
+        const {quiz, quickStudy} = await callClass.returnData()
+        
+        setQuiz(quiz)
+        setQuickStudy(quickStudy)
+        setLoading(false)
+    }
+
+    const getSearch = (s:string) => setSearch(s)
+    const transformInUppercase = (t:string) => t.toUpperCase();
+    useEffect(() => {createStudy()}, [])
     return (
         <>
             <Header/>
             <main id="main-quickStudy">
                 <h1 className="title-page">Estudo rápido</h1>
                 <div className="content-search">
-                    <Search type='song' onClick={() => {}}/>
+                    <Search type='song' onClick={getSearch}/>
                 </div>
                 <section id='section-quickStudy'>
                     <div className="container-prominence">
                         <span className="text-subtext">Em destaque</span>
                         <div className="content-prominence">
-                            <BoxQuestion key={'ahsyuagsya'} id='ahsyuagsya' color={'#35316B'} type={1} matter={'Matemática'} title={'teste de conhecimento'} time={'10'} imageBackground={'https://th.bing.com/th/id/OIP.ukoZscHtSjhD0CRDL3bljQHaHa?pid=ImgDet&rs=1'}/>
-                            <BoxQuestion key={'kjagsyagsa'} id='kjagsyagsa' color={'#1F672F'} type={1} matter={'português'} title={'teste de conhecimento'} time={'15'} imageBackground={'https://img.freepik.com/fotos-kostenlos/portugiesische-beschriftung-auf-pfirsichhintergrund_23-2148293431.jpg?size=626&ext=jpg'}/>
+                            {loading ? <Loading width="100%" height="100px"/> : (
+                                <>
+                                    {quiz?.map((value:any, index) => (
+                                        <BoxQuestion key={value.id} id={value.id} color={value.data.color} type={value.data.type} matter={value.data.matter} title={value.data.title} time={value.data.time} imageBackground={value.data.image}/>
+                                    ))}
+                                </>
+                            )}
+          
                         </div>
                     </div>
 
                     <hr />
 
-                    <div className="container-prominence">
-                        <span className="text-subtext">português</span>
-                        <div className="content-prominence">
-                            <BoxQuestion key={'ljahbysgai'} id='ljahbysgai' color={'#222222'} type={2} matter={'Figura de linguagem'} title={'Estudo Rápido'} time={'5'} imageBackground={'https://th.bing.com/th/id/OIP.ukoZscHtSjhD0CRDL3bljQHaHa?pid=ImgDet&rs=1'}/>
-                            <BoxQuestion key={'lkajhsiaus'} id='lkajhsiaus' color={'#222222'} type={2} matter={'Formas Verbais'} title={'Estudo Rápido'} time={'5'} imageBackground={'https://img.freepik.com/fotos-kostenlos/portugiesische-beschriftung-auf-pfirsichhintergrund_23-2148293431.jpg?size=626&ext=jpg'}/>
-                        </div>
-                    </div>
+                    {loading ? Array.from({ length: 4 }, (_, index) => (<Loading key={`loading-index-${index}`} width="100%" height="140px"/>)) : (
+                        <>
+                            {quickStudy?.map((boxStudy:any, index) => (
+                                <div className="container-prominence" key={`${boxStudy.matter}-${index}`}>
+                                    <span className="text-subtext">{boxStudy.matter}</span>
+                                    <div className="content-prominence">
+                                        {boxStudy?.data?.map((value:any, index:number) => {
+                                            return transformInUppercase(value.data.matter).includes(transformInUppercase(search)) ? <BoxQuestion key={value.id} id={value.id} color={value.data.color} type={value.data.type} matter={value.data.matter} title={value.data.title} time={value.data.time} imageBackground={value.data.image}/> : ''
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
                 </section>
             </main>
             <NavDown color={"#171717"}/>

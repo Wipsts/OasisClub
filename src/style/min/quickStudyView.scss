@@ -124,3 +124,11 @@
         right: 0px;
     }
 }
+
+.loadingStudy{
+    width: clamp(300px, 100%, 800px);
+    height: 300px;
+    object-fit: contain;
+    position: absolute;
+    margin: 75% auto;
+}

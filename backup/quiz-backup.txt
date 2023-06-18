@@ -4,13 +4,12 @@ import {BarProgress, Loading} from '../components/components'
 import {constructQuiz} from '../functions/function'
 import ClockIcon from "../images/icon/clock.svg"
 import ArrowIcon from '../images/icon/ArrowIcon.svg'
-import loadingStudy from '../images/animate/loadingStudy.gif'
 import "../style/min/quiz.scss"
 
-function ButtonAnswer({answerNumber, correctAnswer, answer, select, onclick, color}:{answerNumber:number|string, correctAnswer:boolean, answer:string, select:boolean,onclick:any, color:string}){
+function ButtonAnswer({answerNumber, answer, select, onclick, color}:{answerNumber:number|string, answer:string, select:boolean,onclick:any, color:string}){
     return (
         <>
-            <button onClick={onclick} className={`button-answer ${select ? 'style-select-answer' : ''}  ${correctAnswer ? 'style-correct-answer' : ''}`}>
+            <button onClick={onclick} className={`button-answer ${select ? 'style-select-answer' : ''}`}>
                 <div className="container-numberAnswer">{answerNumber}</div>
                 <span className="text-answer">{answer}</span>
             </button>
@@ -18,32 +17,49 @@ function ButtonAnswer({answerNumber, correctAnswer, answer, select, onclick, col
     )
 }
 
-function Timer({timer, work}:{timer?:any, work:boolean}){
-    const [segundos, setSegundos] = useState(0);
-    const [minutos, setMinutos] = useState(0);
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        if (!work) {
-          if (segundos === 59) {
-            setSegundos(0);
-            setMinutos(prevMinutos => prevMinutos + 1);
-          } else {
-            setSegundos(prevSegundos => prevSegundos + 1);
-          }
 
-          timer(`${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`)
+function Timer({timer, work}:{timer?:any, work:boolean}){
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(0);
+    const [working, setWorking] = useState(true)
+    
+    useEffect(() => {
+        setWorking(!work)
+    },[])
+    
+    if(Object.is(working, work)){
+        setWorking(false)
+    }
+
+    useEffect(() => {
+        if(working){
+            const timerInterval = setInterval(() => {
+                let Varseconds = seconds + 1 
+                setSeconds(Varseconds);
+                
+                // 70 > = 59
+                if (Varseconds >= 59) {
+                  setSeconds(0);
+                  setMinutes((prevMinutes) => prevMinutes + 1);
+                }
+            }, 1000);
+
+
+            return () => {
+              clearInterval(timerInterval);
+            };
         }
-      }, 1000);
-  
-      return () => clearInterval(interval);
-    }, [work, segundos]);
+    }, [working]);
+
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+    timer(`${formattedMinutes}:${formattedSeconds}`)
 
     return (
         <>
             <div className="container-time">
                 <img src={ClockIcon} alt="" />
-                <span className="text-time">{minutos.toString().padStart(2, '0')}:{segundos.toString().padStart(2, '0')}</span>
+                <span className="text-time">{formattedMinutes}:{formattedSeconds}</span>
             </div>
         </>
     )
@@ -62,7 +78,7 @@ function Quiz(){
     const [finishedQuiz, setFinishedQuiz] = useState(false)
     const [responseAnswer, setResponseAnswer] = useState([false])
     const [loading, setLoading] = useState(true);
-    const [questionIsCorrect, setQuestionIsCorrect] = useState<Array<boolean>>([false])
+
 
     // get
     const getTimer = (timer:string) => {setTimer(timer)}
@@ -101,30 +117,26 @@ function Quiz(){
 
     // functions
     function nextQuestion(){
-        checkCorrectAnswer()
-
-        setTimeout(() => {
-            if(((questionSelect+1)+1) <= configPage.totalQuestions){
-                setNewQuestion()
-            }else{
-                setFinishedQuiz(true)
-            }
-        }, 1300)
+        if(((questionSelect+1)+1) <= configPage.totalQuestions){
+            checkCorrectAnswer()
+            setNewQuestion()
+        }else{
+            checkCorrectAnswer()
+            setFinishedQuiz(true)
+        }
 
         function setNewQuestion(){
             setQuestionSelect(questionSelect+1)
             let questionAnswerLayout = questions[questionSelect]?.answer?.map((question:any) => false);
             setAswerSelect(questionAnswerLayout)
-            setQuestionIsCorrect(questionAnswerLayout)
+            checkCorrectAnswer()
         }
 
         function checkCorrectAnswer(){
             let correctAnswer = questions[questionSelect].corectAnswer;
             if(aswerSelect[correctAnswer] === true){
                 responseAnswer[questionSelect] = true;
-                questionIsCorrect[correctAnswer] = true
                 setResponseAnswer(responseAnswer)
-                setQuestionIsCorrect(questionIsCorrect)
             }
         }
     }
@@ -135,34 +147,29 @@ function Quiz(){
     async function createQuiz(){
         const data = await new constructQuiz().getDataQuiz(id as string) 
         const dataQuiz = data.data
-        const questionQuiz = dataQuiz.questions
-        
+
         setConfigPage({color: dataQuiz.color, responseColor: dataQuiz.responseColor, totalQuestions: dataQuiz.totalQuestions, valueQuiz: dataQuiz.valueQuiz})
-        setQuestions(questionQuiz)
+        setQuestions(dataQuiz.questions)
 
         setFinishedQuiz(false)
+        setLoading(false)
         setQuestionSelect(0)
-        createResponseAnswer(questionQuiz)
-        createAswerSelect(questionQuiz)
-        
-        if(questions){
-            setLoading(false)
-        }
+        createResponseAnswer()
+        createAswerSelect()
 
-        function createResponseAnswer(questionQuiz:any){
-            let createdResponseAnswer = questionQuiz.map((i:any) => false);
+        function createResponseAnswer(){
+            let createdResponseAnswer = questions.map((i:any) => false);
             setResponseAnswer(createdResponseAnswer)
-            setAswerSelect(createdResponseAnswer)
         }
-        function createAswerSelect(questionQuiz:any){
-            let createdAswerSelect = questionQuiz[questionSelect]?.answer?.map((i:any) => false);
-            setQuestionIsCorrect(createdAswerSelect)
+        function createAswerSelect(){
+            let createdAswerSelect = questions.map((i:any) => false);
+            setResponseAnswer(createdAswerSelect)
         }
     }
 
     useEffect(() => {
         if(aswerSelect.includes(true)){
-            nextQuestion()
+            setTimeout(nextQuestion, 1000)
         }
     },[aswerSelect])
 
@@ -174,7 +181,7 @@ function Quiz(){
         <>
             {loading ? (
                 <>
-                    <img src={loadingStudy} alt="" className="loadingStudy" />
+                    <span>Loading....</span>
                 </>
             ):(
                 <>
@@ -217,8 +224,8 @@ function Quiz(){
                                 <section className="section-answer">
                                     {loading ? (<Loading width="100%" height="200px"/>) : (
                                         <>
-                                            {questions[questionSelect] && questionIsCorrect ? questions[questionSelect]?.answer?.map((answer:any, index:number) => (
-                                                <ButtonAnswer key={answer.answerNumber} correctAnswer={questionIsCorrect[index]} color={configPage.responseColor} {...answer} select={aswerSelect[index]} onclick={() => selectAnswer(index)}/>
+                                            {questions[questionSelect] ? questions[questionSelect]?.answer?.map((answer:any, index:number) => (
+                                                <ButtonAnswer key={answer.answerNumber} color={configPage.responseColor} {...answer} select={aswerSelect[index]} onclick={() => selectAnswer(index)}/>
                                             )):''}
                                         </>
                                     )}

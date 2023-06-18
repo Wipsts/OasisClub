@@ -21,7 +21,7 @@ export async function filterByUids(uids:Array<string>, data:any){
 
 export async function getBoughtProduct(uids:Array<object>, uidUser:string){
     const dataEcommerce = await getImageOfTheData(await new firestore().get({bd: 'ecommerce'}), 'ecommerce', true)
-    const filterdByBougthAndScanned = uids?.map((product:any) => (isProductBought(product) && isProductScanned(product)) ? product : null)
+    const filterdByBougthAndScanned = uids?.map((product:any) => (isProductBought(product) && isProductScanned(product)) ? product : null).filter(e=> e!=null)    
     const getOnlyUid = filterdByBougthAndScanned?.map((product:any) => product.uidProduct)
     const filteredByUids = await filterByUids(getOnlyUid, dataEcommerce);
     const reponse = await correlateCartWithProduct(filterdByBougthAndScanned, filteredByUids)

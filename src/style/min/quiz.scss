@@ -262,10 +262,26 @@ $sizeSectionReport: clamp(210px, 80%, 310px);
     }
 
 }
+
+.loadingStudy{
+    width: clamp(300px, 100%, 800px);
+    height: 300px;
+    object-fit: contain;
+    position: absolute;
+    margin: 75% auto;
+}
+
 .style-select-answer{
     background-color: #4C7ABF;
     .container-numberAnswer{
         background-color: #fff;
         color: #4C7ABF;
+    }
+}
+.style-correct-answer{
+    background-color: #2cac57;
+    .container-numberAnswer{
+        background-color: #fff;
+        color: #2cac57;
     }
 }

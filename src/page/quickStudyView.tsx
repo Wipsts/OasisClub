@@ -1,21 +1,22 @@
 import React, {useState, useEffect} from "react";
-import {BarProgress} from "../components/components"
 import ReactCardFlip from 'react-card-flip';
 import {Link, useNavigate, useParams} from "react-router-dom"
+import {BarProgress} from "../components/components"
+import {constructQuickStudy} from '../functions/function'
 import ArrowIcon from '../images/icon/ArrowIcon.svg'
 import FlipCardIcon from '../images/icon/cardFlip.svg'
+import loadingStudy from '../images/animate/loadingStudy.gif'
 import "../style/min/quickStudyView.scss"
 
 interface FlipCardParams{
     color: string;
-    id: string;
     question: string;
     response: string;
     linkResolution:string;
     titleResolution: string;
 }
 
-function FlipCard({color, id, question, response, linkResolution, titleResolution}:FlipCardParams){
+function FlipCard({color, question, response, linkResolution, titleResolution}:FlipCardParams){
     const [isFlipped, setIsFlipped] = useState(false)
     function flipped(){
         setIsFlipped(!isFlipped)
@@ -47,7 +48,7 @@ function QuickStudyView(){
     // mock
     const [configPage, setConfigPage] = useState({color: '#1a1a1a', responseColor: '#3a3a3a', totalQuestions: 2, valueStudy: 44})
     const [cardSelect, setCardSelect] = useState(0)
-    const [cards, setCards] = useState([{id: '10927189281', question: '<p style={{color: #fff}}>Isso é um teste?</p>', response: '<p style={{color: #fff}}>Sim, isso é um teste</p>', linkResolution: '/', titleResolution: 'Aprenda mais sobre Teste'}, {id: 'gas78as87asa', question: '<p style={{color: #fff}}>isso é um teste 2</p>', response: '<p style={{color: #fff}}>Exatamente, isso é um teste 2</p>', linkResolution: '/', titleResolution: 'Aprenda mais sobre Teste'}])
+    const [cards, setCards] = useState<any>([{}])
     const [loading, setLoading] = useState(true)
 
     // function
@@ -59,22 +60,25 @@ function QuickStudyView(){
         }
     }
 
-
-    function createPage(){
+    async function createPage(){
+        const data = await new constructQuickStudy().getDataQuickStudy(id as string) 
+        const dataQuickStudy = data.data
+        setConfigPage({color: dataQuickStudy.color, responseColor: dataQuickStudy.responseColor, totalQuestions: dataQuickStudy.totalQuestions, valueStudy: dataQuickStudy.valueStudy})
+        setCards(dataQuickStudy.cards)
         setLoading(false)
     }
 
-    useEffect(() => createPage(), [])
+    useEffect(() => {createPage()}, [])
     return (
         <>
             <main id="main-quickStudyView">
                 <div className="container-header-quiz">
                     <Link to={'/quickStudy'}><button className="button-back"><img src={ArrowIcon} alt="" /><span>SAIR</span></button></Link>
                 </div>
-                {loading?(<></>):(
+                {loading?(<img src={loadingStudy} alt="" className="loadingStudy" />):(
                     <>
                         <section id='section-quickStudyView'>
-                            <FlipCard color={configPage.color} {...cards[cardSelect]} key={cards[cardSelect].id}/>
+                            <FlipCard color={configPage.color} {...cards[cardSelect]} key={'card-quickStudy'}/>
                             <button onClick={() => nextCard()} className="button-next-card">próximo</button>
                         </section>
 
