@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-import {Header, NavDown, Search} from "../components/components"
+import {Header, NavDown, Search, Loading} from "../components/components"
+import {createRank} from '../functions/function'
 import FirstIcon from '../images/icon/FirstIcon.png'
 import "../style/min/rank.scss"
 
@@ -9,7 +10,7 @@ interface InformationParticipantParams{
     name: string;
     schoolGrade: number;
     instagram?: string;
-    points: number;
+    points: number|string;
     color?: string;
 }
 
@@ -22,8 +23,16 @@ interface BigStyleParams{
 interface MinifyStyleParams{
     name: string;
     schoolGrade: number;
-    points: number;
+    points: number|string;
     color?: string;
+}
+
+interface studentsParams{
+    name: string,
+    schoolGrade: number,
+    instagram: string,
+    points: string,
+    Uid: string
 }
 
 
@@ -68,24 +77,30 @@ function ParticipantRankBox({bigStyle, name, schoolGrade, instagram, points, col
 }
 
 function Rank(){
-    const [students, setStudents] = useState([
-        {name: 'Hélio Peres Martins Neto', schoolGrade: 3, instagram: 'wipsts', points: 100},
-        {name: 'Clara Jelevisk Petrova', schoolGrade: 7, instagram: 'clarinha.pj', points: 16},
-        {name: 'Ana Carolina da Namata', schoolGrade: 1, instagram: 'corol.da.namata', points: 418},
-    ])
-    const [loading, setLoading] = useState(false)
+    const [students, setStudents] = useState<Array<studentsParams>>([{name: "", schoolGrade: 1, instagram: "", points: "", Uid: ""}])
+    const [loading, setLoading] = useState(true)
+    const [search, setSearch] = useState('')
 
     function organizedPointsPosition(){
         if(students){
-            students.sort(function(a,b) {
+            students.sort(function(a:any,b:any) {
                 return b.points - a.points;
             });
-            setLoading(true)
+            setLoading(false)
         }
     }
 
-    useEffect(() => {
+    async function constructPage(){
+        const studens = await new createRank().getStudens() as Array<studentsParams>
+        setStudents(studens)
         organizedPointsPosition()
+    }
+
+    const getSearch = (s:string) => setSearch(s)
+    const transformInUppercase = (t:string) => t.toUpperCase();
+
+    useEffect(() => {
+        constructPage()
     },[])
 
     return (
@@ -94,7 +109,7 @@ function Rank(){
             <main id="main-rank">
                 <h1 className="title-page">Rank</h1>
                 <div className="content-search">
-                    <Search type='song' onClick={() => {}}/>
+                    <Search type='song' onClick={getSearch}/>
                 </div>
                 <section id='section-rank'>
                     <section className="section-First">
@@ -102,19 +117,20 @@ function Rank(){
                             <img src={FirstIcon} alt="Primeiro Lugar" />
                         </div>
                         <div className="container-information-first">
-                            {loading ? (<ParticipantRankBox key={`${students[0].name}-0`} {...students[0]} bigStyle={true}/>) : ''}
+                            {loading ? (<Loading width="100%" height="140px" />) : (<ParticipantRankBox key={`${students[0].name}-0`} {...students[0]} bigStyle={true}/>)}
                         </div>
                     </section>
                     <section className="section-more-students">
                         <div className="content-participant">
-                            
-                            {loading && students?.map((student, index) => {
-                                if(index !== 0){
-                                    return (
-                                        <ParticipantRankBox key={`${student.name}-${index}`} {...student} bigStyle={false}/>
-                                    )
-                                }
-                            })}
+                            {loading ? (<Loading width="100%" height="140px" />) : (
+                                <>
+                                    {students?.map((student, index) => {
+                                        if(index !== 0){
+                                            return transformInUppercase(student.name).includes(transformInUppercase(search)) ? <ParticipantRankBox key={`${student.name}-${index}`} {...student} bigStyle={false}/> : ""
+                                        }
+                                    })}
+                                </>
+                            )}
                         </div>
                     </section>
                 </section>

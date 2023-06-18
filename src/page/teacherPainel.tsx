@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import {Header, NavDown, Search} from "../components/components"
-import RealWoman from '../images/img/real-woman.jpg'
+import {Header, Loading, NavDown, Search} from "../components/components"
+import {teacherPainel} from '../functions/function'
 import "../style/min/teacherPainel.scss"
 
 interface InformationBoxTeacherParams{
@@ -68,22 +68,18 @@ function PopUp({children, show, closeMenu}:{children:JSX.Element, show: boolean,
 }
 
 function TeacherPainel(){
-    const [teachers, setTeachers] = useState([
-        {name: 'Cristina', image: RealWoman, color: '#253C42', aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu imperdiet elit. Pellentesque cursus, turpis vel consectetur viverra, massa urna porta ante, eget viverra risus augue vitae metus. Phasellus a orci sed dui aliquet varius eu non quam. In erat arcu, vulputate sed felis a, dapibus malesuada purus. Nunc tincidunt, nulla eu blandit cursus, nisl orci vulputate mi, id varius mi ipsum sit amet ipsum. Vivamus eu ante nec nisl tempus placerat id dignissim neque. In vel tellus vitae erat mollis semper in sit amet urna. Maecenas viverra velit felis, a suscipit libero vulputate ac.',  myResume: [{name: 'Pedagogia', information: 'Universidade de -------, formada em 2010 '}], simpleInformation: ['Marketing digital', 'Designer'], id: 'jdmhsdusdyh89'},
-        {name: 'Bele', image: RealWoman, color: '#253C42', aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu imperdiet elit. Pellentesque cursus, turpis vel consectetur viverra, massa urna porta ante, eget viverra risus augue vitae metus. Phasellus a orci sed dui aliquet varius eu non quam. In erat arcu, vulputate sed felis a, dapibus malesuada purus. Nunc tincidunt, nulla eu blandit cursus, nisl orci vulputate mi, id varius mi ipsum sit amet ipsum. Vivamus eu ante nec nisl tempus placerat id dignissim neque. In vel tellus vitae erat mollis semper in sit amet urna. Maecenas viverra velit felis, a suscipit libero vulputate ac.',  myResume: [{name: 'Pedagogia', information: 'Universidade de -------, formada em 2010 '}], simpleInformation: ['Marketing digital', 'Designer '], id: 'gasyags78a'},
-        {name: 'Beatriz', image: RealWoman, color: '#253C42', aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu imperdiet elit. Pellentesque cursus, turpis vel consectetur viverra, massa urna porta ante, eget viverra risus augue vitae metus. Phasellus a orci sed dui aliquet varius eu non quam. In erat arcu, vulputate sed felis a, dapibus malesuada purus. Nunc tincidunt, nulla eu blandit cursus, nisl orci vulputate mi, id varius mi ipsum sit amet ipsum. Vivamus eu ante nec nisl tempus placerat id dignissim neque. In vel tellus vitae erat mollis semper in sit amet urna. Maecenas viverra velit felis, a suscipit libero vulputate ac.',  myResume: [{name: 'Pedagogia', information: 'Universidade de -------, formada em 2010 '}], simpleInformation: ['Marketing digital', 'Designer'], id: 'jaohs7axh8a9hd79'},
-    ])
-    const [loading, setLoading] = useState(false)
+    const [teachers, setTeachers] = useState<any>([{}])
+    const [loading, setLoading] = useState(true)
     const [popUp, setPopUp] = useState(false)
     const [informationPopUp, setInformationPopUp] = useState<any>({name: '', aboutMe: '', myResume: [{name: '', information: ''}]})
-
+    const [search, setSearch] = useState('')
 
     function selectTeacherById(id:string):object{
         var teacherSeletc = {}
         for (let i = 0; i < teachers.length; i++) {
             const teacher = teachers[i];
             if(teacher.id === id){
-                teacherSeletc = teacher
+                teacherSeletc = teacher.data
             }
         }
 
@@ -100,6 +96,19 @@ function TeacherPainel(){
         setPopUp(!popUp)
         document.body.style.overflow = !popUp ? 'hidden' : 'auto';
     }
+
+    async function createPage(){
+        const teachers = await new teacherPainel().getTeachers() as Array<object>
+        setTeachers(teachers)
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        createPage()
+    }, [])
+    
+    const getSearch = (s:string) => setSearch(s)
+    const transformInUppercase = (t:string) => t ? t.toUpperCase() : t;
 
     return (
         <>
@@ -140,12 +149,16 @@ function TeacherPainel(){
             <main id="main-teacher-painel">
                 <h1 className="title-page">Painel de Funcionários</h1>
                 <div className="content-search">
-                    <Search type='song' onClick={() => {}}/>
+                    <Search type='song' onClick={getSearch}/>
                 </div>
                 <section id='section-content-teacherBox'>
-                    {teachers?.map(teacher => (
-                        <BoxInformationTeacher key={`${teacher.name}`} {...teacher} openAndClosePopUp={openAndClosePopUp}/>
-                    ))}
+                    {loading ? <Loading width="100%" height="300px"/> : (
+                        <>
+                            {teachers?.map((teacher:any) => {
+                                return transformInUppercase(teacher.data.name).includes(transformInUppercase(search)) ? <BoxInformationTeacher key={`${teacher.data.name}`} {...teacher.data} id={teacher.id} openAndClosePopUp={openAndClosePopUp}/> : ""
+                            })}
+                        </>
+                    )}
                 </section>
             </main>
             <NavDown color={"#171717"}/>
