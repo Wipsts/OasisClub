@@ -14,8 +14,9 @@ import Rank from "../page/rank"
 import TeacherPainel from "../page/teacherPainel"
 import QuickStudy from "../page/quickStudy"
 import QuickStudyView from '../page/quickStudyView'
-
 import Quiz from '../page/quiz'
+
+import AddArticle from '../page/AddArticle'
 
 import Login from '../page/login'
 import Registre from '../page/registre'
@@ -48,6 +49,9 @@ function _Routes(){
             <Route path="/password/:id" element={<Password/>}></Route>
 
             <Route path="/scanQr" element={<TestQrCode/>}></Route>
+            <Route path="/add/article" element={<AddArticle/>}></Route>
+
+
 
             <Route path="*" element={<Error404/>} />
         </Routes>

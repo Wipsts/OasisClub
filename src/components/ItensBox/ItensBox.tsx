@@ -8,6 +8,7 @@ interface ScrollingItensParams{
     link?: boolean
     key: string
     analyze: boolean
+    myAccount?: boolean;
     uid: string
 }
 interface ArtigleInformationParams{
@@ -39,8 +40,6 @@ export default class ItensBox extends Component<ScrollingItensParams> {
         super(props)
     }
 
-    
-
     ArtigleInformation(props:ArtigleInformationParams){
         return (
             <>
@@ -60,8 +59,8 @@ export default class ItensBox extends Component<ScrollingItensParams> {
         return (
             <>
                 <div className="container-informationEcommerce">
-                    {props.oldValue !== 0 ? (<span className="text-oldValue">{props.oldValue.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>) : ''}
-                    <span className="text-value">{props.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>
+                    {props.oldValue !== 0 ? (<span className="text-oldValue">R$ {props.oldValue.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>) : ''}
+                    <span className="text-value">R$ {props.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>
                 </div>
             </>
         )
@@ -72,21 +71,35 @@ export default class ItensBox extends Component<ScrollingItensParams> {
         return `/${baseLink}/${this.props.uid}`
     }
 
+    showAndHide(){
+        if(this.props.myAccount){
+            return true
+        }else{
+            if(this.props.article.analyze == 0 || this.props.article.analyze == 1){
+                return false
+            }else{
+                return true
+            }
+        }
+    }
+
     render(){
         const styleAnalyze = ['style-red', 'style-yellow', 'style-green']
 
         return(
             <>
-                <Link to={this.createLink()}>
-                    <div key={this.props.key} className={`box-item ${this.props.type === 'blog' ? 'style-blog' : 'style-ecommerce'}`}>
-                        {this.props.analyze ? (<div className={`box-analyze ${styleAnalyze[this.props.article.analyze]}`}></div>) : ''}
-                        <img src={this.props.article.img} alt="" className="img-backgroundItem" />
-                        <div className="content-informationItem">
-                            <span className="text-titleItem">{this.props.article.title}</span>
-                            {this.props.type === 'blog' ? <this.ArtigleInformation color={this.props.article.color} informationAuthor={this.props.article.author}/> : <this.EcommerceInformation value={this.props.article.value} oldValue={this.props.article.oldValue}/>}
+                {this.showAndHide() ? (
+                    <Link to={this.createLink()}>
+                        <div key={this.props.key} className={`box-item ${this.props.type === 'blog' ? 'style-blog' : 'style-ecommerce'}`}>
+                            {this.props.analyze ? (<div className={`box-analyze ${styleAnalyze[this.props.article.analyze]}`}></div>) : ''}
+                            <img src={this.props.article.img} alt="" className="img-backgroundItem" />
+                            <div className="content-informationItem">
+                                <span className="text-titleItem">{this.props.article.title}</span>
+                                {this.props.type === 'blog' ? <this.ArtigleInformation color={this.props.article.color} informationAuthor={this.props.article.author}/> : <this.EcommerceInformation value={this.props.article.value} oldValue={this.props.article.oldValue}/>}
+                            </div>
                         </div>
-                    </div>
-                </Link>
+                    </Link>
+                ) : ''}
             </>
         )
     }

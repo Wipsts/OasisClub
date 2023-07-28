@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {Header, NavDown, ScrollingItens, Input, QrItens, Footer, Loading, ScanQrCode, ViewQrCode} from "../components/components"
 import {logUser, getArtiglesUser, getEcommerceUser, getBoughtProduct} from '../functions/function'
 import "../style/min/myAccount.scss"
@@ -94,15 +94,15 @@ function MyAccount(){
 
                 <hr className="min-line"/>
                 <section className="section-container">
-                    <button className="button-action style-button-artigle">Escrever artigo</button>
+                    <Link to={'/add/article'}><button className="button-action style-button-artigle">Escrever artigo</button></Link>
                     <button className="button-action style-button-ecommerce">Adicionar no e-commerce</button>
                     <button className="button-action style-button-qrcode" onClick={(e) => openAndCloseScanQr()}>escanear QR-CODE </button>
                     <button className="button-disconnect" onClick={() => logOut()}>Desconectar</button>
                 </section>
                 <hr className="min-line"/>
                 <section className="section-container">
-                     {loading ? <Loading width="100%" height="150px"/> : <ScrollingItens subtext={'Artigos Postados/em analise'} analyze={true} itens={artigles} type={'blog'} />}
-                     {loading  ? <Loading width="100%" height="150px"/> : <ScrollingItens subtext={'Produtos e-commerce'} analyze={true} itens={ecommerce} type={'ecommerce'} />}
+                     {loading ? <Loading width="100%" height="150px"/> : <ScrollingItens myAccount={true} subtext={'Artigos Postados/em analise'} analyze={true} itens={artigles} type={'blog'} />}
+                     {loading  ? <Loading width="100%" height="150px"/> : <ScrollingItens myAccount={true} subtext={'Produtos e-commerce'} analyze={true} itens={ecommerce} type={'ecommerce'} />}
                 </section>
             </main>
             <Footer/>

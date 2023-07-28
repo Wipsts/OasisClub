@@ -22,6 +22,12 @@ function FlipCard({color, question, response, linkResolution, titleResolution}:F
         setIsFlipped(!isFlipped)
     }
 
+    useEffect(() => {
+        if(isFlipped === true){
+            flipped()
+        }
+    },[question])
+
     return (
         <>
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
@@ -34,7 +40,7 @@ function FlipCard({color, question, response, linkResolution, titleResolution}:F
                 <div className="container-back-flip" onClick={() => flipped()} style={{backgroundColor: color}}>
                     <div dangerouslySetInnerHTML={{__html:response}}/>
                     <button className="button-image-flip"><img src={FlipCardIcon} alt="" /></button>
-                    <Link to={linkResolution}><button className="button-link">{titleResolution}</button></Link>
+                    <a href={linkResolution} target="_blank"><button className="button-link">{titleResolution}</button></a>
                 </div>
             </ReactCardFlip>
         </>

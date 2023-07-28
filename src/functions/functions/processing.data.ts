@@ -6,6 +6,7 @@ export async function getImageOfTheData(data:any, path:string, isArray:boolean){
         let responseData = []
         for (let i = 0; i < data.length; i++) {
             const dataElement = data[i];
+
             if(checkImage(dataElement.data.image)){
                 dataElement.data.image = await getImageReference(dataElement.data.image, path)
             }

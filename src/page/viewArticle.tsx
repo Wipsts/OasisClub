@@ -19,7 +19,7 @@ function IncludeAds({txt}:{txt:string}){
             <>
                 {newText?.map((tag:any, index:number) => {
                     if(tag != '<ads/>'){
-                        return <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
+                        return <p key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
                     }else{
                         return <Ads key={`ads-artigle-${index}`} amountAds={2} link={true} automatic={true}/>
                     }
@@ -42,6 +42,7 @@ export default function ViewArticle(){
     const [loading, setLoading] = useState(true)
     const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
     const typeText = ['História', 'Informativo', 'Pesquisa', 'Entreterimento', 'Entrevista']
+    const matters = ['Exatas', 'Linguagens', 'Português', "Matemática", "História", "Geografia", "Filosofia", "Sociologia", "Arte", "Ciências", "Fisíca", "Quimíca", "Outras"]
     const [txtArtigle, setTxtArtigle] = useState<string>("")
 
     async function constructPage(){
@@ -71,7 +72,7 @@ export default function ViewArticle(){
                 <section className="section-header">
                     <Header type={1} link={'/blog'} color={loading ? '#1a1a1a' : dataArtigle.color}/>
                     <div className="container-imageArtigle">
-                        {loading ? (<Loading width="100%" height="100%"/>) : <img src={dataArtigle.image} alt="" />}
+                        {loading ? (<Loading width="100%" height="100%"/>) : <img className="image-artile" src={dataArtigle.image} alt="" />}
                     </div>
                 </section>
                 <section className="section-txts">
@@ -106,7 +107,7 @@ export default function ViewArticle(){
                     <div className="container-informationArticle">
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de escrita: <b> {typeWriter[dataArtigle.typeWriting]} </b></span>)}
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de texto: <b> {typeText[dataArtigle.typeText]} </b></span>)}
-                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Matéria: <b> {dataArtigle.matter} </b></span>)}
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Matéria: <b> {matters[dataArtigle.matter]} </b></span>)}
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Nível de dificuldade: <b> {dataArtigle.difficultyLevel}/10 </b></span>)}           
                     </div>
 

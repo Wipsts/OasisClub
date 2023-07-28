@@ -2,7 +2,7 @@ import React from "react";
 import QrReader from "react-qr-scanner";
 
 interface QrScannerParams{
-  information: any
+  information?: any
 }
 
 interface StateParams{
@@ -46,7 +46,9 @@ class QRScan extends React.Component<QrScannerParams,StateParams> {
   render() {
     return (
         <QrReader
-          facingMode={'user'}
+          facingMode={'environment'}
+          key="environment"
+          constraints={{ audio: false,video: { facingMode: "environment" }}}
           delay={this.state.delay}
           onError={this.handleError}
           onScan={this.handleScan}

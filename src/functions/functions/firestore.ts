@@ -98,7 +98,7 @@ export class firestore{
             })
         })
     }
-    async createRef(data:object){
+    async createRef(data:object):Promise<any>{
         return await new Promise((resolve, reject) => {
             __createRef(data, (response: any)=>{
                 if(response){
@@ -119,6 +119,7 @@ export class firestore{
         'update': {'id': "", 'data': {'name': "", 'email': ""}},
         'limit': "",
         'where': ""
+        'ref': {'bucket': 'blog', nameFile: 'caminhadaNaRua', file: ''}
     }
 */
 
