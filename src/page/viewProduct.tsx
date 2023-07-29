@@ -56,7 +56,7 @@ export default function ViewProduct(){
                 <section className="section-header">
                     <Header type={1} link={'/ecommerce'} color={'#272727'}/>
                     <div className="container-imageProduct">
-                        {loading ? <Loading width="100%" height="100%"/> : <img src={dataEcommerce.image} alt={dataEcommerce.title} />}
+                        {loading ? <Loading width="100%" height="100%"/> : <img className="image-product" src={dataEcommerce.image} alt={dataEcommerce.title} />}
                     </div>
                 </section>
                 <section className="section-informationProduct">

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useParams} from 'react-router-dom'
 import {Header, NavDown, Ads, Footer, Loading} from "../components/components"
 import {firestore, getImageOfTheData} from '../functions/function'

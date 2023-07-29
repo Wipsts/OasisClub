@@ -7,9 +7,9 @@ export interface AuthorsParams{
     id: string;
 }
 
-type StNb = string | number
+export type StNb = string | number
 
-interface DataAddingParams{
+export interface DataAddingParams{
     Orientation: string;
     ads: number;
     advisor: string;
@@ -20,7 +20,7 @@ interface DataAddingParams{
     difficultyLevel: StNb;
     image: any;
     numberAds: number;
-    postUid: string;
+    postUid?: string;
     tag: string;
     title: string;
     matter: StNb;
@@ -30,11 +30,17 @@ interface DataAddingParams{
 
 const matters = ['Exatas', 'Linguagens', 'Português', "Matemática", "História", "Geografia", "Filosofia", "Sociologia", "Arte", "Ciências", "Fisíca", "Quimíca", "Outras"]
 
+
+async function getDataUser(){
+    const idUser = await new logUser().getUser()
+    const informationUser = await new logUser().getDataUser(idUser as string)
+    return informationUser.data as any
+}
 export class createArticle{
-    async prepareData(CountAds:number, article:string, author:AuthorsParams[], color: string, difficultyLevel: string | number, img: any, matter: string, numberAds = 1, title: string, typeText: StNb, typeWriting: StNb){        
+    async prepareData(CountAds:number, article:string, author:AuthorsParams[], color: string, difficultyLevel: string | number, img: any, matter: string | number, numberAds = 1, title: string, typeText: StNb, typeWriting: StNb){        
         const idUser = author[0].id
-        const tags = matters[parseInt(matter)]
-        const user = await this.getDataUser() as any
+        const tags = matters[matter as number]
+        const user = await getDataUser() as any
         
         const informationImage = this.splitNameAndFile(img)
         await this.createRefImage(informationImage)
@@ -70,12 +76,6 @@ export class createArticle{
         return [image, image.name]
     }
 
-    async getDataUser(){
-        const idUser = await new logUser().getUser()
-        const informationUser = await new logUser().getDataUser(idUser as string)
-        return informationUser.data as any
-    }
-
     async createRefImage([file, name]:Array<string>){
         return await new firestore().createRef({bucket: 'blog', nameFile: name, file: file})
     }
@@ -95,4 +95,46 @@ export class createArticle{
     
     }
 
+}
+
+export class updateArticle{
+    async prepareData(idArticle:string, CountAds:number, article:string, author:AuthorsParams[], color: string, difficultyLevel: string | number, img: any, matter: string | number, numberAds = 1, title: string, typeText: StNb, typeWriting: StNb){        
+        const tags = matters[matter as number]
+        
+        const [name, bucket] = this.getNameAndBucketOfImg(img)
+        var ref2 = doc(db, `gs:/oasis-club-42a44.appspot.com/${bucket}/${name}`);
+        await deleteDoc(ref2);
+
+        const data:DataAddingParams = {
+            'ads': CountAds,
+            'advisor': '',
+            'analyze': 1,
+            'article': article,
+            'author': author,
+            'color': color,
+            'difficultyLevel': difficultyLevel,
+            'image': ref2,
+            'numberAds': numberAds,
+            'matter': matter,
+            'Orientation': '',
+            'tag': tags,
+            'title': title,
+            'typeText': typeText,
+            'typeWriting': typeWriting
+        }
+
+        return await this.updateData(data, idArticle)
+    }
+
+    getNameAndBucketOfImg(img:string):Array<string>{
+        const splitedImg = img.split("/")[7]
+        const bucketAndName = decodeURI(splitedImg.split("?")[0])
+        const [bucket, name] = bucketAndName.split("%2F")
+
+        return [name, bucket]
+    }
+
+    async updateData(data:DataAddingParams, uidsArtigle:string):Promise<any>{
+        return await new firestore().updateData({bd: 'blog', update: {id: uidsArtigle, data: data}})
+    }
 }

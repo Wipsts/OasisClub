@@ -47,7 +47,7 @@ export default class ItensBox extends Component<ScrollingItensParams> {
                     {props.informationAuthor ? props.informationAuthor.map((author:any, index:number) => (
                         <div key={`author-${index}`} className="box-Author" style={{backgroundColor: props.color}}>
                             <img className="iconUser" src={author.icon} alt=""/>
-                            <span className="text-author" style={{color: TextColor(props.color) }}>{author.name} | {author.schoolGrade}</span>
+                            <span className="text-author" style={{color: TextColor(props.color) }}>{author.name} | {author.schoolGrade}ª</span>
                         </div>
                     )) : ''}
                 </div>
@@ -67,8 +67,13 @@ export default class ItensBox extends Component<ScrollingItensParams> {
     }
 
     createLink(){
-        let baseLink = (this.props.type === 'blog' ? 'viewArticle' : 'viewProduct')
-        return `/${baseLink}/${this.props.uid}`
+        if(this.props.myAccount){
+            let baseLink = `edit/${ this.props.type === 'blog' ? 'article' : 'product'}`
+            return `/${baseLink}/${this.props.uid}`
+        }else{
+            let baseLink = (this.props.type === 'blog' ? 'viewArticle' : 'viewProduct')
+            return `/${baseLink}/${this.props.uid}`
+        }
     }
 
     showAndHide(){

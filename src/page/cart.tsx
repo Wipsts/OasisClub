@@ -34,15 +34,13 @@ export default function Cart(){
                 for (let j = 0; j < data.length; j++) {
                     const productCart = cart[i];
                     const productEcommerce = data[j];
-
-                    if((productCart.uidProduct === productEcommerce.id) && !productCart.bought){
+                    if((productCart.uidProduct == productEcommerce.id) && productCart.bought !== true){
                         Cartproducts.push(productEcommerce)
                         uidsProductCart.push(productCart.uidProduct)
                         valueCart += parseFloat(productEcommerce.data.value.replace(",", "."))
                     }
                 }
             }
-            
             return {productCart: Cartproducts.filter((a:any) => a !== null), uidsProductCart, valueCart}
         }
 
@@ -75,10 +73,10 @@ export default function Cart(){
                 <section className='section-card'>
                     <h1 className="title-page">Carrinho</h1>
                     <div className="content-product">
-                        {loading && false ? <Loading width='100%' height='140px'/> : (
+                        {loading ? <Loading width='100%' height='140px'/> : (
                             <>
                                 {productsCart[0].id ? productsCart?.map((item:any, index) => (
-                                    <ItensBox uid={item.id} analyze={false} article={{img: item.data.image, title: item.data.title, color: '', author: '', value: item.data.value, oldValue: item.data.oldValue, analyze: 1}} type={'ecommerce'} link={true} key={`product-key-${index}`} />
+                                    <ItensBox uid={item.id} analyze={false} article={{img: item.data.image, title: item.data.title, color: '', author: '', value: item.data.value, oldValue: item.data.oldValue, analyze: item.data.analyze}} type={'ecommerce'} link={true} key={`product-key-${index}`} />
                                 )) : <span className='text-empty-cart'>Nenhum item no carrinho. <br/> <br/>  <Link to={'/ecommerce'}> <i>Procurar</i> </Link></span>}
                             </>
                         )}

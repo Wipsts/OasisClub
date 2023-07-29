@@ -95,7 +95,7 @@ function MyAccount(){
                 <hr className="min-line"/>
                 <section className="section-container">
                     <Link to={'/add/article'}><button className="button-action style-button-artigle">Escrever artigo</button></Link>
-                    <button className="button-action style-button-ecommerce">Adicionar no e-commerce</button>
+                    <Link to={'/add/product'}><button className="button-action style-button-ecommerce">Adicionar no e-commerce</button></Link>
                     <button className="button-action style-button-qrcode" onClick={(e) => openAndCloseScanQr()}>escanear QR-CODE </button>
                     <button className="button-disconnect" onClick={() => logOut()}>Desconectar</button>
                 </section>

@@ -9,10 +9,11 @@ import {insertProductInCart} from './functions/functions.ecommerce'
 import {createRank} from './functions/create.rank'
 import {teacherPainel} from './functions/create.teacher.painel'
 import {constructStudy, constructQuiz, constructQuickStudy} from './functions/construct.study'
-import {createArticle, AuthorsParams} from './functions/add.article'
+import {createArticle, AuthorsParams, DataAddingParams, StNb, updateArticle} from './functions/add.article'
+import {createProduct, updateProduct} from './functions/add.product'
 
 import {processingTextArtigle} from './functions/call.backend'
 
 export {db}
-export {firestore, createRank, teacherPainel, constructStudy, constructQuiz, constructQuickStudy, createArticle, createMokup, processingTextArtigle, getImageOfTheData, getImageReference, filterByTag, getRemoteConfig, remoteConfig, logUser, registreUser, RedifinePassword, filterByUids, getBoughtProduct, getArtiglesUser, getEcommerceUser, scanQrCode, insertProductInCart}
-export type {AuthorsParams}
+export {firestore, createProduct, createRank, updateProduct, teacherPainel, constructStudy, constructQuiz, constructQuickStudy, createArticle, updateArticle, createMokup, processingTextArtigle, getImageOfTheData, getImageReference, filterByTag, getRemoteConfig, remoteConfig, logUser, registreUser, RedifinePassword, filterByUids, getBoughtProduct, getArtiglesUser, getEcommerceUser, scanQrCode, insertProductInCart}
+export type {AuthorsParams, DataAddingParams, StNb}

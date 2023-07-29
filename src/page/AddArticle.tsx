@@ -1,9 +1,9 @@
 import {useEffect, useState, ChangeEvent, MouseEvent} from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import {useNavigate} from 'react-router-dom'
-import {Header, Ads, Footer} from "../components/components"
-import {logUser, createArticle, AuthorsParams} from '../functions/function'
+import {useNavigate, useParams} from 'react-router-dom'
+import {Header, Ads, Footer, TextareaInput} from "../components/components"
+import {logUser, createArticle, AuthorsParams, getImageOfTheData, firestore, DataAddingParams, StNb, updateArticle} from '../functions/function'
 import "../style/min/viewArtigle.scss"
 import IconImage from '../images/icon/IconImage.svg'
 
@@ -12,23 +12,18 @@ interface DataArtigleParams{
     color: string;
     title: string;
     advisor: string | boolean;
-    typeWriting:number;
-    typeText: number;
-    matter: string;
-    difficultyLevel: number;
+    typeWriting:StNb;
+    typeText: StNb;
+    matter: StNb;
+    difficultyLevel: StNb;
+    Orientation?: string;
+    analyze?: number 
 }
 
 interface SelectAticleParams{
     className: string;
     value: string | number;
     onChange: (e:EventSelectChange) => void;
-}
-
-interface TextareaAticleParams{
-    className: string;
-    value: string;
-    onChange: (e:EventTextareaChange) => void | any;
-    placeholder?: string;
 }
 
 interface EditorParams{
@@ -45,12 +40,6 @@ function SelectArticle(props: React.PropsWithChildren<SelectAticleParams>){
         <select {...props}>
             {props.children}
         </select>
-    )
-}
-
-function TextareaAticle(props:TextareaAticleParams){
-    return (
-        <textarea {...props}/>
     )
 }
 
@@ -130,11 +119,14 @@ function IncludeAds({txt, isAdd, ads, quantAds, addAds, returnedText}:{txt:strin
 function Editor({value, onChange}:EditorParams){
     const modules = {
         toolbar: [
-          [{ 'header': [1, 2, false] }],
+          [{ 'header': [1, 2, 3, false] }],
           ['bold', 'italic', 'underline','strike', 'blockquote'],
           [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
           ['link', 'image'],
-          ['clean']
+          ['clean'],
+          [{ 'color': [] }, { 'background': [] }],   
+          [{ 'font': [] }],
+          [{ 'align': [] }],        
         ],
     }
     
@@ -142,7 +134,9 @@ function Editor({value, onChange}:EditorParams){
         'header',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
         'list', 'bullet', 'indent',
-        'link', 'image'
+        'link', 'image',
+        'color', 'background',
+        'font', 'aling'
       ]
 
     return <ReactQuill theme="snow" value={value} onChange={onChange} modules={modules}
@@ -165,7 +159,14 @@ function setRequireAdsByTxt(txt:string){
     return requireAds <= 2 ? requireAds : Math.round(requireAds * (percentual / 100));
 }
 
+const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
+const typeText = ['História', 'Informativo', 'Pesquisa', 'Entreterimento', 'Entrevista']
+const matters = ['Exatas', 'Linguagens', 'Português', "Matemática", "História", "Geografia", "Filosofia", "Sociologia", "Arte", "Ciências", "Fisíca", "Quimíca", "Outras"]
+const difficultyLevel = ['1/10', '2/10', '3/10', '4/10', '5/10', '6/10', '7/10', '8/10', '9/10', '10/10', 'Hard']
+
 export default function AddArticle(){
+    const [isEdit, setIsEdit] = useState<boolean>(false)
+
     const [dataArtigle, setArtigle] = useState<DataArtigleParams>({image: '', color: '#1a1a1a', title: '', advisor: false, difficultyLevel: 0, matter: 'Matemática', typeText: 0, typeWriting: 0})
     const [imageArticle, setImageArticle] = useState<string>('')
     const [authors, setAuthors] = useState<AuthorsParams[]>([])
@@ -177,12 +178,8 @@ export default function AddArticle(){
     const [requiredAds, setRequiredAds] = useState<number>(0)
     
     const [loading, setLoading] = useState(true)
-
-    const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
-    const typeText = ['História', 'Informativo', 'Pesquisa', 'Entreterimento', 'Entrevista']
-    const matters = ['Exatas', 'Linguagens', 'Português', "Matemática", "História", "Geografia", "Filosofia", "Sociologia", "Arte", "Ciências", "Fisíca", "Quimíca", "Outras"]
-    const difficultyLevel = ['1/10', '2/10', '3/10', '4/10', '5/10', '6/10', '7/10', '8/10', '9/10', '10/10', 'Hard']
     const navigate = useNavigate()
+    const {id} = useParams()
 
     const changeInformation = (e: EventInputChange|EventTextareaChange|EventSelectChange, key:string) => {
         setArtigle(prevstate => {return {...prevstate, [key]: e.target.value}})
@@ -225,13 +222,22 @@ export default function AddArticle(){
     async function postArticle(){
         if(addingAds){
             if(newText){
-                const createPost = await new createArticle().prepareData(requiredAds, newText, authors, dataArtigle.color, dataArtigle.difficultyLevel, dataArtigle.image, dataArtigle.matter, 1, dataArtigle.title, dataArtigle.typeText, dataArtigle.typeWriting);
-
-                if(createPost){
-                    alert("Seu artigo passará por analize, tempo máximo de 1 semana.")
-                    navigate('/myAccount')
+                if(isEdit){
+                    const updatePost = await new updateArticle().prepareData(id as string, requiredAds, newText, authors, dataArtigle.color, dataArtigle.difficultyLevel, dataArtigle.image, dataArtigle.matter, 1, dataArtigle.title, dataArtigle.typeText, dataArtigle.typeWriting);
+    
+                    console.log(updatePost)
+                    if(updatePost){
+                        alert("Seu artigo atualizdo, ele passará por analize, tempo máximo de 1 semana.")
+                        navigate('/myAccount')
+                    }
+                }else{
+                    const createPost = await new createArticle().prepareData(requiredAds, newText, authors, dataArtigle.color, dataArtigle.difficultyLevel, dataArtigle.image, dataArtigle.matter, 1, dataArtigle.title, dataArtigle.typeText, dataArtigle.typeWriting);
+    
+                    if(createPost){
+                        alert("Seu artigo passará por analize, tempo máximo de 1 semana.")
+                        navigate('/myAccount')
+                    }
                 }
-
             }else{
                 alert("É nessesario adcionar todos os anuncios solicitados.")
             }
@@ -241,6 +247,10 @@ export default function AddArticle(){
                 setAddingAds(true)
                 setRequiredAds(setRequireAdsByTxt(txtArtigle))
             }else{
+                console.log(dataArtigle)
+                console.log(imageArticle)
+                console.log(txtArtigle)
+
                 alert("Preencha todos os dados")
             }
         }
@@ -253,15 +263,43 @@ export default function AddArticle(){
         setRequiredAds(0)
     }
 
+    function isEditArticle():boolean{
+        if(id){
+            setIsEdit(true)
+            return true
+        }else{
+            setIsEdit(false)
+            return false
+        }
+    }
+
+    async function createPageForEdit(){
+        const dataBlog = await getImageOfTheData(await new firestore().get({bd: 'blog'}), 'blog', true);
+        const artigleValue = selectArtigleById(dataBlog)
+        const data = artigleValue.data as DataAddingParams
+
+        setAuthors(data.author)
+        setImageArticle(data.image)
+        setTxtArtigle(data.article)
+        setArtigle({Orientation:data.Orientation, image: data.image, advisor: data.advisor, color: data.color, difficultyLevel: data.difficultyLevel, matter: data.matter, title: data.title, typeText: data.typeText, typeWriting: data.typeWriting})
+        
+        function selectArtigleById(data:any){
+            return data.filter((a:any) => a.id === id)[0]
+        }
+    }
+
     useEffect(() => {
         getUserInformation()
+        if(isEditArticle()){
+            createPageForEdit()
+        }
     },[])
 
     return (
         <>
             <main id="main-viewArtigle">
                 <section className="section-header">
-                    <Header type={1} link={''} color={dataArtigle.color}/>
+                    <Header type={1} link={'/myAccount'} color={dataArtigle.color}/>
                     <div className="container-imageArtigle">
                         <label htmlFor="input-image">
                         {imageArticle === '' ? ( 
@@ -278,7 +316,7 @@ export default function AddArticle(){
                 </section>
                 <section className="section-txts">
                     <article>
-                        <TextareaAticle className="title-article input-title-article input-article" value={dataArtigle.title} onChange={(e) => changeInformation(e, 'title')} placeholder="Titulo do artigo" key={'input-title-article'}/>
+                        <TextareaInput className="title-article input-title-article input-article" value={dataArtigle.title} onChange={(e) => changeInformation(e, 'title')} placeholder="Titulo do artigo" key={'input-title-article'}/>
 
                         <div className="container">
                             {addingAds ? (
@@ -336,8 +374,8 @@ export default function AddArticle(){
                         </SelectArticle></b></span>
 
                         <span className="text-information">Nível de dificuldade: <b> <SelectArticle className="input-article select-input" value={dataArtigle.difficultyLevel} onChange={(e) => changeInformation(e, 'difficultyLevel')} key={'select-difficultyLevel'}>
-                            {difficultyLevel?.map((matter, index) => (
-                                <option value={index}>{matter}</option>
+                            {difficultyLevel?.map((difficultyLevel, index) => (
+                                <option value={index}>{difficultyLevel}</option>
                             ))}
                         </SelectArticle></b></span>   
 

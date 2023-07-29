@@ -44,6 +44,40 @@
                 font-size: 1em;
                 font-family: 'Inter-Light';
                 color: #000000;
+                margin: 5px 0px 5px 0px;
+            }
+
+            ul{
+                margin: 10px 10px 10px 30px;
+
+                li{
+                    margin: 2px 0px 2px 0px;
+
+                }
+            }
+
+            blockquote{
+                margin: 12px 10px 10px 20px;
+                padding: 4px;
+                box-sizing: border-box;
+                background-color: #FAFAFA;
+                position: relative;
+
+                &::before{
+                    content: "";
+                    width: 5px;
+                    height: 100%;
+                    background-color: #e7e7e7;
+                    position: absolute;
+                    top: 0px;
+                    bottom: 0px;
+                    left: -15px;
+                    margin: auto;
+                }
+            }
+
+            h2, h1, h3{
+                margin: 8px 0px 8px 0px;
             }
         }
     }

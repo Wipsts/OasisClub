@@ -17,6 +17,8 @@ import {BarProgress} from './BarProgress'
 import {Loading} from './Loading'
 import {ScanQrCode, ViewQrCode, ViewProductCreateByQr} from './MyAccountComponents'
 
+import {TextareaInput} from './TextareaInput'
+
 import QrCodeScan from './QrCodeScan'
 
-export {Header, Loading, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin, BoxQuestion, BarProgress, ScanQrCode, ViewQrCode, ViewProductCreateByQr}
+export {Header, Loading, TextareaInput, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin, BoxQuestion, BarProgress, ScanQrCode, ViewQrCode, ViewProductCreateByQr}

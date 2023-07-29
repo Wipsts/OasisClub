@@ -17,6 +17,7 @@ import QuickStudyView from '../page/quickStudyView'
 import Quiz from '../page/quiz'
 
 import AddArticle from '../page/AddArticle'
+import AddProduct from '../page/addProduct'
 
 import Login from '../page/login'
 import Registre from '../page/registre'
@@ -49,7 +50,12 @@ function _Routes(){
             <Route path="/password/:id" element={<Password/>}></Route>
 
             <Route path="/scanQr" element={<TestQrCode/>}></Route>
+            
             <Route path="/add/article" element={<AddArticle/>}></Route>
+            <Route path="/edit/article/:id" element={<AddArticle/>}></Route>
+
+            <Route path="/edit/product/:id" element={<AddProduct/>}></Route>
+            <Route path="/add/product" element={<AddProduct/>}></Route>
 
 
 

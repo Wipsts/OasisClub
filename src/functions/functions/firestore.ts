@@ -73,7 +73,6 @@ export class firestore{
 
     async updateData(data:object){
         return await new Promise((resolve, reject) => {
-            console.log(data)
             __updateData(data, db, (response: any)=>{
                 if(response){
                     resolve(response)
