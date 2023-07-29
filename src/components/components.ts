@@ -16,9 +16,10 @@ import {BoxQuestion} from './BoxQuestion'
 import {BarProgress} from './BarProgress'
 import {Loading} from './Loading'
 import {ScanQrCode, ViewQrCode, ViewProductCreateByQr} from './MyAccountComponents'
-
+import {NavBarModerator} from './NavBarModerator'
 import {TextareaInput} from './TextareaInput'
+import {PopUp} from './PopUp'
 
 import QrCodeScan from './QrCodeScan'
 
-export {Header, Loading, TextareaInput, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin, BoxQuestion, BarProgress, ScanQrCode, ViewQrCode, ViewProductCreateByQr}
+export {Header, Loading, TextareaInput, NavBarModerator, PopUp, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin, BoxQuestion, BarProgress, ScanQrCode, ViewQrCode, ViewProductCreateByQr}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Header, Loading, NavDown, Search} from "../components/components"
+import {Header, Loading, NavDown, Search, PopUp} from "../components/components"
 import {teacherPainel} from '../functions/function'
 import "../style/min/teacherPainel.scss"
 
@@ -30,39 +30,6 @@ function BoxInformationTeacher({name, image, simpleInformation, id, color, openA
                     <button className="button-more-information" onClick={() => openAndClosePopUp(id)}>Mais informações</button>
                 </div>
             </div>
-        </>
-    )
-}
-
-function PopUp({children, show, closeMenu}:{children:JSX.Element, show: boolean, closeMenu: any}) {
-    const [display, setDisplay] = useState('none')
-
-    const PopUpDisplay = () => {
-        if(show){
-            setDisplay('block')
-        }else{
-            setTimeout(() => {
-                setDisplay('none') 
-            }, 700)
-        }
-    }
-
-    useEffect(() => {
-        PopUpDisplay()
-    })
-
-    return (
-        <>
-            <section id="section-pop-up" style={{display: display}}>
-                <div className={`container-pop-up ${show ? 'style-PopUpOpen' : 'style-PopUpClose'}`}>
-                    <button className="button-close-pop-up" onClick={closeMenu}></button>
-                    <button className="button-drag-close-pop-up" onClick={closeMenu}/>
-                    
-                    <div className="container-information-pop-up">
-                        {children}
-                    </div>
-                </div>
-            </section>
         </>
     )
 }

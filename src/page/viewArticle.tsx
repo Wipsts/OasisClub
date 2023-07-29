@@ -43,6 +43,7 @@ export default function ViewArticle(){
     const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
     const typeText = ['História', 'Informativo', 'Pesquisa', 'Entreterimento', 'Entrevista']
     const matters = ['Exatas', 'Linguagens', 'Português', "Matemática", "História", "Geografia", "Filosofia", "Sociologia", "Arte", "Ciências", "Fisíca", "Quimíca", "Outras"]
+    const difficultyLevel = ['1/10', '2/10', '3/10', '4/10', '5/10', '6/10', '7/10', '8/10', '9/10', '10/10', 'Hard']
     const [txtArtigle, setTxtArtigle] = useState<string>("")
 
     async function constructPage(){
@@ -108,7 +109,7 @@ export default function ViewArticle(){
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de escrita: <b> {typeWriter[dataArtigle.typeWriting]} </b></span>)}
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de texto: <b> {typeText[dataArtigle.typeText]} </b></span>)}
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Matéria: <b> {matters[dataArtigle.matter]} </b></span>)}
-                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Nível de dificuldade: <b> {dataArtigle.difficultyLevel}/10 </b></span>)}           
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Nível de dificuldade: <b> {difficultyLevel[dataArtigle.difficultyLevel]} </b></span>)}           
                     </div>
 
                 </section>

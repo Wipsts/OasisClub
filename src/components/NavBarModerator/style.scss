@@ -1,0 +1,109 @@
+@import url("../../style/main.scss");
+@import "../../style/default/variables.scss";
+
+.nav-bar-moderator{
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    padding: 9px;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+    @include propsFlex(row, nowrap, center, space-between);
+    gap: 20px;
+
+    .button-bar{
+        width: auto;
+        min-width: 120px;
+        height: 50px;
+        border-radius: 6px;
+        padding: 5px 5px 5px 5px;
+        box-sizing: border-box;
+        background-color: #1a1a1a;
+        color: #fff;
+        font-size: .8em;
+        font-family: 'Inter-Light';
+        text-transform: uppercase;
+    }
+
+    .content-right{
+        @include propsFlex(row, nowrap, center, space-between);
+        gap: 10px;
+    }
+
+    .style-fired{
+        background-color: #A62B2B;
+    }
+    .style-correction{
+        background-color: #E8B228;
+        color: #000;
+    }
+    .style-approve{
+        background-color: #3CA62B;
+    }
+}
+
+.container-correction{
+    width: 100%;
+    height: auto;
+    margin: 80px auto 0px auto;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    overflow-y: scroll;
+
+    .title-correction{
+        font-size: 1.2em;
+        color: #1a1a1a;
+        font-family: 'Inter-Medium';
+        text-transform: uppercase;
+    }
+
+    .subtext-correction{
+        display: block;
+        font-size: .9em;
+        color: #646464;
+        font-family: 'Inter-Light';
+        margin-top: 10px;
+    }
+
+    .content-inputs-correction{
+        width: 100%;
+        height: auto;
+        margin-top: 35px;
+    }
+
+    .textarea-input-correction{
+        width: 100%;
+        height: auto;
+        min-height: 120px;
+        resize: vertical;
+        background-color: #f5f5f5;
+        font-size: .9em;
+        color: #000;
+        font-family: 'Inter-Regular';
+        padding: 6px;
+        box-sizing: border-box;
+        border-radius: 2px;
+    }
+
+    .button-send{
+        display: block;
+        width: auto;
+        min-width: 150px;
+        height: 50px;
+        border-radius: 6px;
+        padding: 5px 5px 5px 5px;
+        box-sizing: border-box;
+        background-color: #1a1a1a;
+        color: #fff;
+        font-size: .8em;
+        font-family: 'Inter-Light';
+        text-transform: uppercase;
+
+        margin: 30px auto 0px auto;
+    }
+}

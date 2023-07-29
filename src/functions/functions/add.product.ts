@@ -91,6 +91,7 @@ export class updateProduct{
     }
 
     async updateData(data:ObjectProductParams, idProduct:string):Promise<any>{
+        sessionStorage.removeItem('cach-ecommerce')
         return await new firestore().updateData({bd: 'ecommerce', update: {id: idProduct, data: data}})
     }
 }

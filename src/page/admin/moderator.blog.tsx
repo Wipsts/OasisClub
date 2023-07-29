@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from 'react-router-dom'
-import {Header, NavDown, Ads, Footer, Loading} from "../components/components"
-import {firestore, getImageOfTheData, createMokup} from '../functions/function'
-import "../style/min/viewArtigle.scss"
-
-// TODO fazer melhoras
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from 'react-router-dom'
+import {Header, Ads, Footer, Loading, NavBarModerator} from "../../components/components"
+import {firestore, getImageOfTheData, updateAdminArticle} from '../../functions/function'
+import "../../style/min/viewArtigle.scss"
 
 function IncludeAds({txt}:{txt:string}){
     const processingAds = () => {
@@ -17,13 +15,11 @@ function IncludeAds({txt}:{txt:string}){
             }
             newText.push(processedText[i])
         }
-
-        console.log(newText)
         return (
             <>
                 {newText?.map((tag:any, index:number) => {
                     if(tag != '<ads/>'){
-                        return <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
+                        return <p key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
                     }else{
                         return <Ads key={`ads-artigle-${index}`} amountAds={2} link={true} automatic={true}/>
                     }
@@ -40,48 +36,16 @@ function IncludeAds({txt}:{txt:string}){
     
 }
 
-function CreateTagsInReact({data}:{data:any}){
-
-    function verifyIncludeAds(tag:string){
-        if(tag.includes("<ads/>")){
-            let newTag = tag.replace('<ads/>', "");
-            return newTag
-        }else{
-            return false
-        }
-    }
-
-    return (
-        <>
-            {(data && Array.isArray(data)) ? data?.map((tag:any, index:number) => {
-                if(tag != "<ads/>"){
-                    let processedTag = verifyIncludeAds(tag);
-                    if(processedTag){
-                        return (
-                            <div key={`content-tags-${index}`}>
-                                <Ads key={`ads-artigle-${index}`} amountAds={2} link={true} automatic={true}/>
-                                <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
-                            </div>
-                        )
-                    }else{
-                        return <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
-                    }
-                }else{
-                    return <Ads key={`ads-artigle-${index}`} amountAds={2} link={true} automatic={true}/>
-                }
-            }) : <IncludeAds txt={data} />}
-        </>
-    )
-}
-
-
 export default function ViewArticle(){
     const { id } = useParams();
     const [dataArtigle, setArtigle] = useState<any>({})
     const [loading, setLoading] = useState(true)
     const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
     const typeText = ['História', 'Informativo', 'Pesquisa', 'Entreterimento', 'Entrevista']
-    const [txtArtigle, setTxtArtigle] = useState<Array<string> | String>("")
+    const matters = ['Exatas', 'Linguagens', 'Português', "Matemática", "História", "Geografia", "Filosofia", "Sociologia", "Arte", "Ciências", "Fisíca", "Quimíca", "Outras"]
+    const difficultyLevel = ['1/10', '2/10', '3/10', '4/10', '5/10', '6/10', '7/10', '8/10', '9/10', '10/10', 'Hard']
+    const [txtArtigle, setTxtArtigle] = useState<string>("")
+    const navigate = useNavigate()
 
     async function constructPage(){
         const dataBlog = await getImageOfTheData(await new firestore().get({bd: 'blog'}), 'blog', true);
@@ -95,8 +59,7 @@ export default function ViewArticle(){
         }
 
         async function createMarkup(artigleValue:any) {
-            const data = await createMokup(artigleValue.article, artigleValue.ads)
-            setTxtArtigle(data)
+            setTxtArtigle(artigleValue.article)
         }
 
     }
@@ -105,13 +68,27 @@ export default function ViewArticle(){
         constructPage()
     },[])
 
+    async function updateData(type: number, commit:string){
+        const updated = await new updateAdminArticle().prepareData(type, commit, id as string)
+        if(updated){
+            alert("Análize feita com sucesso.")
+            navigate('/admin/moderator/blog')
+        }else{
+            alert("Ops! tivemos um erro, tente novamente mais tarde")
+        }
+    }
+
+    const sendChanged = (type:number, commit:string) => {
+        updateData(type, commit)
+    }
+
     return (
         <>
             <main id="main-viewArtigle">
                 <section className="section-header">
-                    <Header type={1} link={'/blog'} color={loading ? '#1a1a1a' : dataArtigle.color}/>
+                    <Header type={1} link={'/admin/moderator/blog'} color={loading ? '#1a1a1a' : dataArtigle.color}/>
                     <div className="container-imageArtigle">
-                        {loading ? (<Loading width="100%" height="100%"/>) : <img src={dataArtigle.image} alt="" />}
+                        {loading ? (<Loading width="100%" height="100%"/>) : <img className="image-artile" src={dataArtigle.image} alt="" />}
                     </div>
                 </section>
                 <section className="section-txts">
@@ -119,8 +96,7 @@ export default function ViewArticle(){
                         {loading ? (<Loading width="100%" height="50px"/>) : <h1 className="title-article">{dataArtigle.title}</h1> }
                         
                         <div className="container">
-                            {/* TODO fazer a integração entre tags html e tags REACT */}
-                            {loading && txtArtigle ? (<Loading width="100%" height="40vh"/>) : <CreateTagsInReact data={txtArtigle}/>}
+                            {loading && txtArtigle ? (<Loading width="100%" height="40vh"/>) : <IncludeAds txt={txtArtigle} />}
                         </div>
                     </article>
 
@@ -147,14 +123,14 @@ export default function ViewArticle(){
                     <div className="container-informationArticle">
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de escrita: <b> {typeWriter[dataArtigle.typeWriting]} </b></span>)}
                         {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Tipo de texto: <b> {typeText[dataArtigle.typeText]} </b></span>)}
-                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Matéria: <b> {dataArtigle.matter} </b></span>)}
-                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Nível de dificuldade: <b> {dataArtigle.difficultyLevel}/10 </b></span>)}           
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Matéria: <b> {matters[dataArtigle.matter]} </b></span>)}
+                        {loading ? (<Loading width="100%" height="30px"/>) : (<span className="text-information">Nível de dificuldade: <b> {difficultyLevel[dataArtigle.difficultyLevel]} </b></span>)}           
                     </div>
 
                 </section>
             </main>
+            <NavBarModerator sendChanged={sendChanged}/>
             <Footer/>
-            <NavDown color={"#171717"}/>
         </>
     )
 }

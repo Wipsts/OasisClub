@@ -12,9 +12,14 @@ interface propHeaderParams {
 }
 
 interface typeHeaderParams{
-    onClick: any
+    onClick: () => void
     color?: string
     link?: string
+}
+
+interface AdminHeaderParams{
+    color?: string;
+    link?: string;
 }
 
 function DefaultHeader(props:typeHeaderParams){
@@ -49,6 +54,17 @@ function AlternateHeader(props:typeHeaderParams){
     )
 }
 
+function AdminHeader(props:AdminHeaderParams){
+    return (
+        <header id='admin-header' style={{backgroundColor: props.color}}>
+            <div className="content-icon">
+                <img src={IconOasisClub} alt="OASST" />
+                <span>Oásis Club | ADM</span>
+            </div>
+        </header>
+    )
+}
+
 export default function Header(props:propHeaderParams){
     const [configMenu, setConfigMenu] = useState(false)
     
@@ -56,9 +72,21 @@ export default function Header(props:propHeaderParams){
         setConfigMenu(!configMenu)
     }
 
+    function SelectMenu(){
+        if(props.type){
+            if(props.type === 1){
+                return <AlternateHeader link={props.link} color={props.color} onClick={() => alterateMenu()} />
+            }else{
+                return <AdminHeader link={props.link} color={props.color}/>
+            }
+        }else{
+            return <DefaultHeader onClick={() => alterateMenu()}/>
+        }
+    }
+
     return (
         <>
-            {props.type ? (<AlternateHeader link={props.link} color={props.color} onClick={() => alterateMenu()} />) : (<DefaultHeader onClick={() => alterateMenu()}/>)}
+            <SelectMenu/>
             <Menu menu={configMenu} closeMenu={alterateMenu}/>
         </>
 

@@ -31,7 +31,7 @@ export interface DataAddingParams{
 const matters = ['Exatas', 'Linguagens', 'Português', "Matemática", "História", "Geografia", "Filosofia", "Sociologia", "Arte", "Ciências", "Fisíca", "Quimíca", "Outras"]
 
 
-async function getDataUser(){
+export async function getDataUser(){
     const idUser = await new logUser().getUser()
     const informationUser = await new logUser().getDataUser(idUser as string)
     return informationUser.data as any
@@ -135,6 +135,7 @@ export class updateArticle{
     }
 
     async updateData(data:DataAddingParams, uidsArtigle:string):Promise<any>{
+        sessionStorage.removeItem('cach-blog')
         return await new firestore().updateData({bd: 'blog', update: {id: uidsArtigle, data: data}})
     }
 }

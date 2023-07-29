@@ -315,6 +315,14 @@ export default function AddArticle(){
                     </div>
                 </section>
                 <section className="section-txts">
+                    {dataArtigle?.Orientation ? (
+                        <div className="container-commit">
+                            <p>
+                                {dataArtigle.Orientation}
+                            </p>
+                        </div>
+                    ) : ''}
+
                     <article>
                         <TextareaInput className="title-article input-title-article input-article" value={dataArtigle.title} onChange={(e) => changeInformation(e, 'title')} placeholder="Titulo do artigo" key={'input-title-article'}/>
 

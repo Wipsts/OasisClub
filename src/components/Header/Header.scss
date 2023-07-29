@@ -1,7 +1,7 @@
 @import url("../../style/main.scss");
 @import "../../style/default/variables.scss";
 
-#header{
+#header, #admin-header{
     width: 100%;
     height: 50px;
     background-color: $backgroundHeader;
@@ -157,4 +157,8 @@
             }
         }
     }
+}
+
+#admin-header{
+    @include propsFlex(row, nowrap, center, center);
 }

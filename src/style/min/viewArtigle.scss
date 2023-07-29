@@ -19,6 +19,22 @@
         }
     }
 
+    .container-commit{
+        width: 100%;
+        height: auto;
+        margin: 0px auto 20px auto;
+        border-radius: 6px;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: #2d6dc0;
+
+        p{
+            font-family: 'Inter-Regular';
+            font-size: .9em;
+            color: #fff;
+        }
+    }
+
     .section-txts{
         width: 100%;
         height: auto;
@@ -71,7 +87,7 @@
                     position: absolute;
                     top: 0px;
                     bottom: 0px;
-                    left: -15px;
+                    left: -5px;
                     margin: auto;
                 }
             }

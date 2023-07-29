@@ -9,6 +9,7 @@ interface ScrollingItensParams{
     key: string
     analyze: boolean
     myAccount?: boolean;
+    admin?: boolean;
     uid: string
 }
 interface ArtigleInformationParams{
@@ -67,20 +68,22 @@ export default class ItensBox extends Component<ScrollingItensParams> {
     }
 
     createLink(){
+        let baseLink;
         if(this.props.myAccount){
-            let baseLink = `edit/${ this.props.type === 'blog' ? 'article' : 'product'}`
-            return `/${baseLink}/${this.props.uid}`
+            baseLink = `edit/${ this.props.type === 'blog' ? 'article' : 'product'}`
+        }else if(this.props.admin){
+            baseLink = `admin/verify/${ this.props.type === 'blog' ? 'article' : 'product'}`
         }else{
-            let baseLink = (this.props.type === 'blog' ? 'viewArticle' : 'viewProduct')
-            return `/${baseLink}/${this.props.uid}`
+            baseLink = (this.props.type === 'blog' ? 'viewArticle' : 'viewProduct')
         }
+        return `/${baseLink}/${this.props.uid}`
     }
 
     showAndHide(){
-        if(this.props.myAccount){
+        if(this.props.myAccount || this.props.admin){
             return true
         }else{
-            if(this.props.article.analyze == 0 || this.props.article.analyze == 1){
+            if(this.props.article.analyze == 0 || this.props.article.analyze == 1 || this.props.article.analyze == 3){
                 return false
             }else{
                 return true
@@ -89,7 +92,7 @@ export default class ItensBox extends Component<ScrollingItensParams> {
     }
 
     render(){
-        const styleAnalyze = ['style-red', 'style-yellow', 'style-green']
+        const styleAnalyze = ['style-red', 'style-yellow', 'style-green', 'style-blue']
 
         return(
             <>

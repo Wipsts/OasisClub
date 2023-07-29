@@ -4,9 +4,15 @@ import {Header, NavDown, ScrollingItens, Input, QrItens, Footer, Loading, ScanQr
 import {logUser, getArtiglesUser, getEcommerceUser, getBoughtProduct} from '../functions/function'
 import "../style/min/myAccount.scss"
 
+interface AdminState{
+    admin: boolean;
+    mode: string;
+}
+
 function MyAccount(){
     const navigate = useNavigate()
 
+    const [admin, setAdmin] = useState<AdminState>({admin: false, mode: ''})
     const [loading, setLoading] = useState(true)
     const [artigles, setArtigles] = useState([{}])
     const [ecommerce, setEcommerce] = useState([{}])
@@ -46,10 +52,12 @@ function MyAccount(){
         const dataUser = await logUserClass.getDataUser(uidUser) as any
         const data = dataUser.data.data
 
+        
         const requestBougthProduct = await getBoughtProduct(data.uidCard, dataUser.data.id)
         const requestArtigleUser = await getArtiglesUser(data.uidArtigle)
         const requestEcommerceUser = await getEcommerceUser(data.uidProducts)
         setValuesUser(data)
+        setAdmin(data.admin)
 
         if(requestArtigleUser[0] && requestEcommerceUser[0] && requestBougthProduct){
             setBoughtProduct(requestBougthProduct)
@@ -97,6 +105,7 @@ function MyAccount(){
                     <Link to={'/add/article'}><button className="button-action style-button-artigle">Escrever artigo</button></Link>
                     <Link to={'/add/product'}><button className="button-action style-button-ecommerce">Adicionar no e-commerce</button></Link>
                     <button className="button-action style-button-qrcode" onClick={(e) => openAndCloseScanQr()}>escanear QR-CODE </button>
+                    {!loading && admin.admin ? <Link to={`/admin/moderator/${admin.mode}`}><button className="button-action style-button-moderador">Abrir painel moderador </button></Link> : ''}
                     <button className="button-disconnect" onClick={() => logOut()}>Desconectar</button>
                 </section>
                 <hr className="min-line"/>

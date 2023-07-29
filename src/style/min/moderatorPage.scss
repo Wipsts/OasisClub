@@ -1,0 +1,52 @@
+@import url("../main.scss");
+@import "../default/variables.scss";
+
+.main-moderatorPage{
+    width: 100vw;
+    overflow-x: hidden;
+    height: auto;
+    margin: 10px 0px 0px 0px;
+    padding: 0px 10px 10px 10px;
+    box-sizing: border-box;
+
+    .content-title-page{
+        position: relative;
+        margin-bottom: 27px;
+
+        .title-page{
+            &::after{
+                display: none;
+            }
+        }
+        .mode-moderator{
+            width: auto;
+            height: auto;
+            padding: 5px 20px 5px 8px;
+            box-sizing: border-box;
+            border-radius: 0px 8px 8px 0px;
+            background: #4631C9;
+            font-size: .8em;
+            color: #fff;
+            font-family: 'Inter-Medium';
+            position: relative;
+            top: 5px;
+        }
+    }
+
+    .button-exit-moderador{
+        display: block;
+        width: auto;
+        min-width: 220px;
+        height: 35px;
+        border-radius: 6px;
+        padding: 5px 5px 5px 5px;
+        box-sizing: border-box;
+        background-color: #a52c2c;
+        color: #fff;
+        font-size: .8em;
+        font-family: 'Inter-Regular';
+        text-transform: uppercase;
+
+        margin: 30px 0px 0px 0px;
+    }
+}

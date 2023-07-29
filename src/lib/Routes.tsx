@@ -15,9 +15,12 @@ import TeacherPainel from "../page/teacherPainel"
 import QuickStudy from "../page/quickStudy"
 import QuickStudyView from '../page/quickStudyView'
 import Quiz from '../page/quiz'
-
 import AddArticle from '../page/AddArticle'
 import AddProduct from '../page/addProduct'
+
+import ModeratorPage from '../page/admin/moderatorPage'
+import ModeratorBlog from '../page/admin/moderator.blog'
+import ModeratorEcommerce from '../page/admin/moderator.ecommerce'
 
 import Login from '../page/login'
 import Registre from '../page/registre'
@@ -53,11 +56,13 @@ function _Routes(){
             
             <Route path="/add/article" element={<AddArticle/>}></Route>
             <Route path="/edit/article/:id" element={<AddArticle/>}></Route>
-
             <Route path="/edit/product/:id" element={<AddProduct/>}></Route>
             <Route path="/add/product" element={<AddProduct/>}></Route>
 
+            <Route path="/admin/verify/article/:id" element={<ModeratorBlog/>}></Route>
+            <Route path="/admin/verify/product/:id" element={<ModeratorEcommerce/>}></Route>
 
+            <Route path="/admin/moderator/:type" element={<ModeratorPage/>}></Route>
 
             <Route path="*" element={<Error404/>} />
         </Routes>
