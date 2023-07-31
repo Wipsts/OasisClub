@@ -3,11 +3,20 @@ import {Link} from 'react-router-dom'
 import ClockIcon from '../../images/icon/clock.svg'
 import './style.scss'
 
-export function BoxQuestion({id, color, type, matter, title, time, imageBackground}:{id:string, color:string, type:number, matter:string, title:string, time:string, imageBackground:string}){
+export function BoxQuestion({id, color, type, matter, title, time, imageBackground, admin}:{id:string, color:string, type:number, matter:string, title:string, time:string, imageBackground:string, admin?: boolean}){
+    
+    function createLink(){
+        if(admin){
+            return `/admin/add/${type===1?'quiz':'quickStudy'}/${id}`
+        }else{
+            return `/${type===1?'quiz':'quickStudy/view'}/${id}`
+        }
+    }
+
     return (
         <>
             <div className="box-question">
-                <Link to={`/${type===1?'quiz':'quickStudy/view'}/${id}`}>            
+                <Link to={createLink()}>            
                     <img src={imageBackground} alt="" />
                     <div className="content-information-question">
                         {type === 1 ? (

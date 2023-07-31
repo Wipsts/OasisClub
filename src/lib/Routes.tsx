@@ -21,6 +21,7 @@ import AddProduct from '../page/addProduct'
 import ModeratorPage from '../page/admin/moderatorPage'
 import ModeratorBlog from '../page/admin/moderator.blog'
 import ModeratorEcommerce from '../page/admin/moderator.ecommerce'
+import ModeratorQuickStudy from '../page/admin/moderator.quickStudy'
 
 import Login from '../page/login'
 import Registre from '../page/registre'
@@ -61,6 +62,8 @@ function _Routes(){
 
             <Route path="/admin/verify/article/:id" element={<ModeratorBlog/>}></Route>
             <Route path="/admin/verify/product/:id" element={<ModeratorEcommerce/>}></Route>
+            <Route path="/admin/add/quickstudy" element={<ModeratorQuickStudy/>}></Route>
+            
 
             <Route path="/admin/moderator/:type" element={<ModeratorPage/>}></Route>
 

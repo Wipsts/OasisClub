@@ -19,7 +19,8 @@ import {ScanQrCode, ViewQrCode, ViewProductCreateByQr} from './MyAccountComponen
 import {NavBarModerator} from './NavBarModerator'
 import {TextareaInput} from './TextareaInput'
 import {PopUp} from './PopUp'
+import {Editor} from './Editor'
 
 import QrCodeScan from './QrCodeScan'
 
-export {Header, Loading, TextareaInput, NavBarModerator, PopUp, QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin, BoxQuestion, BarProgress, ScanQrCode, ViewQrCode, ViewProductCreateByQr}
+export {Header, Loading, TextareaInput, NavBarModerator, PopUp, Editor,  QrCodeScan, Menu, NavDown, Ads, BigAds, ScrollingItens,ItensBox, Footer, Search, PlaylistBox, Input, QrItens, TitlePageLog, LoginOptions, InputLogin, BoxQuestion, BarProgress, ScanQrCode, ViewQrCode, ViewProductCreateByQr}

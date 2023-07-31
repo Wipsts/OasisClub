@@ -1,8 +1,6 @@
 import {useEffect, useState, ChangeEvent, MouseEvent} from "react";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import {useNavigate, useParams} from 'react-router-dom'
-import {Header, Ads, Footer, TextareaInput} from "../components/components"
+import {Header, Ads, Footer, TextareaInput, Editor} from "../components/components"
 import {logUser, createArticle, AuthorsParams, getImageOfTheData, firestore, DataAddingParams, StNb, updateArticle} from '../functions/function'
 import "../style/min/viewArtigle.scss"
 import IconImage from '../images/icon/IconImage.svg'
@@ -24,11 +22,6 @@ interface SelectAticleParams{
     className: string;
     value: string | number;
     onChange: (e:EventSelectChange) => void;
-}
-
-interface EditorParams{
-    value: string;
-    onChange: (newValue: string) => void
 }
 
 type EventSelectChange = ChangeEvent<HTMLSelectElement>
@@ -114,33 +107,6 @@ function IncludeAds({txt, isAdd, ads, quantAds, addAds, returnedText}:{txt:strin
         </>
     )
     
-}
-
-function Editor({value, onChange}:EditorParams){
-    const modules = {
-        toolbar: [
-          [{ 'header': [1, 2, 3, false] }],
-          ['bold', 'italic', 'underline','strike', 'blockquote'],
-          [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-          ['link', 'image'],
-          ['clean'],
-          [{ 'color': [] }, { 'background': [] }],   
-          [{ 'font': [] }],
-          [{ 'align': [] }],        
-        ],
-    }
-    
-    const formats = [
-        'header',
-        'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list', 'bullet', 'indent',
-        'link', 'image',
-        'color', 'background',
-        'font', 'aling'
-      ]
-
-    return <ReactQuill theme="snow" value={value} onChange={onChange} modules={modules}
-    formats={formats} placeholder="Escreva aqui seu artigo" />;
 }
 
 function setRequireAdsByTxt(txt:string){
@@ -336,7 +302,7 @@ export default function AddArticle(){
                                     quantAds={requiredAds} 
                                     returnedText={returnedText} />
                                 ) : 
-                                <Editor value={txtArtigle} onChange={setTxtArtigle}/>}
+                                <Editor value={txtArtigle} onChange={setTxtArtigle} placeholder="Escreva aqui seu artigo"/>}
                         </div>
                     </article>
 

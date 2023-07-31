@@ -32,7 +32,7 @@ function Index(){
                 </div>
                 <hr className="min-line" />
                 <div className="container-content">
-                    <h3 className="title-content">Produtos em promoção</h3>
+                    <h3 className="title-content">Produtos em destaque</h3>
                     {loading ? (<Loading width="100%" height="200px"/>) : (<ScrollingItens itens={ecommerce} link={true}  type={'ecommerce'} />)}
                 </div>
             </main>

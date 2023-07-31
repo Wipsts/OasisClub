@@ -12,9 +12,10 @@ import {constructStudy, constructQuiz, constructQuickStudy} from './functions/co
 import {createArticle, AuthorsParams, DataAddingParams, StNb, updateArticle, getDataUser} from './functions/add.article'
 import {createProduct, updateProduct} from './functions/add.product'
 import {updateAdminArticle, updateAdminEcommerce} from './functions/update.admin'
+import {createQuickStudy,configPage } from './functions/add.quickStudy'
 
 import {processingTextArtigle} from './functions/call.backend'
 
 export {db}
-export {firestore, createProduct, createRank, updateAdminArticle, updateAdminEcommerce, updateProduct, teacherPainel, constructStudy, constructQuiz, constructQuickStudy, createArticle, updateArticle, createMokup, processingTextArtigle, getImageOfTheData, getImageReference, filterByTag, getRemoteConfig, remoteConfig, logUser, registreUser, RedifinePassword, filterByUids, getBoughtProduct, getArtiglesUser, getEcommerceUser, scanQrCode, insertProductInCart, getDataUser}
-export type {AuthorsParams, DataAddingParams, StNb}
+export {firestore, createProduct, createRank, updateAdminArticle, createQuickStudy, updateAdminEcommerce, updateProduct, teacherPainel, constructStudy, constructQuiz, constructQuickStudy, createArticle, updateArticle, createMokup, processingTextArtigle, getImageOfTheData, getImageReference, filterByTag, getRemoteConfig, remoteConfig, logUser, registreUser, RedifinePassword, filterByUids, getBoughtProduct, getArtiglesUser, getEcommerceUser, scanQrCode, insertProductInCart, getDataUser}
+export type {AuthorsParams, DataAddingParams, StNb, configPage}

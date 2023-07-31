@@ -8,6 +8,7 @@
     position: relative;
     margin-right: 10px;
     overflow: hidden;
+    flex-shrink: 0;
 
     img{
         width: 100%;

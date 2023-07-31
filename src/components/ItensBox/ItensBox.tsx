@@ -69,6 +69,7 @@ export default class ItensBox extends Component<ScrollingItensParams> {
 
     createLink(){
         let baseLink;
+
         if(this.props.myAccount){
             baseLink = `edit/${ this.props.type === 'blog' ? 'article' : 'product'}`
         }else if(this.props.admin){
