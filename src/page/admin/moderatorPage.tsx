@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {Header, ScrollingItens, Footer, Loading} from "../../components/components"
 import {firestore, getImageOfTheData} from '../../functions/function'
 import {ObjectProductParams, DataAddingParams} from '../../interfaces/interfaces'
@@ -101,6 +101,7 @@ export default function ModeratorPage(){
                     {loading && objectAlreadyAnalyze ? <Loading height="200px" key={'loading-already-analyze'} width="100%" /> : <ScrollingItens itens={objectAlreadyAnalyze} type={configPage.bd}  analyze={true} key={'scroll-already-analyze'} tagFillter="0" admin={true} subtext="Enviados para correção"/>}   
                 </section>
 
+                {configPage.type === 2 ? <Link to={'/admin/add/quickstudy'}><button className="button-add-card">Adicionar Card de estudo rápido</button> </Link> : ''}                
                 <button className="button-exit-moderador" onClick={() => exitModeradorMode()}>Sair do modo moderador</button>
             </main>    
             <Footer/>

@@ -5,6 +5,8 @@ import { getStorage } from "firebase/storage";
 import { getRemoteConfig } from "firebase/remote-config";
 import { getFirestore } from "firebase/firestore";
 
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyBHNuX_GHTvpcT51FgqfAgiAy41KEo00qw",
   authDomain: "oasis-club-42a44.firebaseapp.com",
@@ -25,8 +27,9 @@ const auth = getAuth(app);
 
 remoteConfig.settings.minimumFetchIntervalMillis = 21600000;
 remoteConfig.defaultConfig = {
-    "tags_blog": 'regras gramáticais,enem',
-    "tags_ecommerce": 'Comida,Produto'
+    "tags_blog": `["regras gramáticais","enem"]`,
+    "tags_ecommerce": `["Comida", "Produto"]`,
+    "mattersQuiz": `['Português', 'Matemática']`
 };
 
 export {analytics, db, auth, storage, remoteConfig}

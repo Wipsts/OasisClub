@@ -22,6 +22,8 @@ export default function AddProduct(){
     async function constructPage(){
         const ecommerce = await getImageOfTheData(await new firestore().get({bd: 'ecommerce'}), 'ecommerce', true);
         const ecommeceData = selectEcommerceById(ecommerce)
+        ecommeceData.data.value = ecommeceData.data.value.replace(",", '.');
+        ecommeceData.data.oldValue = ecommeceData.data.oldValue.replace(",", '.');
 
         setImageArticle(ecommeceData.data.image)
         setEcommerce(ecommeceData.data)

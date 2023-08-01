@@ -31,8 +31,7 @@ function Ecommerce(){
 
         async function getRemoteTags(){
             const remoteTags = await getRemoteConfig('tags_ecommerce')
-            const tag = remoteTags.split(',')
-            setTags(tag)
+            setTags(remoteTags)
         }
     }
 

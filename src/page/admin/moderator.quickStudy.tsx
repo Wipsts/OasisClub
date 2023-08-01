@@ -3,7 +3,7 @@ import ReactCardFlip from 'react-card-flip';
 import {Link, useNavigate} from "react-router-dom"
 import {InputLogin, Editor} from "../../components/components"
 import {EventInputChange, EventSelectChange} from '../../interfaces/interfaces'
-import {createQuickStudy, configPage} from '../../functions/function'
+import {createQuickStudy, configPage, getRemoteConfig} from '../../functions/function'
 
 import ArrowIcon from '../../images/icon/ArrowIcon.svg'
 import FlipCardIcon from '../../images/icon/cardFlip.svg'
@@ -90,13 +90,15 @@ function ModeratorQuickStudy(){
     const [responseText, setResponseText] = useState<string>('')
     const [questionText, setQuestionText] = useState<string>('')
     const [urlResolution, setUrlResolution] = useState<string>('')
-
+    
+    
     // mock
     const [configPage, setConfigPage] = useState<configPage>({color: '#1a1a1a', responseColor: '#3a3a3a', totalQuestions: 15, valueStudy: 44, nameImage: '', image: '', tag: '', matter: ''})
     const [cardSelect, setCardSelect] = useState(0)
     const [cards, setCards] = useState<ObjectCards[]>([])
+    const [tagsForSelect, setTagsForSelect] = useState<Array<string>>(['Português', "Matemática"]);
     const [loading, setLoading] = useState(true)
-
+    
     // function
     function addCard(){
         if(urlResolution !== ''){
@@ -106,7 +108,7 @@ function ModeratorQuickStudy(){
                 return
             }
         }
-        if(!responseText || !questionText){
+        if(responseText === '' || questionText === ''){
             alert('Prencha todas as informações! Lembre-se de virar a carta clicando no botão flip no canto inferior esquerdo')
             return 
         }
@@ -145,9 +147,15 @@ function ModeratorQuickStudy(){
         }
     }
 
-    function createPage(){
+    async function createPage(){
         setCards([{question: '', response: '', linkResolution: '', titleResolution: ''}])
         setLoading(false)
+        setTagsForSelect(await getRemoteTags())
+
+        async function getRemoteTags(){
+            const remoteTags = await getRemoteConfig('mattersQuiz')
+            return remoteTags
+        }
     }
 
     async function publish(){
@@ -158,7 +166,7 @@ function ModeratorQuickStudy(){
 
             if(cards.length >= 4){
                 setPage([false, true])
-                setConfigPage(prevState => {return {...prevState, totalQuestions: cardSelect + 1}})
+                setConfigPage(prevState => {return {...prevState, totalQuestions: cardSelect}})
             }else{
                 alert("Ops! O minimo de carta é 4 e o máximo é 15");
             }
@@ -245,8 +253,9 @@ function ModeratorQuickStudy(){
                         
                         <select className="input-quickstudy" value={configPage.tag} onChange={(e) => changeInformation(e, 'tag')}  >
                             <option value="" disabled>Selecionar tags</option>
-                            <option value="Sociologia">Sociologia</option>
-                            <option value="Matemática">Matemática</option>
+                            {tagsForSelect?.map((tag) => (
+                                <option key={tag} value={tag}>{tag}</option>
+                            ))}
                         </select>
                     </section>
                 )}

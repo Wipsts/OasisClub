@@ -51,13 +51,12 @@ function MyAccount(){
         const uidUser = await logUserClass.getUser() as string
         const dataUser = await logUserClass.getDataUser(uidUser) as any
         const data = dataUser.data.data
-
+        setValuesUser(data)
+        setAdmin(data.admin)
         
         const requestBougthProduct = await getBoughtProduct(data.uidCard, dataUser.data.id)
         const requestArtigleUser = await getArtiglesUser(data.uidArtigle)
         const requestEcommerceUser = await getEcommerceUser(data.uidProducts)
-        setValuesUser(data)
-        setAdmin(data.admin)
 
         if(requestArtigleUser[0] && requestEcommerceUser[0] && requestBougthProduct){
             setBoughtProduct(requestBougthProduct)

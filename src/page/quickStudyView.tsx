@@ -54,7 +54,7 @@ function QuickStudyView(){
     // mock
     const [configPage, setConfigPage] = useState({color: '#1a1a1a', responseColor: '#3a3a3a', totalQuestions: 2, valueStudy: 44})
     const [cardSelect, setCardSelect] = useState(0)
-    const [cards, setCards] = useState<any>([{}])
+    const [cards, setCards] = useState<any>()
     const [loading, setLoading] = useState(true)
 
     // function

@@ -30,8 +30,7 @@ function Blog(){
 
         async function getRemoteTags(){
             const remoteTags = await getRemoteConfig('tags_blog')
-            const tag = remoteTags.split(',')
-            setTags(tag)
+            setTags(remoteTags)
         }
     }
 
