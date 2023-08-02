@@ -4,7 +4,7 @@ import './style.scss'
 
 interface propsInputParams{
     name: string;
-    value: string;
+    value: string | number;
     type: string;
     onchange: (e:EventInputChange) => {} | any;
     placeholder?: string;

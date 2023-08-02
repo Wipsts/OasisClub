@@ -3,7 +3,7 @@ import {analytics, db, auth, storage} from '../../lib/server/firebase/firebase.c
 import {__getData, __getDataEspecific} from "../function.firebase/get.data"
 import __addData from "../function.firebase/add.data"
 import __updateData from "../function.firebase/update.data"
-// import __deleteData from "../function.firebase/delete.data"
+import __deleteData from "../function.firebase/delete.data"
 import __getUser from "../function.firebase/get.user"
 import __createRef from "../function.firebase/create.ref"
 const dataNotIncluded = ['user']
@@ -84,7 +84,15 @@ export class firestore{
     }
 
     async deleteData(data:object){
-        return 'error'
+        return await new Promise((resolve, reject) => {
+            __deleteData(data as any, db, (response: any)=>{
+                if(response){
+                    resolve(response)
+                }else{
+                    reject(false)
+                }
+            })
+        })
     }
     async getUser(){
         return await new Promise((resolve, reject) => {

@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail} from "firebase/auth";
 import {firestore} from '../function'
 const auth = getAuth();
 
@@ -6,6 +6,28 @@ interface returndAuthenticateUserParams{
     login: boolean;
     data?: Array<string>;
     why?: string; 
+}
+
+interface returnedRegistreUserParams{
+    registre: boolean;
+    why?: string; 
+}
+
+interface ObjectCreateUser{
+    Uid: string;
+    admin: {admin: boolean, mode: 'blog' | 'ecommerce' | 'quickstudy' | 'quiz' | ''};
+    code: string;
+    email: string;
+    instagram: string;
+    name: string;
+    points: number;
+    purchases: number;
+    quizDone: Array<string>;
+    schoolGrade: number;
+    screenTime: number;
+    uidArtigle: Array<string>;
+    uidCard: Array<object>;
+    uidProducts: Array<string>;
 }
 
 export class logUser{
@@ -92,18 +114,68 @@ export class logUser{
 }
 
 export class registreUser{
-    async registreUserWithEmail(email:string, password:string, code:string){
+    async registreUserWithEmail(email:string, password:string, name:string, code: string, schollGrade: number):Promise<returnedRegistreUserParams>{
+        return new Promise((resolve, reject) => {
+            const auth = getAuth();
 
+            createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+              const user:any = userCredential.user;
+              const localID = user.reloadUserInfo.localId // ponte da auth com o bd
+            
+              const registreInBd = await this.registreUserInBd(name, localID, email, code, schollGrade)
+          
+              if(!registreInBd){
+                reject({registre: false, why: "#1721872"})
+              }
+
+              sendEmailVerification(user)
+                .then(() => {
+                   resolve({registre: true})
+                }).catch(() => {
+                    reject({registre: false, why: "#8176278"})
+                });
+            })
+            .catch(() => {
+                reject({registre: false, why: "#9087511"})
+            });
+        })
     }
-    confirmRegistration(){
 
+    async registreUserInBd(name:string, uid:string, email: string, code: string, schollGrade:number):Promise<boolean>{
+        const createDataUser: ObjectCreateUser = {
+            admin: {admin: false, mode: ''},
+            code: code,
+            email: email,
+            instagram: '',
+            name: name,
+            points: 0,
+            purchases: 0,
+            quizDone: [],
+            schoolGrade: schollGrade,
+            screenTime: 0,
+            Uid: uid,
+            uidArtigle: [],
+            uidCard: [],
+            uidProducts: []
+        }
+
+        const added = await new firestore().insertData({bd: 'user', insert_data: createDataUser})
+        return added ? true : false
     }
 }
 
 export class RedifinePassword{
-    sendCode(){
-
+    sendCode(email:string):Promise<boolean>{
+        return new Promise((resolve, reject) => {
+            const auth = getAuth();
+            sendPasswordResetEmail(auth, email)
+            .then(() => {
+                resolve(true)
+            })
+            .catch(() => {
+              reject(false)
+            });
+        })
     }
-
-
 }

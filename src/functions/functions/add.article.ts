@@ -139,3 +139,27 @@ export class updateArticle{
         return await new firestore().updateData({bd: 'blog', update: {id: uidsArtigle, data: data}})
     }
 }
+
+export class removeArticle{
+    async removeArticle(id:string){
+        const user = await getDataUser() as any
+        return await this.removeData(user.id, id, user.data.uidArtigle)
+    }
+
+    async removeData(idUser:string , idArticle: string, uidsArtigle: Array<string>){
+        const removedArticle = await new firestore().deleteData({bd: 'blog', id: idArticle})
+        if(removedArticle){
+            const newUidArticleUser = this.removeIdArticleInUser(uidsArtigle, idArticle)
+            const updateUser = await new firestore().updateData({bd: 'user', update: {id: idUser, data: {uidArtigle: newUidArticleUser}}})
+            sessionStorage.removeItem('cach-blog')
+            return updateUser
+        }else{
+            return false
+        }
+    }
+
+    removeIdArticleInUser(uidsArtigle: Array<string>, uidArticle:string){
+        const removeIdArticle = uidsArtigle.filter(id => id !== uidArticle)
+        return removeIdArticle
+    }
+}

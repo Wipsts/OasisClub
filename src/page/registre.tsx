@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom'
 import {Header, TitlePageLog, LoginOptions, InputLogin} from '../components/components'
+import {registreUser} from '../functions/function'
 import ImageBackgroundRegistre from '../images/img/registre-background.gif'
 import LoadingGif from '../images/img/loading-registre.gif'
 import '../style/min/login.scss'
@@ -10,10 +11,11 @@ function Registre(){
     const [inputName, setNameInput] = useState('')
     const [inputpass, setPassInput] = useState('')
     const [inputRa, setRaInput] = useState('')
+    const [inputSchollGrade, setInputSchollGrade] = useState<number>(0)
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
 
-    const logUser = (event:any) => {
+    const logUser = async (event:any) => {
         event.preventDefault();
 
         if(!inputEmail || !inputpass || !inputName || !inputRa){
@@ -25,10 +27,17 @@ function Registre(){
         }
 
         // logUser
-
+        
         setLoading(true)
+        const userRegistre = await new registreUser().registreUserWithEmail(inputEmail, inputpass, inputName, inputRa, inputSchollGrade);
+
+        if(userRegistre.registre){
+            alert(`Verifique seu email '${inputEmail}' para ativar conta!`)
+            setLoading(false)
+        }
+
         setTimeout(() => {
-            navigate('/myAccount')
+            navigate('/login')
         },1200)
     }
 
@@ -68,6 +77,7 @@ function Registre(){
                             <InputLogin key='input-email' name={'E-mail:'} onchange={(e:any) => setEmailInput(e.target.value)} value={inputEmail} type='email' />
                             <InputLogin key='input-pass' name={'Senha:'} onchange={(e:any) => setPassInput(e.target.value)} value={inputpass} type='password' />
                             <InputLogin key='input-ra' name={'CA/RA:'} onchange={(e:any) => setRaInput(e.target.value)} value={inputRa} type='number' />
+                            <InputLogin key='input-year' name={'Ano escolar:'} onchange={(e:any) => setInputSchollGrade(e.target.value)} value={inputSchollGrade} type='number' />
                             <button className='button-log'>Cadastrar</button>
                         </form>
                         <Link to="/login"><button className='button-page'>Já tem uma conta? <u> Faça login </u></button></Link>

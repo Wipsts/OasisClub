@@ -1,7 +1,8 @@
+/* eslint-disable no-restricted-globals */
 import {useEffect, useState, ChangeEvent, MouseEvent} from "react";
 import {useNavigate, useParams} from 'react-router-dom'
 import {Header, Ads, Footer, TextareaInput, Editor} from "../components/components"
-import {logUser, createArticle, AuthorsParams, getImageOfTheData, firestore, DataAddingParams, StNb, updateArticle} from '../functions/function'
+import {logUser, createArticle, AuthorsParams, getImageOfTheData, firestore, DataAddingParams, StNb, updateArticle, removeArticle} from '../functions/function'
 import "../style/min/viewArtigle.scss"
 import IconImage from '../images/icon/IconImage.svg'
 
@@ -53,8 +54,9 @@ function IncludeAds({txt, isAdd, ads, quantAds, addAds, returnedText}:{txt:strin
                 newText.push('<ads/>')
             }
             newText.push(processedText[i])
-            returnedText(newText)
         }        
+        returnedText(newText)
+
         return (
             <>
                 {newText?.map((tag:any, index:number) => {
@@ -121,8 +123,9 @@ function setRequireAdsByTxt(txt:string){
 
     const requireAds = newText.filter((key) => key == '<buttonAds/>').length 
     const percentual = 30;
+    const returnAds = (requireAds <= 2 ? (requireAds === 0 ? 0 : requireAds) : (Math.round(requireAds * (percentual / 100))));
 
-    return requireAds <= 2 ? requireAds : Math.round(requireAds * (percentual / 100));
+    return returnAds
 }
 
 const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
@@ -133,7 +136,7 @@ const difficultyLevel = ['1/10', '2/10', '3/10', '4/10', '5/10', '6/10', '7/10',
 export default function AddArticle(){
     const [isEdit, setIsEdit] = useState<boolean>(false)
 
-    const [dataArtigle, setArtigle] = useState<DataArtigleParams>({image: '', color: '#1a1a1a', title: '', advisor: false, difficultyLevel: 0, matter: 'Matemática', typeText: 0, typeWriting: 0})
+    const [dataArtigle, setArtigle] = useState<DataArtigleParams>({image: '', color: '#1a1a1a', title: '', advisor: false, difficultyLevel: '', matter: 'Matemática', typeText: '', typeWriting: ''})
     const [imageArticle, setImageArticle] = useState<string>('')
     const [authors, setAuthors] = useState<AuthorsParams[]>([])
     const [txtArtigle, setTxtArtigle] = useState<string>("")
@@ -187,11 +190,14 @@ export default function AddArticle(){
 
     async function postArticle(){
         if(addingAds){
+            if(newText==='' && requiredAds === 0){
+                setNewText(txtArtigle)
+            }
+
             if(newText){
                 if(isEdit){
                     const updatePost = await new updateArticle().prepareData(id as string, requiredAds, newText, authors, dataArtigle.color, dataArtigle.difficultyLevel, dataArtigle.image, dataArtigle.matter, 1, dataArtigle.title, dataArtigle.typeText, dataArtigle.typeWriting);
     
-                    console.log(updatePost)
                     if(updatePost){
                         alert("Seu artigo atualizdo, ele passará por analize, tempo máximo de 1 semana.")
                         navigate('/myAccount')
@@ -205,11 +211,12 @@ export default function AddArticle(){
                     }
                 }
             }else{
+                console.log(newText)
                 alert("É nessesario adcionar todos os anuncios solicitados.")
             }
             // save and post
         }else{
-            if(dataArtigle.title && dataArtigle.color && dataArtigle.difficultyLevel !== undefined && imageArticle  && dataArtigle.matter && dataArtigle.typeText !== undefined && dataArtigle.typeWriting && txtArtigle){
+            if(dataArtigle.title && dataArtigle.color && dataArtigle.difficultyLevel !== '' && imageArticle  && dataArtigle.matter && dataArtigle.typeText !== '' && dataArtigle.typeWriting && txtArtigle){
                 setAddingAds(true)
                 setRequiredAds(setRequireAdsByTxt(txtArtigle))
             }else{
@@ -251,6 +258,17 @@ export default function AddArticle(){
         
         function selectArtigleById(data:any){
             return data.filter((a:any) => a.id === id)[0]
+        }
+    }
+
+    async function deleteArticle(){
+        if(isEdit && id){
+            if(confirm('Esta ação é irreversível!')){
+                const removed = await new removeArticle().removeArticle(id as string)
+                if(removed){
+                    navigate("/myAccount");
+                }
+            }
         }
     }
 
@@ -329,31 +347,45 @@ export default function AddArticle(){
                     <div className="container-informationArticle">
                         <span className="text-information">Tipo de escrita: <b> 
                             <SelectArticle className="input-article select-input" value={dataArtigle.typeWriting} onChange={(e) => changeInformation(e, 'typeWriting')} key={'select-typeWriting'}>
+                                <option value='' selected>Selecionar</option>
+                            
                                 {typeWriter?.map((type, index) => (
                                     <option value={index}>{type}</option>
                                 ))}
                             </SelectArticle>
                         </b></span>
 
-                        <span className="text-information">Tipo de texto: <b> <SelectArticle className="input-article select-input" value={dataArtigle.typeText} onChange={(e) => changeInformation(e, 'typeText')} key={'select-typeText'}>
-                                {typeText?.map((type, index) => (
-                                    <option value={index}>{type}</option>
-                                ))}
-                        </SelectArticle></b></span>
+                        <span className="text-information">Tipo de texto: <b> 
+                            <SelectArticle className="input-article select-input" value={dataArtigle.typeText} onChange={(e) => changeInformation(e, 'typeText')} key={'select-typeText'}>
+                                    <option value='' selected>Selecionar</option>
+                                    {typeText?.map((type, index) => (
+                                        <option value={index}>{type}</option>
+                                    ))}
+                            </SelectArticle>
+                        </b></span>
 
-                        <span className="text-information">Matéria: <b> <SelectArticle className="input-article select-input" value={dataArtigle.matter} onChange={(e) => changeInformation(e, 'matter')} key={'select-matter'}>
+                        <span className="text-information">Matéria: <b> 
+                            <SelectArticle className="input-article select-input" value={dataArtigle.matter} onChange={(e) => changeInformation(e, 'matter')} key={'select-matter'}>
+                                <option value='' selected>Selecionar</option>
                                 {matters?.map((matter, index) => (
                                     <option value={index}>{matter}</option>
                                 ))}
-                        </SelectArticle></b></span>
+                            </SelectArticle>
+                        </b></span>
 
-                        <span className="text-information">Nível de dificuldade: <b> <SelectArticle className="input-article select-input" value={dataArtigle.difficultyLevel} onChange={(e) => changeInformation(e, 'difficultyLevel')} key={'select-difficultyLevel'}>
-                            {difficultyLevel?.map((difficultyLevel, index) => (
-                                <option value={index}>{difficultyLevel}</option>
-                            ))}
-                        </SelectArticle></b></span>   
+                        <span className="text-information">Nível de dificuldade: <b> 
+                            <SelectArticle className="input-article select-input" value={dataArtigle.difficultyLevel} onChange={(e) => changeInformation(e, 'difficultyLevel')} key={'select-difficultyLevel'}>
+                                <option value='' selected>Selecionar</option>
+                                {difficultyLevel?.map((difficultyLevel, index) => (
+                                    <option value={index}>{difficultyLevel}</option>
+                                ))}
+                            </SelectArticle>
+                        </b></span>   
 
                         <span className="text-information">Color: <input type="color" value={dataArtigle.color} onChange={(e) => changeInformation(e, 'color')}  className="input-article color-input" /></span>   
+                        
+                        {isEdit ? <button onClick={(e) => deleteArticle()} className="button-remove-article">Remover Artigo</button> : ''}
+                    
                     </div>
                 </section>
             </main>

@@ -205,6 +205,23 @@
 
 }
 
+.button-remove-article{
+    display: block;
+    width: auto;
+    min-width: 220px;
+    height: 35px;
+    border-radius: 6px;
+    padding: 5px 5px 5px 5px;
+    box-sizing: border-box;
+    background-color: #a52c2c;
+    color: #fff;
+    font-size: .8em;
+    font-family: 'Inter-Regular';
+    text-transform: uppercase;
+
+    margin: 30px 0px 0px 0px;
+}
+
 .button-addAds{
     display: block;
     width: clamp(150px, 100%, 290px);

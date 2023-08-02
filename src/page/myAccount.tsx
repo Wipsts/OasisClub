@@ -58,12 +58,12 @@ function MyAccount(){
         const requestArtigleUser = await getArtiglesUser(data.uidArtigle)
         const requestEcommerceUser = await getEcommerceUser(data.uidProducts)
 
-        if(requestArtigleUser[0] && requestEcommerceUser[0] && requestBougthProduct){
+        if(true || (requestArtigleUser[0] && requestEcommerceUser[0] && requestBougthProduct)){
             setBoughtProduct(requestBougthProduct)
             setArtigles(requestArtigleUser)
             setEcommerce(requestEcommerceUser)
-            setLoading(false)
         }
+        setLoading(false)
 
     }
 
@@ -91,12 +91,13 @@ function MyAccount(){
                         <Input titleInput={'Nome'} type='text' value={valuesUser.name} onChange={(e:any) => changeValue(e.target.value, 'name')}/>
                         <Input titleInput={'Email'} type='email'  disabled={true} value={valuesUser.email} onChange={(e:any) => changeValue(e.target.value, 'email')}/>
                         <Input titleInput={'código do aluno'} type='number' disabled={true} value={valuesUser.code} onChange={(e:any) => changeValue(e.target.value, 'code')}/>
+                    {/* TODO colocar input e funções para instagram */}
                     </div>
                 </section>
 
                 <hr className="min-line"/>
                 <section className="section-container">
-                    {loading ? <Loading width="100%" height="90px"/> : <QrItens itens={boughtProduct} onClickQr={openAndCloseViewQr} onClickCopy={(e:any) => {}}/>}
+                    {loading && !boughtProduct[0] ? <Loading width="100%" height="90px"/> : <QrItens itens={boughtProduct} onClickQr={openAndCloseViewQr} onClickCopy={(e:any) => {}}/>}
                 </section>
 
                 <hr className="min-line"/>
