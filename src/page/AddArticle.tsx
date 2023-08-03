@@ -53,8 +53,11 @@ function IncludeAds({txt, isAdd, ads, quantAds, addAds, returnedText}:{txt:strin
             if(i !== 0 && indexInArray(i)){
                 newText.push('<ads/>')
             }
+            
+            newText.push('<br>')
             newText.push(processedText[i])
         }        
+
         returnedText(newText)
 
         return (
@@ -77,6 +80,7 @@ function IncludeAds({txt, isAdd, ads, quantAds, addAds, returnedText}:{txt:strin
             if(i !== 0){
                 newText.push('<buttonAds/>')
             }
+
             newText.push(processedText[i])
         }        
 
@@ -88,7 +92,7 @@ function IncludeAds({txt, isAdd, ads, quantAds, addAds, returnedText}:{txt:strin
                         buttonIndex++
                         return <div key={`content-tags-${index}`} dangerouslySetInnerHTML={{__html: tag}} />
                     }else{
-                        return <button onClick={addAds} data-value={buttonIndex} className={`button-addAds ${indexInArray(index) ? 'style-addedAds' : ''}`}>Adicionar Publicidade {ads?.length}/{quantAds}</button>
+                        return <button onClick={addAds} data-value={buttonIndex} className={`button-addAds ${indexInArray(buttonIndex) ? 'style-addedAds' : ''}`}>Adicionar Publicidade {ads?.length}/{quantAds}</button>
                     }
                 })}
             </>
@@ -185,7 +189,15 @@ export default function AddArticle(){
 
     function addAds(e:any){
         const indexButton = e.target.getAttribute("data-value")
-        setCountAds(prevState => {return [...prevState, indexButton]})
+        const adsButtonSelectArray = countAds
+
+        if(!adsButtonSelectArray.includes(parseInt(indexButton))){
+            adsButtonSelectArray.push(parseInt(indexButton))
+            setCountAds(adsButtonSelectArray)
+        }
+
+        setCountAds(prevState => {return [...prevState]})
+
     }   
 
     async function postArticle(){

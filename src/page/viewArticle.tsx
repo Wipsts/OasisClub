@@ -93,7 +93,7 @@ export default function ViewArticle(){
                             {dataArtigle?.author?.map((author:any, index:number) => (
                                 <div className="box-Author" key={author.name} style={{backgroundColor:  dataArtigle.color}}>
                                     <img className="iconUser" src='' alt=""/>
-                                    <span className="text-author">{author.name} | {author.schoolGrade}</span>
+                                    <span className="text-author">{author.name} | {author.schoolGrade}ª</span>
                                 </div>
                             ))}
                             <div className="box-Author style-teacher" style={{backgroundColor: '#373737'}}>
