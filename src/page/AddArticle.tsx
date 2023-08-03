@@ -129,7 +129,8 @@ function setRequireAdsByTxt(txt:string){
     const percentual = 30;
     const returnAds = (requireAds <= 2 ? (requireAds === 0 ? 0 : requireAds) : (Math.round(requireAds * (percentual / 100))));
 
-    return returnAds
+    // TODO count character verify
+    return returnAds > 4 ? 4 : returnAds
 }
 
 const typeWriter = ['Formal', 'Informal', 'Descontraido', 'Jovem']
@@ -359,7 +360,7 @@ export default function AddArticle(){
                     <div className="container-informationArticle">
                         <span className="text-information">Tipo de escrita: <b> 
                             <SelectArticle className="input-article select-input" value={dataArtigle.typeWriting} onChange={(e) => changeInformation(e, 'typeWriting')} key={'select-typeWriting'}>
-                                <option value='' selected>Selecionar</option>
+                                <option disabled value='' selected>Selecionar</option>
                             
                                 {typeWriter?.map((type, index) => (
                                     <option value={index}>{type}</option>
@@ -369,7 +370,7 @@ export default function AddArticle(){
 
                         <span className="text-information">Tipo de texto: <b> 
                             <SelectArticle className="input-article select-input" value={dataArtigle.typeText} onChange={(e) => changeInformation(e, 'typeText')} key={'select-typeText'}>
-                                    <option value='' selected>Selecionar</option>
+                                    <option disabled  value='' selected>Selecionar</option>
                                     {typeText?.map((type, index) => (
                                         <option value={index}>{type}</option>
                                     ))}
@@ -378,7 +379,7 @@ export default function AddArticle(){
 
                         <span className="text-information">Matéria: <b> 
                             <SelectArticle className="input-article select-input" value={dataArtigle.matter} onChange={(e) => changeInformation(e, 'matter')} key={'select-matter'}>
-                                <option value='' selected>Selecionar</option>
+                                <option disabled value='' selected>Selecionar</option>
                                 {matters?.map((matter, index) => (
                                     <option value={index}>{matter}</option>
                                 ))}
@@ -387,7 +388,7 @@ export default function AddArticle(){
 
                         <span className="text-information">Nível de dificuldade: <b> 
                             <SelectArticle className="input-article select-input" value={dataArtigle.difficultyLevel} onChange={(e) => changeInformation(e, 'difficultyLevel')} key={'select-difficultyLevel'}>
-                                <option value='' selected>Selecionar</option>
+                                <option disabled value='' selected>Selecionar</option>
                                 {difficultyLevel?.map((difficultyLevel, index) => (
                                     <option value={index}>{difficultyLevel}</option>
                                 ))}

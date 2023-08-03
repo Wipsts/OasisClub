@@ -153,7 +153,7 @@ export default function AddProduct(){
                 </section>
 
             </main>
-            <div className="navDown-add-article">
+            <div className="navDown-add-product">
                 <button onClick={() => postProduct()} className="button-add-article"> Enviar para análize </button>
             </div>
 

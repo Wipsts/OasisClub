@@ -72,6 +72,7 @@ export default function ViewArticle(){
         const updated = await new updateAdminArticle().prepareData(type, commit, id as string)
         if(updated){
             alert("Análize feita com sucesso.")
+            document.body.style.overflow = 'auto';
             navigate('/admin/moderator/blog')
         }else{
             alert("Ops! tivemos um erro, tente novamente mais tarde")
