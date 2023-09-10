@@ -127,9 +127,16 @@ export class updateArticle{
     }
 
     getNameAndBucketOfImg(img:string):Array<string>{
-        const splitedImg = img.split("/")[7]
-        const bucketAndName = decodeURI(splitedImg.split("?")[0])
-        const [bucket, name] = bucketAndName.split("%2F")
+        let bucket = ''
+        let name = ''
+
+        if(typeof img === 'string'){
+            const splitedImg = img.split("/")[7]
+            const bucketAndName = decodeURI(splitedImg.split("?")[0]) as any
+            [bucket, name] = bucketAndName.split("%2F")
+        }else{
+            [bucket, name] = ['blog', (img as any)[0].name]
+        }
 
         return [name, bucket]
     }
